@@ -1,0 +1,16 @@
+.app {
+  min-height: 100vh;
+
+  .panel {
+    max-width: 250px;
+
+    padding: 16px;
+  }
+
+  .grid {
+    max-height: 100vh;
+    overflow: auto;
+
+    align-self: center;
+  }
+}

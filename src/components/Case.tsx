@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Coords } from '../data/types';
+import { Coords } from '../data/coords';
 
 // Component
 const Case: FC<{ coords: Coords }> = (props) => {

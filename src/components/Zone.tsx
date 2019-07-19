@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Coords } from '../data/types';
+import { Coords, generateZone } from '../data/coords';
 
 import Case from './Case';
 
@@ -20,7 +20,7 @@ const Zone: FC<{ center: Coords, size: number }> = (props) => {
     for (let x = 0; x < size; ++x) {
         for (let y = 0; y < size; ++y) {
             cases.push(
-                <div style={{ gridColumn: x + 1, gridRow: y + 1 }}>
+                <div className={styles.case} style={{ gridColumn: x + 1, gridRow: y + 1 }}>
                     <Case coords={{ x: topleft.x + x, y: topleft.y + y }} />
                 </div>
             )
@@ -29,7 +29,11 @@ const Zone: FC<{ center: Coords, size: number }> = (props) => {
 
     return (
         <div className={styles.grid}>
-            { cases }
+            { generateZone(center, size, (c, i, j) => (
+                <div key={`${i}${j}`} className={styles.case} style={{ gridColumn: i + 1, gridRow: j + 1 }}>
+                    <Case coords={c} />
+                </div>
+            )) }
         </div>
     );
 };

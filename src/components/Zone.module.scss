@@ -1,3 +1,13 @@
 .grid {
+  height: max-content;
+  width: max-content;
+
   display: grid;
+
+  margin: auto;
+
+  .case {
+    height: 80px;
+    width: 80px;
+  }
 }
