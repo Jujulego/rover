@@ -4,9 +4,20 @@ import {
     TextField
 } from '@material-ui/core';
 
+import { Map } from '../data/Map';
+
 import Zone from './map/Zone';
 
 import styles from './App.module.scss';
+
+// Constants
+const map = new Map([
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }]
+]);
 
 // Types
 type State = { x: number, y: number, size: number };
@@ -14,7 +25,7 @@ type State = { x: number, y: number, size: number };
 // Component
 const App: React.FC = () => {
     // State
-    const [zone, setZone] = useState<State>({ x: 0, y: 0, size: 3 });
+    const [zone, setZone] = useState<State>({ x: 2, y: 2, size: 5 });
 
     // Events
     const handleChange = (name: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +57,7 @@ const App: React.FC = () => {
                 />
             </Grid>
             <Grid item xs className={styles.grid}>
-                <Zone center={{ x: zone.x, y: zone.y }} size={zone.size} />
+                <Zone map={map} center={{ x: zone.x, y: zone.y }} size={zone.size} />
             </Grid>
         </Grid>
     );

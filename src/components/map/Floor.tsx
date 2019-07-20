@@ -1,38 +1,29 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 
+import { DIRECTIONS } from '../../data/Coords';
+import { FloorType, Borders } from '../../data/Map';
+
 import styles from './Floor.module.scss';
 
 // Types
 type Props = {
-  type: 'rock' | 'hole',
-  borders?: {
-    top?: boolean,
-    left?: boolean,
-    bottom?: boolean,
-    right?: boolean,
-    topLeft?: boolean,
-    topRight?: boolean,
-    bottomLeft?: boolean,
-    bottomRight?: boolean
-  }
+  type: FloorType,
+  borders?: Borders
 };
 
 // Component
 const Floor: FC<Props> = (props) => {
   const { type, borders = {} } = props;
 
+  // Rendering
+  const bordersStyle: { [name in string]: boolean } = {};
+  DIRECTIONS.forEach(dir => {
+    bordersStyle[styles[dir]] = borders[dir] || false;
+  });
+
   return (
-    <div className={classNames(styles.floor, styles[type], {
-      [styles.top]: borders.top,
-      [styles.right]: borders.right,
-      [styles.bottom]: borders.bottom,
-      [styles.left]: borders.left,
-      [styles.topLeft]: borders.topLeft,
-      [styles.topRight]: borders.topRight,
-      [styles.bottomLeft]: borders.bottomLeft,
-      [styles.bottomRight]: borders.bottomRight
-    } )}>
+    <div className={classNames(styles.floor, styles[type], bordersStyle)}>
       <div /><div /><div /><div /><div /><div /><div /><div /><div />
     </div>
   );

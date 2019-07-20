@@ -1,21 +1,25 @@
 import React, { FC } from 'react';
 
-import { Coords, generateZone } from '../../data/coords';
+import { Coords, generateZone } from '../../data/Coords';
+import { Map } from '../../data/Map';
 
 import Case from './Case';
 
 import styles from './Zone.module.scss';
 
+// Types
+type Props = { map: Map, center: Coords, size: number }
+
 // Component
-const Zone: FC<{ center: Coords, size: number }> = (props) => {
-  const { center, size } = props;
+const Zone: FC<Props> = (props) => {
+  const { map, center, size } = props;
 
   // Rendering
   return (
     <div className={styles.grid}>
       { generateZone(center, size, (c, i, j) => (
         <Case key={`${i}${j}`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-              coords={c} />
+              map={map} pos={c} />
       )) }
     </div>
   );

@@ -3,7 +3,8 @@ import classNames from 'classnames';
 
 import { Typography } from '@material-ui/core';
 
-import { Coords } from '../../data/coords';
+import { Coords } from '../../data/Coords';
+import { Map } from '../../data/Map';
 
 import Floor from './Floor';
 
@@ -11,7 +12,8 @@ import styles from './Case.module.scss';
 
 // Types
 type Props = {
-  coords: Coords
+  map: Map,
+  pos: Coords,
   className?: string,
   style?: { [name: string]: any }
 };
@@ -19,16 +21,19 @@ type Props = {
 // Component
 const Case: FC<Props> = (props) => {
   const {
-    coords,
+    map, pos,
     className, style
   } = props;
 
+  // Rendering
+  const data = map.get(pos);
+
   return (
     <div className={classNames(styles.case, className)} style={style}>
-      <Floor type="rock" />
+      <Floor type={data ? data.floor : 'hole'} borders={map.borders(pos)} />
       <div className={styles.data}>
         <Typography classes={{ root: styles.coords}}>
-          { coords.x } { coords.y }
+          { pos.x } { pos.y }
         </Typography>
       </div>
     </div>
