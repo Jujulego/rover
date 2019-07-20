@@ -1,8 +1,19 @@
-.grid {
-  height: max-content;
-  width: max-content;
+.container {
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
 
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  margin: auto;
+  .grid {
+    height: max-content;
+    width: max-content;
+
+    display: grid;
+
+    margin: -32px;
+  }
 }

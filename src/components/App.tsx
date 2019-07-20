@@ -16,16 +16,21 @@ const map = new Map([
   [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
   [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
   [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
+  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
   [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }]
 ]);
 
 // Types
-type State = { x: number, y: number, size: number };
+type State = { x: number, y: number };
 
 // Component
 const App: React.FC = () => {
     // State
-    const [zone, setZone] = useState<State>({ x: 2, y: 2, size: 5 });
+    const [zone, setZone] = useState<State>({ x: 2, y: 2 });
 
     // Events
     const handleChange = (name: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,16 +53,9 @@ const App: React.FC = () => {
 
                     onChange={handleChange('y')}
                 />
-                <TextField
-                    label="size" value={zone.size} type="number"
-                    inputProps={{ min: 1 }}
-                    fullWidth
-
-                    onChange={handleChange('size')}
-                />
             </Grid>
             <Grid item xs className={styles.grid}>
-                <Zone map={map} center={{ x: zone.x, y: zone.y }} size={zone.size} />
+                <Zone map={map} center={{ x: zone.x, y: zone.y }} />
             </Grid>
         </Grid>
     );
