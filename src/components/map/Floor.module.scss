@@ -1,3 +1,56 @@
+@mixin floor-images($asset) {
+  div {
+    background-image: url("../../assets/#{$asset}/floor.png");
+  }
+
+  &.topLeft div:nth-child(1) {
+    background-image: url("../../assets/#{$asset}/border-tl-angle.png");
+  }
+  &.topRight div:nth-child(3) {
+    background-image: url("../../assets/#{$asset}/border-tr-angle.png");
+  }
+  &.bottomLeft div:nth-child(7) {
+    background-image: url("../../assets/#{$asset}/border-bl-angle.png");
+  }
+  &.bottomRight div:nth-child(9) {
+    background-image: url("../../assets/#{$asset}/border-br-angle.png");
+  }
+
+  &.top {
+    div:nth-child(1), div:nth-child(2), div:nth-child(3) {
+      background-image: url("../../assets/#{$asset}/border-t.png");
+    }
+  }
+  &.right {
+    div:nth-child(3), div:nth-child(6), div:nth-child(9) {
+      background-image: url("../../assets/#{$asset}/border-r.png");
+    }
+  }
+  &.bottom {
+    div:nth-child(7), div:nth-child(8), div:nth-child(9) {
+      background-image: url("../../assets/#{$asset}/border-b.png");
+    }
+  }
+  &.left {
+    div:nth-child(1), div:nth-child(4), div:nth-child(7) {
+      background-image: url("../../assets/#{$asset}/border-l.png");
+    }
+  }
+
+  &.top.left div:nth-child(1) {
+    background-image: url("../../assets/#{$asset}/border-tl.png");
+  }
+  &.top.right div:nth-child(3) {
+    background-image: url("../../assets/#{$asset}/border-tr.png");
+  }
+  &.bottom.left div:nth-child(7) {
+    background-image: url("../../assets/#{$asset}/border-bl.png");
+  }
+  &.bottom.right div:nth-child(9) {
+    background-image: url("../../assets/#{$asset}/border-br.png");
+  }
+}
+
 .floor {
   display: grid;
   grid-template-columns: 32px 32px 32px;
@@ -8,57 +61,6 @@
   }
 
   &.hole {}
-
-  &.rock {
-    div {
-      background-image: url(../../assets/rock/floor.png);
-    }
-
-    &.topLeft div:nth-child(1) {
-      background-image: url(../../assets/rock/border-tl-angle.png);
-    }
-    &.topRight div:nth-child(3) {
-      background-image: url(../../assets/rock/border-tr-angle.png);
-    }
-    &.bottomLeft div:nth-child(7) {
-      background-image: url(../../assets/rock/border-bl-angle.png);
-    }
-    &.bottomRight div:nth-child(9) {
-      background-image: url(../../assets/rock/border-br-angle.png);
-    }
-
-    &.top {
-      div:nth-child(1), div:nth-child(2), div:nth-child(3) {
-        background-image: url(../../assets/rock/border-t.png);
-      }
-    }
-    &.right {
-      div:nth-child(3), div:nth-child(6), div:nth-child(9) {
-        background-image: url(../../assets/rock/border-r.png);
-      }
-    }
-    &.bottom {
-      div:nth-child(7), div:nth-child(8), div:nth-child(9) {
-        background-image: url(../../assets/rock/border-b.png);
-      }
-    }
-    &.left {
-      div:nth-child(1), div:nth-child(4), div:nth-child(7) {
-        background-image: url(../../assets/rock/border-l.png);
-      }
-    }
-
-    &.top.left div:nth-child(1) {
-      background-image: url(../../assets/rock/border-tl.png);
-    }
-    &.top.right div:nth-child(3) {
-      background-image: url(../../assets/rock/border-tr.png);
-    }
-    &.bottom.left div:nth-child(7) {
-      background-image: url(../../assets/rock/border-bl.png);
-    }
-    &.bottom.right div:nth-child(9) {
-      background-image: url(../../assets/rock/border-br.png);
-    }
-  }
+  &.rock { @include floor-images(rock) }
+  &.sand { @include floor-images(sand) }
 }

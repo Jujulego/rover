@@ -12,8 +12,8 @@ import styles from './App.module.scss';
 
 // Constants
 const map = new Map([
-  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
+  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
   [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
   [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
   [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }]
