@@ -1,0 +1,16 @@
+.case {
+  position: relative;
+  height: 96px;
+  width: 96px;
+
+  .data {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+
+    display: flex;
+
+    .coords {
+      margin: auto;
+    }
+  }
+}

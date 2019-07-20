@@ -4,7 +4,7 @@ import {
     TextField
 } from '@material-ui/core';
 
-import Zone from './Zone';
+import Zone from './map/Zone';
 
 import styles from './App.module.scss';
 
@@ -14,7 +14,7 @@ type State = { x: number, y: number, size: number };
 // Component
 const App: React.FC = () => {
     // State
-    const [zone, setZone] = useState<State>({ x: 0, y: 0, size: 9 });
+    const [zone, setZone] = useState<State>({ x: 0, y: 0, size: 3 });
 
     // Events
     const handleChange = (name: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
