@@ -2,20 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e598d416-a071-47aa-a6c2-16fb0d75c8da" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-b.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-bl-angle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-bl.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-br-angle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-br.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-l.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-r.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-t.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-tl-angle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-tl.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-tr-angle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/border-tr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sand/floor.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-bl-angle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-bl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-br-angle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-br.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-l.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-r.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-t.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-tl-angle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-tl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-tr-angle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/border-tr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/ice/floor.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/map/Floor.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/map/Floor.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/Map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/Map.ts" afterDir="false" />
@@ -35,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/src/data/Map.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -43,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/map/Floor.module.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="58" column="7" lean-forward="true" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+            <state relative-caret-position="238">
+              <caret line="65" column="7" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
               <folding>
                 <element signature="e#28#1563#0" />
               </folding>
@@ -55,8 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+            <state relative-caret-position="289">
+              <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
               </folding>
@@ -154,6 +153,12 @@
               <item name="rover" type="b2602c69:ProjectViewProjectNode" />
               <item name="rover" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rover" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rover" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -178,7 +183,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/sand" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/ice" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -197,6 +202,7 @@
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\julie\git\rover\src\assets\ice" />
       <recent name="C:\Users\julie\git\rover\src\assets\sand" />
       <recent name="C:\Users\julie\git\rover\src\components\map" />
       <recent name="C:\Users\julie\git\rover\src\assets\rock" />
@@ -246,12 +252,12 @@
       <workItem from="1563539774875" duration="3278000" />
       <workItem from="1563606562044" duration="153000" />
       <workItem from="1563606733911" duration="9040000" />
-      <workItem from="1563618854257" duration="719000" />
+      <workItem from="1563618854257" duration="1047000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17188000" />
+    <option name="totallyTimeSpent" value="17516000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -284,40 +290,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/App.test.tsx" />
-    <entry file="file://$PROJECT_DIR$/src/react-app-env.d.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/serviceWorker.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.css" />
-    <entry file="file://$PROJECT_DIR$/node_modules/@material-ui/core/Grid/Grid.d.ts" />
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/declaration.d.ts" />
-    <entry file="file://$PROJECT_DIR$/src/index.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@material-ui/core/Paper/Paper.d.ts" />
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -432,9 +404,6 @@
     <entry file="file://$PROJECT_DIR$/src/assets/sand/border-bl-angle.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-br-angle.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/sand/border-l.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -453,9 +422,6 @@
     <entry file="file://$PROJECT_DIR$/src/assets/sand/border-br.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-bl.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/sand/mapTile_046.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -465,17 +431,62 @@
     <entry file="file://$PROJECT_DIR$/src/assets/sand/floor.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-bl.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-br-angle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-tl.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-t.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-tr.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-br-angle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-bl-angle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-l.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/floor.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-tr-angle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-tl-angle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-bl.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-b.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-br.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/ice/border-r.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/Map.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/map/Floor.module.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="58" column="7" lean-forward="true" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        <state relative-caret-position="238">
+          <caret line="65" column="7" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
           <folding>
             <element signature="e#28#1563#0" />
           </folding>
@@ -484,8 +495,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+        <state relative-caret-position="289">
+          <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
           <folding>
             <element signature="e#0#53#0" expanded="true" />
           </folding>
