@@ -10,6 +10,18 @@ import styles from './Zone.module.scss';
 // Types
 type Props = { map: Map, center: Coords }
 
+// Function
+function odd(x: number): number {
+  return (x % 2) ? x : x + 1;
+}
+
+function computeSize(node: HTMLDivElement, setSize: (c: Coords) => void) {
+  setSize({
+    x: odd(Math.ceil(node.clientWidth / 96)),
+    y: odd(Math.ceil(node.clientHeight / 96))
+  });
+}
+
 // Component
 const Zone: FC<Props> = (props) => {
   const { map, center } = props;
@@ -17,21 +29,29 @@ const Zone: FC<Props> = (props) => {
   // State
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
 
-  // Function
-  function computeSize(node: HTMLDivElement) {
-    setSize({
-      x: Math.round((node.clientWidth + 64) / 96),
-      y: Math.round((node.clientHeight + 64) / 96)
-    });
-  }
-
   // Ref
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Callback
   const containerCb = useCallback((node: HTMLDivElement) => {
     containerRef.current = node;
-    computeSize(node);
+    computeSize(node, setSize);
+  }, []);
+
+  // Effect
+  useEffect(() => {
+    function handleResize() {
+      if (containerRef.current != null) {
+        computeSize(containerRef.current, setSize);
+      }
+    }
+
+    // Event
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
   // Rendering

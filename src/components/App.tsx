@@ -39,7 +39,7 @@ const App: React.FC = () => {
 
     // Rendering
     return (
-        <Grid container className={styles.app}>
+        <Grid container className={styles.app} wrap="nowrap">
             <Grid item xs="auto" className={styles.panel} component={Paper} square>
                 <TextField
                     label="x" value={zone.x} type="number"
