@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Typography } from '@material-ui/core';
 
@@ -29,7 +29,7 @@ const Case: FC<Props> = (props) => {
   const data = map.get(pos);
 
   return (
-    <div className={classNames(styles.case, className)} style={style}>
+    <div className={clsx(styles.case, className)} style={style}>
       <Floor type={data ? data.floor : 'hole'} borders={map.borders(pos)} />
       <div className={styles.data}>
         <Typography classes={{ root: styles.coords}}>

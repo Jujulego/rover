@@ -1,13 +1,37 @@
-.app {
-  min-height: 100vh;
+$drawer-width: 240px;
 
-  .panel {
-    max-width: 250px;
+.root {
+  height: 100vh;
 
-    padding: 16px;
+  display: flex;
+
+  .appbar {
+    z-index: 1500;
+
+    .menuBtn {
+      margin-right: 12px;
+    }
   }
 
-  .grid {
-    max-height: 100vh;
+  .drawer {
+    width: $drawer-width;
+    flex-shrink: 0;
+
+    margin-top: 64px;
+
+    white-space: nowrap;
+
+    transition: width ease 250ms;
+
+    &.close {
+      width: 56px;
+      overflow-x: hidden;
+    }
+  }
+
+  .content {
+    flex: 1;
+
+    margin-top: 64px;
   }
 }

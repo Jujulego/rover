@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { DIRECTIONS } from '../../data/Coords';
 import { FloorType, Borders } from '../../data/Map';
@@ -23,7 +23,7 @@ const Floor: FC<Props> = (props) => {
   });
 
   return (
-    <div className={classNames(styles.floor, styles[type], bordersStyle)}>
+    <div className={clsx(styles.floor, styles[type], bordersStyle)}>
       <div /><div /><div /><div /><div /><div /><div /><div /><div />
     </div>
   );
