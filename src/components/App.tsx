@@ -4,6 +4,7 @@ import {
     TextField
 } from '@material-ui/core';
 
+import { Coords } from "../data/Coords";
 import { Map } from '../data/Map';
 
 import Zone from './map/Zone';
@@ -25,7 +26,7 @@ const map = new Map([
 ]);
 
 // Types
-type State = { x: number, y: number };
+type State = Coords;
 
 // Component
 const App: React.FC = () => {
@@ -55,7 +56,7 @@ const App: React.FC = () => {
                 />
             </Grid>
             <Grid item xs className={styles.grid}>
-                <Zone map={map} center={{ x: zone.x, y: zone.y }} />
+                <Zone map={map} center={zone} onMove={setZone} />
             </Grid>
         </Grid>
     );

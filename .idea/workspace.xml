@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e598d416-a071-47aa-a6c2-16fb0d75c8da" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/App.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/map/Zone.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/map/Zone.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/map/Zone.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/map/Zone.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/coords.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/Coords.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,80 +21,49 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/Coords.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/Map.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/map/Floor.module.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="65" column="7" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
-              <folding>
-                <element signature="e#28#1563#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/App.module.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/map/Zone.tsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/map/Zone.module.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/components/map/Zone.tsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="143">
+                  <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
+                  <folding>
+                    <element signature="e#0#76#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="653">
+                  <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+                  <folding>
+                    <element signature="e#0#53#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/components/map/Zone.module.scss">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="68">
+                  <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -148,8 +121,8 @@
         <option value="$PROJECT_DIR$/src/components/map/Floor.module.scss" />
         <option value="$PROJECT_DIR$/src/components/App.module.scss" />
         <option value="$PROJECT_DIR$/src/data/Coords.ts" />
-        <option value="$PROJECT_DIR$/src/components/App.tsx" />
         <option value="$PROJECT_DIR$/src/components/map/Zone.module.scss" />
+        <option value="$PROJECT_DIR$/src/components/App.tsx" />
         <option value="$PROJECT_DIR$/src/components/map/Zone.tsx" />
       </list>
     </option>
@@ -166,7 +139,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,6 +174,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -210,14 +183,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/ice" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
-    <property name="ts.external.directory.path" value="C:\Users\julie\git\rover\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -277,24 +253,25 @@
       <workItem from="1563606562044" duration="153000" />
       <workItem from="1563606733911" duration="9040000" />
       <workItem from="1563618854257" duration="4054000" />
+      <workItem from="1563879519677" duration="2122000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20523000" />
+    <option name="totallyTimeSpent" value="22645000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19865772" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19836065" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.7733711" />
+      <window_info anchor="bottom" id="Run" order="3" weight="0.46652266" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -303,7 +280,7 @@
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286119" />
       <window_info anchor="bottom" id="TypeScript" order="10" weight="0.32937366" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.32829374" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
@@ -314,13 +291,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/classnames/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/rock/border-tl.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -408,9 +378,7 @@
     <entry file="file://$PROJECT_DIR$/src/assets/sand/border-br.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/sand/mapTile_046.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/sand/mapTile_046.png" />
     <entry file="file://$PROJECT_DIR$/src/assets/rock/border-bl.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -462,9 +430,20 @@
     <entry file="file://$PROJECT_DIR$/src/assets/ice/border-r.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-tr.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/Coords.ts" />
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/react/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="824" column="14" selection-start-line="824" selection-start-column="14" selection-end-line="824" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/Map.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
+        <state>
           <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
         </state>
       </provider>
@@ -479,33 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/sand/border-tr.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/Coords.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/react/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="824" column="14" selection-start-line="824" selection-start-column="14" selection-end-line="824" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/App.module.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -513,19 +465,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@material-ui/core/Fab/Fab.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="653">
+          <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/map/Zone.module.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        <state relative-caret-position="68">
+          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/map/Zone.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+        <state relative-caret-position="143">
+          <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#76#0" expanded="true" />
           </folding>
         </state>
       </provider>
