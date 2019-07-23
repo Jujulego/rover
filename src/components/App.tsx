@@ -11,6 +11,7 @@ import {
   Settings as SettingsIcon
 } from '@material-ui/icons';
 
+import { Coords } from "../data/Coords";
 import { Map } from '../data/Map';
 
 import Zone from './map/Zone';
@@ -33,7 +34,7 @@ const map = new Map([
 ]);
 
 // Types
-type State = { x: number, y: number };
+type State = Coords;
 
 // Component
 const App: FC = () => {
@@ -78,29 +79,10 @@ const App: FC = () => {
         </List>
       </Drawer>
       <main className={styles.content}>
-        <Zone map={map} center={zone} />
+        <Zone map={map} center={zone} onMove={setZone} />
       </main>
     </div>
   );
 };
 
 export default App;
-
-/*<Grid container className={styles.app} wrap="nowrap">
-  <Grid item xs="auto" className={styles.panel} component={Paper} square>
-    <TextField
-      label="x" value={zone.x} type="number"
-      fullWidth
-
-      onChange={handleChange('x')}
-    />
-    <TextField
-      label="y" value={zone.y} type="number"
-      fullWidth
-
-      onChange={handleChange('y')}
-    />
-  </Grid>
-  <Grid item xs className={styles.grid}>
-  </Grid>
-</Grid>*/
