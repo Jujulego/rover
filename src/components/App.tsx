@@ -3,8 +3,7 @@ import clsx from 'clsx';
 import {
   CssBaseline, AppBar, Drawer,
   List, ListItem, ListItemIcon, ListItemText,
-  Paper, Typography, IconButton,
-  TextField
+  Typography, IconButton
 } from '@material-ui/core';
 import {
   Menu as MenuIcon,

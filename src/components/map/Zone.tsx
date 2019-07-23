@@ -43,13 +43,6 @@ const Zone: FC<Props> = (props) => {
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
 
   // Function
-  function computeSize(node: HTMLDivElement) {
-    setSize({
-      x: Math.round((node.clientWidth + 64) / 96),
-      y: Math.round((node.clientHeight + 64) / 96)
-    });
-  }
-
   function handleMove(fx: number, fy: number) {
     if (onMove) {
       onMove({
@@ -93,16 +86,20 @@ const Zone: FC<Props> = (props) => {
                 map={map} pos={c} />
         )) }
       </div>
-      <Fab classes={{ root: styles.up }} onClick={() => handleMove(0, -1)}>
+      <Fab classes={{ root: styles.up }} size="small"
+           onClick={() => handleMove(0, -1)}>
         <ArrowUpwardIcon />
       </Fab>
-      <Fab classes={{ root: styles.right }} onClick={() => handleMove(1, 0)}>
+      <Fab classes={{ root: styles.right }} size="small"
+           onClick={() => handleMove(1, 0)}>
         <ArrowForwardIcon />
       </Fab>
-      <Fab classes={{ root: styles.down }}  onClick={() => handleMove(0, 1)}>
+      <Fab classes={{ root: styles.down }} size="small"
+           onClick={() => handleMove(0, 1)}>
         <ArrowDownwardIcon />
       </Fab>
-      <Fab classes={{ root: styles.left }}  onClick={() => handleMove(-1, 0)}>
+      <Fab classes={{ root: styles.left }} size="small"
+           onClick={() => handleMove(-1, 0)}>
         <ArrowBackIcon />
       </Fab>
     </div>
