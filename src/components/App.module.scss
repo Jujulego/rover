@@ -1,5 +1,7 @@
+@import "../assets/_theme.scss";
+
 $drawer-width: 240px;
-$drawer-reduced-width: 56px;
+$drawer-reduced-width: spacing(7) + 1;
 
 .root {
   height: 100vh;
@@ -22,7 +24,7 @@ $drawer-reduced-width: 56px;
 
     white-space: nowrap;
 
-    transition: width ease 250ms;
+    transition: width ease $transition-duration;
 
     &.close {
       width: $drawer-reduced-width;

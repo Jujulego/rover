@@ -6,6 +6,7 @@ import {
   Typography, IconButton
 } from '@material-ui/core';
 import {
+  ArrowBack as ArrowBackIcon,
   Menu as MenuIcon,
   Settings as SettingsIcon
 } from '@material-ui/icons';
@@ -58,7 +59,7 @@ const App: FC = () => {
             color="inherit"
             onClick={() => setOpen(!open)}
           >
-            <MenuIcon />
+            { open ? <ArrowBackIcon /> : <MenuIcon /> }
           </IconButton>
           <Typography variant="h6" noWrap>Rover</Typography>
         </Toolbar>

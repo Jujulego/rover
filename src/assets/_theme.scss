@@ -1,0 +1,8 @@
+// Variables
+$spacing-unit: 8px;
+$transition-duration: 250ms;
+
+// Functions
+@function spacing($n) {
+  @return $spacing-unit * $n;
+}

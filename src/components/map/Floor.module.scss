@@ -63,5 +63,5 @@
   &.hole {}
   &.rock { @include floor-images(rock) }
   &.sand { @include floor-images(sand) }
-  &.ice { @include floor-images(ice) }
+  &.ice  { @include floor-images(ice) }
 }

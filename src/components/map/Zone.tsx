@@ -7,7 +7,7 @@ import {
   ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
 
-import { Coords, Direction, generateZone } from '../../data/Coords';
+import { Coords, generateZone } from '../../data/Coords';
 import { Map } from '../../data/Map';
 
 import Case from './Case';
