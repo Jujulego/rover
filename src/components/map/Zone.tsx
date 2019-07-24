@@ -7,7 +7,7 @@ import {
   ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
 
-import { Coords, generateZone } from '../../data/Coords';
+import { Coords, Direction, generateZone } from '../../data/Coords';
 import { Map } from '../../data/Map';
 
 import Case from './Case';
@@ -46,8 +46,8 @@ const Zone: FC<Props> = (props) => {
   function handleMove(fx: number, fy: number) {
     if (onMove) {
       onMove({
-        x: center.x + (fx * size.x),
-        y: center.y + (fy * size.y)
+        x: center.x + (fx * (size.x - 2)),
+        y: center.y + (fy * (size.y - 2))
       });
     }
   }
