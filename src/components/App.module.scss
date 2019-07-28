@@ -1,8 +1,10 @@
 @import "../assets/_theme.scss";
 
+// Utils
 $drawer-width: 240px;
 $drawer-reduced-width: spacing(7) + 1;
 
+// Style
 .root {
   height: 100vh;
 
@@ -20,7 +22,7 @@ $drawer-reduced-width: spacing(7) + 1;
     width: $drawer-width;
     flex-shrink: 0;
 
-    margin-top: 64px;
+    margin-top: spacing(8);
 
     white-space: nowrap;
 
@@ -35,7 +37,7 @@ $drawer-reduced-width: spacing(7) + 1;
   .content {
     flex: 1;
 
-    margin-top: 64px;
+    margin-top: spacing(8);
     margin-left: $drawer-reduced-width;
   }
 }

@@ -1,3 +1,4 @@
+// Utils
 @mixin floor-images($asset) {
   div {
     background-image: url("../../assets/#{$asset}/floor.png");
@@ -51,6 +52,7 @@
   }
 }
 
+// Style
 .floor {
   display: grid;
   grid-template-columns: 32px 32px 32px;
