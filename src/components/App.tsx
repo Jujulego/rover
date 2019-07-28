@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import clsx from 'clsx';
 import {
   CssBaseline, AppBar, Drawer,
@@ -11,10 +11,9 @@ import {
   Settings as SettingsIcon
 } from '@material-ui/icons';
 
-import { Coords } from "../data/Coords";
 import { Map } from '../data/Map';
 
-import Zone from './map/Zone';
+import Zone from '../containers/map/Zone';
 
 import styles from './App.module.scss';
 import Toolbar from "@material-ui/core/Toolbar";
@@ -33,19 +32,10 @@ const map = new Map([
   [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }]
 ]);
 
-// Types
-type State = Coords;
-
 // Component
 const App: FC = () => {
   // State
-  const [zone, setZone] = useState<State>({ x: 2, y: 2 });
   const [open, setOpen] = useState(false);
-
-  // Events
-  const handleChange = (name: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setZone({ ...zone, [name]: parseInt(event.target.value) })
-  };
 
   // Rendering
   return (
@@ -79,7 +69,7 @@ const App: FC = () => {
         </List>
       </Drawer>
       <main className={styles.content}>
-        <Zone map={map} center={zone} onMove={setZone} />
+        <Zone map={map} />
       </main>
     </div>
   );

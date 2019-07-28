@@ -5,8 +5,9 @@ import {
 
 // Types
 export type FloorType = 'rock' | 'sand' | 'ice' | 'hole';
-export type Case = { floor: FloorType };
 export type Borders = { [name in Direction]?: boolean };
+
+export interface Case { floor: FloorType }
 
 // Class
 export class Map {

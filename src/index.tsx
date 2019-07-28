@@ -1,14 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+import { Provider } from "react-redux";
+
+import { StylesProvider } from "@material-ui/styles";
+
 import App from './components/App';
-
 import * as serviceWorker from './serviceWorker';
-import {StylesProvider} from "@material-ui/styles";
+import store from './store';
 
-ReactDOM.render((
+import './index.css';
+
+// Application
+render((
   <StylesProvider injectFirst>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StylesProvider>
 ), document.getElementById('root'));
 
