@@ -52,6 +52,10 @@ const Zone: FC<Props> = (props) => {
     }
   }
 
+  function handleCaseClick(c: Coords) {
+    if (onMove) onMove(c);
+  }
+
   // Ref
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -83,7 +87,8 @@ const Zone: FC<Props> = (props) => {
       <div className={styles.grid}>
         { generateZone(center, size, (c, i, j) => (
           <Case key={`${i}${j}`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                map={map} pos={c} />
+                map={map} pos={c}
+                onClick={handleCaseClick} />
         )) }
       </div>
       <Fab classes={{ root: styles.up }} size="small"
