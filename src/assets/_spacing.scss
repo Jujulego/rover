@@ -1,0 +1,24 @@
+// Mixins
+@mixin row-spacing($spacing) {
+  $marge: $spacing / 2;
+
+  margin-left: -$marge;
+  margin-right: -$marge;
+
+  > * {
+    margin-left: $marge;
+    margin-right: $marge;
+  }
+}
+
+@mixin column-spacing($spacing) {
+  $marge: $spacing / 2;
+
+  margin-top: -$marge;
+  margin-bottom: -$marge;
+
+  > * {
+    margin-top: $marge;
+    margin-bottom: $marge;
+  }
+}

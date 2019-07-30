@@ -62,7 +62,7 @@ const Zone: FC<Props> = (props) => {
   // Callback
   const containerCb = useCallback((node: HTMLDivElement) => {
     containerRef.current = node;
-    computeSize(node, setSize);
+    if (node != null) computeSize(node, setSize);
   }, []);
 
   // Effect

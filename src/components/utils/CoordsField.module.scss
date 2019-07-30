@@ -1,0 +1,17 @@
+@import "../../assets/_theme.scss";
+@import "../../assets/_spacing.scss";
+
+// Style
+.fields {
+  display: flex;
+
+  @include row-spacing(spacing(2));
+
+  .field {
+    flex: 1;
+  }
+}
+
+label + .fields {
+  margin-top: spacing(2);
+}
