@@ -1,3 +1,5 @@
+@import "assets/theme";
+
 .container {
   position: relative;
   height: 100%;
@@ -10,31 +12,15 @@
   justify-content: center;
 
   .grid {
+    position: relative;
     height: max-content;
     width: max-content;
 
     display: grid;
 
-    margin: -96px;
-  }
-
-  > button {
-    position: absolute;
-
-    &.up {
-      top: 16px;
-    }
-
-    &.right {
-      right: 16px;
-    }
-
-    &.down {
-      bottom: 16px;
-    }
-
-    &.left {
-      left: 16px;
+    &.moved {
+      transition: top ease $transition-duration * 2,
+        left ease $transition-duration * 2;
     }
   }
 }

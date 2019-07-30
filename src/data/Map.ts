@@ -12,7 +12,7 @@ export interface Case { floor: FloorType }
 // Class
 export class Map {
   // Attributes
-  private data: Array<Array<Case>>;
+  private readonly data: Array<Array<Case>>;
 
   // Constructors
   constructor(map: Array<Array<Case>>) {

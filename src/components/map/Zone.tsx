@@ -1,14 +1,10 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { Fab } from "@material-ui/core";
-import {
-  ArrowUpward as ArrowUpwardIcon,
-  ArrowForward as ArrowForwardIcon,
-  ArrowDownward as ArrowDownwardIcon,
-  ArrowBack as ArrowBackIcon
-} from "@material-ui/icons";
+import React, { FC, useEffect, useState } from 'react';
+import clsx from 'clsx';
 
-import { Coords, generateZone } from '../../data/Coords';
-import { Map } from '../../data/Map';
+import { Coords, generateZone } from 'data/Coords';
+import { Map } from 'data/Map';
+
+import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Case from './Case';
 
@@ -25,11 +21,8 @@ function odd(x: number): number {
   return (x % 2) ? x : x + 1;
 }
 
-function computeSize(node: HTMLDivElement, setSize: (c: Coords) => void) {
-  setSize({
-    x: odd(Math.ceil(node.clientWidth / 96)),
-    y: odd(Math.ceil(node.clientHeight / 96))
-  });
+function min(rd1: number, d2: number): number {
+  return Math.sign(rd1) * Math.min(Math.abs(rd1), d2);
 }
 
 // Component
@@ -41,72 +34,73 @@ const Zone: FC<Props> = (props) => {
 
   // State
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
+  const [from, setFrom] = useState<Coords | null>(null);
+  const [moving, setMoving] = useState(false);
+
+  // Ref
+  const prevCenter = usePrevious(center);
 
   // Function
-  function handleMove(fx: number, fy: number) {
-    if (onMove) {
-      onMove({
-        x: center.x + (fx * (size.x - 2)),
-        y: center.y + (fy * (size.y - 2))
-      });
-    }
-  }
-
   function handleCaseClick(c: Coords) {
     if (onMove) onMove(c);
   }
 
-  // Ref
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  function computeSize(node: HTMLDivElement) {
+    setSize({
+      x: odd(Math.ceil(node.clientWidth / 96)),
+      y: odd(Math.ceil(node.clientHeight / 96))
+    });
+  }
 
   // Callback
-  const containerCb = useCallback((node: HTMLDivElement) => {
-    containerRef.current = node;
-    if (node != null) computeSize(node, setSize);
+  const [containerRef, containerCb] = useNode((node: HTMLDivElement) => {
+    if (node != null) computeSize(node);
   }, []);
 
-  // Effect
+  // Effects
+  useWindowEvent('resize', () => {
+    if (containerRef.current != null) {
+      computeSize(containerRef.current);
+    }
+  });
+
   useEffect(() => {
-    function handleResize() {
-      if (containerRef.current != null) {
-        computeSize(containerRef.current, setSize);
-      }
-    }
+    setMoving(true);
+    setFrom(prevCenter);
+  }, [center.x, center.y]);
 
-    // Event
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
+  useEffect(() => {
+    if (moving) {
+      setMoving(false);
     }
-  }, []);
+  }, [moving]);
 
   // Rendering
+  const centers = [prevCenter || center];
+  const translate = { top: 0, left: 0 };
+
+  if (prevCenter != null && from != null) {
+    centers.push(from);
+
+    translate.top = min(from.y - prevCenter.y, size.y) * 48;
+    translate.left = min(from.x - prevCenter.x, size.x) * 48;
+
+    if (moving) {
+      translate.top *= -1;
+      translate.left *= -1;
+    }
+  }
+
   return (
     <div ref={containerCb} className={styles.container}>
-      <div className={styles.grid}>
-        { generateZone(center, size, (c, i, j) => (
-          <Case key={`${i}${j}`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
+      <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
+        { generateZone(centers, size, (c, i, j) => (
+          <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c}
                 onClick={handleCaseClick} />
         )) }
       </div>
-      <Fab classes={{ root: styles.up }} size="small"
-           onClick={() => handleMove(0, -1)}>
-        <ArrowUpwardIcon />
-      </Fab>
-      <Fab classes={{ root: styles.right }} size="small"
-           onClick={() => handleMove(1, 0)}>
-        <ArrowForwardIcon />
-      </Fab>
-      <Fab classes={{ root: styles.down }} size="small"
-           onClick={() => handleMove(0, 1)}>
-        <ArrowDownwardIcon />
-      </Fab>
-      <Fab classes={{ root: styles.left }} size="small"
-           onClick={() => handleMove(-1, 0)}>
-        <ArrowBackIcon />
-      </Fab>
+      <div style={{ position: 'absolute', height: 96, width: 96, border: 'solid 1px red' }} />
     </div>
   );
 };

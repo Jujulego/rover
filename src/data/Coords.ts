@@ -32,22 +32,43 @@ export function surrounding(pos: Coords, direction: Direction): Coords {
   }
 }
 
-export function generateZone<T>(center: Coords, size: Coords, cb: (coords: Coords, i: number, j: number) => T): Array<T> {
-  // compute top left case
-  const topleft: Coords = {
+export function zoneTopLeft(center: Coords, size: Coords): Coords {
+  return {
     x: center.x - ((size.x - size.x % 2) / 2),
-    y: center.y - ((size.y - size.y % 2) / 2),
+    y: center.y - ((size.y - size.y % 2) / 2)
   };
+}
+
+export function generateZone<T>(centers: Array<Coords>, size: Coords, cb: (coords: Coords, i: number, j: number) => T): Array<T> {
+  // sort => top left first
+  centers.sort((c1, c2) => (c1.x === c2.x ? c1.y - c2.y : c1.x - c2.x));
 
   // compute coords
+  const abs_tl = zoneTopLeft(centers.reduce((acc, c) => ({ x: Math.min(acc.x, c.x), y: Math.min(acc.y, c.y) }), centers[0]), size);
+  const computed = new Map<String,Boolean>();
   const result: Array<T> = [];
-  for (let i = 0; i < size.x; ++i) {
-    for (let j = 0; j < size.y; ++j) {
-      result.push(
-        cb({ x: topleft.x + i, y: topleft.y + j }, i, j)
-      )
+
+  centers.forEach((center) => {
+    const tl = zoneTopLeft(center, size);
+
+    for (let i = 0; i < size.x; ++i) {
+      const ai = i + tl.x - abs_tl.x;
+
+      for (let j = 0; j < size.y; ++j) {
+        const aj = j + tl.y - abs_tl.y;
+        const key = `${ai} ${aj}`;
+
+        // already computed ?
+        if (computed.get(key)) continue;
+
+        // compute
+        result.push(
+          cb({ x: tl.x + i, y: tl.y + j }, ai, aj)
+        );
+        computed.set(key, true)
+      }
     }
-  }
+  });
 
   return result;
 }
