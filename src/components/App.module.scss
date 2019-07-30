@@ -1,8 +1,4 @@
-@import "../assets/_theme.scss";
-
-// Utils
-$drawer-width: 240px;
-$drawer-reduced-width: spacing(7) + 1;
+@import "assets/theme";
 
 // Style
 .root {
@@ -16,28 +12,5 @@ $drawer-reduced-width: spacing(7) + 1;
     .menuBtn {
       margin-right: 12px;
     }
-  }
-
-  .drawer {
-    width: $drawer-width;
-    flex-shrink: 0;
-
-    margin-top: spacing(8);
-
-    white-space: nowrap;
-
-    transition: width ease $transition-duration;
-
-    &.close {
-      width: $drawer-reduced-width;
-      overflow-x: hidden;
-    }
-  }
-
-  .content {
-    flex: 1;
-
-    margin-top: spacing(8);
-    margin-left: $drawer-reduced-width;
   }
 }

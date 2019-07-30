@@ -1,0 +1,37 @@
+@import "assets/theme";
+
+// Utils
+$drawer-width: 320px;
+$drawer-reduced-width: spacing(7) + 1;
+
+// Style
+.drawer {
+  width: $drawer-width;
+  flex-shrink: 0;
+
+  margin-top: spacing(8);
+
+  white-space: nowrap;
+
+  transition: width ease $transition-duration;
+
+  &.close {
+    width: $drawer-reduced-width;
+    overflow-x: hidden;
+  }
+}
+
+.content {
+  flex: 1;
+  max-height: calc(100vh - #{spacing(8)});
+  overflow: auto;
+
+  margin-top: spacing(8);
+  margin-left: $drawer-width;
+
+  transition: margin-left ease $transition-duration;
+
+  &.close {
+    margin-left: $drawer-reduced-width;
+  }
+}

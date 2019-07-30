@@ -1,22 +1,20 @@
 import React, { FC, useState } from 'react';
-import clsx from 'clsx';
 import {
-  CssBaseline, AppBar, Drawer,
-  List, ListItem, ListItemIcon, ListItemText,
+  CssBaseline, AppBar, Toolbar,
   Typography, IconButton
 } from '@material-ui/core';
 import {
   ArrowBack as ArrowBackIcon,
-  Menu as MenuIcon,
-  Settings as SettingsIcon
+  Menu as MenuIcon
 } from '@material-ui/icons';
 
-import { Map } from '../data/Map';
+import { Map } from 'data/Map';
 
-import Zone from '../containers/map/Zone';
+import Drawer from './drawer/Drawer';
+
+import Zone from 'containers/map/Zone';
 
 import styles from './App.module.scss';
-import Toolbar from "@material-ui/core/Toolbar";
 
 // Constants
 const map = new Map([
@@ -54,23 +52,9 @@ const App: FC = () => {
           <Typography variant="h6" noWrap>Rover</Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        open={open}
-        variant="permanent"
-        classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
-      >
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Paramètres"} />
-          </ListItem>
-        </List>
-      </Drawer>
-      <main className={styles.content}>
+      <Drawer open={open} onOpen={() => setOpen(true)}>
         <Zone map={map} />
-      </main>
+      </Drawer>
     </div>
   );
 };
