@@ -1,5 +1,5 @@
-import { MOVE_ZONE } from "./constants";
-import { ZoneActionTypes, ZoneState } from "./types";
+import { MOVE_ZONE } from './constants';
+import { ZoneActionTypes, ZoneState } from './types';
 
 // Initial state
 const initialState: ZoneState = {

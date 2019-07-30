@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 
-import { StylesProvider } from "@material-ui/styles";
+import { StylesProvider } from '@material-ui/styles';
 
-import App from './components/App';
-import * as serviceWorker from './serviceWorker';
-import store from './store';
+import App from 'components/App';
+import * as serviceWorker from 'serviceWorker';
+import store from 'store';
 
-import './index.css';
+import 'index.css';
 
 // Application
 render((

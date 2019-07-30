@@ -1,6 +1,6 @@
-import { Coords } from "../../data/Coords";
+import { Coords } from 'data/Coords';
 
-import { MOVE_ZONE } from "./constants";
+import { MOVE_ZONE } from './constants';
 
 // Actions types
 interface MoveZoneAction {

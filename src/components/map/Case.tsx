@@ -3,8 +3,8 @@ import clsx from 'clsx';
 
 import { Typography } from '@material-ui/core';
 
-import { Coords } from '../../data/Coords';
-import { Map } from '../../data/Map';
+import { Coords } from 'data/Coords';
+import { Map } from 'data/Map';
 
 import Floor from './Floor';
 

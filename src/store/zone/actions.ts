@@ -1,7 +1,7 @@
-import { Coords } from "../../data/Coords";
+import { Coords } from 'data/Coords';
 
-import { MOVE_ZONE } from "./constants";
-import { ZoneActionTypes } from "./types";
+import { MOVE_ZONE } from './constants';
+import { ZoneActionTypes } from './types';
 
 // Actions
 export function moveZone(center: Coords): ZoneActionTypes {

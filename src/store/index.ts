@@ -1,7 +1,7 @@
-import { createStore, combineReducers } from "redux";
-import { devToolsEnhancer } from "redux-devtools-extension";
+import { createStore, combineReducers } from 'redux';
+import { devToolsEnhancer } from 'redux-devtools-extension';
 
-import { zoneReducer } from "./zone/reducers";
+import { zoneReducer } from './zone/reducers';
 
 // Root reducer
 const rootReducer = combineReducers({

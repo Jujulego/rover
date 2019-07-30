@@ -1,6 +1,6 @@
 // Types
 export type Direction = 'top' | 'topRight' | 'right' | 'bottomRight' | 'bottom' | 'bottomLeft' | 'left' | 'topLeft';
-export interface Coords { x: number, y: number };
+export interface Coords { x: number, y: number }
 
 // Constants
 export const DIRECTIONS: Array<Direction> = ['top', 'topRight', 'right', 'bottomRight', 'bottom', 'bottomLeft', 'left', 'topLeft'];
