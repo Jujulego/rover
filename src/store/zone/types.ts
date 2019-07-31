@@ -1,6 +1,7 @@
 import { Coords } from 'data/Coords';
+import { ZoneOptions } from 'components/map/Zone';
 
-import { MOVE_ZONE } from './constants';
+import { TOGGLE_OPTION, MOVE_ZONE } from './constants';
 
 // Actions types
 interface MoveZoneAction {
@@ -8,9 +9,15 @@ interface MoveZoneAction {
   center: Coords
 }
 
-export type ZoneActionTypes = MoveZoneAction
+interface ToggleOptionAction {
+  type: typeof TOGGLE_OPTION,
+  name: ZoneOptions
+}
+
+export type ZoneActionTypes = ToggleOptionAction | MoveZoneAction
 
 // State type
 export interface ZoneState {
-  center: Coords
+  center: Coords,
+  options: { [name in ZoneOptions]?: boolean }
 }

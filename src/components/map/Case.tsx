@@ -14,6 +14,7 @@ import styles from './Case.module.scss';
 type Props = {
   map: Map,
   pos: Coords,
+  showCoords?: boolean,
   className?: string,
   style?: { [name: string]: any },
 
@@ -23,7 +24,7 @@ type Props = {
 // Component
 const Case: FC<Props> = (props) => {
   const {
-    map, pos,
+    map, pos, showCoords = false,
     className, style,
     onClick
   } = props;
@@ -40,9 +41,11 @@ const Case: FC<Props> = (props) => {
     <div className={clsx(styles.case, className)} style={style} onClick={handleClick}>
       <Floor type={data ? data.floor : 'hole'} borders={map.borders(pos)} />
       <div className={styles.data}>
-        <Typography classes={{ root: styles.coords}}>
-          { pos.x } { pos.y }
-        </Typography>
+        { showCoords && (
+          <Typography classes={{ root: styles.coords}}>
+            { pos.x } { pos.y }
+          </Typography>
+        ) }
       </div>
     </div>
   )

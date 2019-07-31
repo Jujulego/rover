@@ -1,6 +1,12 @@
 @import "assets/theme";
+@import "assets/spacing";
 
 // Style
 .panel {
-  padding: spacing(1) spacing(1) spacing(1) spacing(3);
+  display: flex;
+  flex-direction: column;
+
+  padding: spacing(1) spacing(2) spacing(1) spacing(3);
+
+  @include column-spacing(spacing(1))
 }

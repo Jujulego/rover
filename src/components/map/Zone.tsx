@@ -11,8 +11,11 @@ import Case from './Case';
 import styles from './Zone.module.scss';
 
 // Types
+export type ZoneOptions = 'coords';
+
 type Props = {
   map: Map, center: Coords,
+  options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
 
@@ -28,7 +31,7 @@ function min(rd1: number, d2: number): number {
 // Component
 const Zone: FC<Props> = (props) => {
   const {
-    map, center,
+    map, options, center,
     onMove
   } = props;
 
@@ -96,7 +99,7 @@ const Zone: FC<Props> = (props) => {
       <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
         { generateZone(centers, size, (c, i, j) => (
           <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                map={map} pos={c}
+                map={map} pos={c} showCoords={options.coords}
                 onClick={handleCaseClick} />
         )) }
       </div>

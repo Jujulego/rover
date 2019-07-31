@@ -10,7 +10,8 @@ import Zone from 'components/map/Zone';
 
 // Components
 const mapStateToProps = (state: AppState) => ({
-  center: state.zone.center
+  center: state.zone.center,
+  options: state.zone.options
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

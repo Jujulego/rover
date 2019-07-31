@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Collapse,
-  ListItem, ListItemIcon, ListItemText
+  ListItem, ListItemIcon, ListItemText,
+  FormControlLabel, Switch
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
@@ -12,7 +13,7 @@ import {
 } from '@material-ui/icons';
 
 import { AppState } from 'store';
-import { moveZone } from 'store/zone/actions';
+import { moveZone, toggleOption } from 'store/zone/actions';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
@@ -31,7 +32,7 @@ const Settings: FC<Props> = (props) => {
 
   // Redux
   const dispatch = useDispatch();
-  const { center } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { center, options } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -51,6 +52,10 @@ const Settings: FC<Props> = (props) => {
       <Collapse classes={{ wrapperInner: styles.panel }}
                 in={open} timeout="auto" unmountOnExit>
         <CoordsField label="center" value={center} onChange={(c) => dispatch(moveZone(c))} />
+        <FormControlLabel
+          control={<Switch checked={options.coords} onChange={() => dispatch(toggleOption('coords'))} />}
+          label="Afficher les coordonnées"
+        />
       </Collapse>
     </>
   );
