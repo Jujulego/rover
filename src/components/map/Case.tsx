@@ -46,12 +46,12 @@ const Case: FC<Props> = (props) => {
       <div className={styles.data}>
         { showCoords && (
           <Typography classes={{ root: styles.coords }}>
-            { pos.x } { pos.y }
+            ({ pos.x },{ pos.y })
           </Typography>
         ) }
         { showHeight && (
           <Typography classes={{ root: styles.height }}>
-            { data && data.height }
+            { data ? data.height : '?' }
           </Typography>
         ) }
       </div>

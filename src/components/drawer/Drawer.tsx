@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { Drawer as MaterialDrawer, List } from '@material-ui/core';
 
-import Settings from './Settings';
+import MapPanel from 'components/drawer/MapPanel';
 
 import styles from './Drawer.module.scss';
 
@@ -52,9 +52,9 @@ const Drawer: FC<Props> = (props) => {
         classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
       >
         <List component="nav">
-          <Settings open={panels.settings}
-              onOpen={() => setPanel('settings', true)}
-              onClose={() => setPanel('settings', false)}
+          <MapPanel open={panels.settings}
+                    onOpen={() => setPanel('settings', true)}
+                    onClose={() => setPanel('settings', false)}
           />
         </List>
       </MaterialDrawer>

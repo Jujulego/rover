@@ -14,12 +14,16 @@
       position: absolute;
       top: spacing(1);
       left: spacing(1);
+
+      color: #333333;
     }
 
     .height {
       position: absolute;
-      top: spacing(1);
       right: spacing(1);
+      bottom: spacing(1);
+
+      color: #333333;
     }
   }
 }
