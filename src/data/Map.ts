@@ -30,6 +30,37 @@ export class Map {
     };
   }
 
+  // Static methods
+  static loadMap(map: Array<Array<number>>): Map {
+    const result = new Array<Array<Case>>();
+    result.push([]);
+
+    for (let i = 0; i < map[0].length; ++i) {
+      const floor = this.getFloorType(map[0][i]);
+
+      let height = 0;
+      for (let j = 1; j < map.length; ++j) {
+        if (map[j][i] !== 0) {
+          height++
+        }
+      }
+
+      result[result.length - 1].push({ floor, height });
+      if (result[result.length - 1].length === Math.sqrt(map[0].length)) {
+        result.push([]);
+      }
+    }
+
+    return new Map(result);
+  }
+
+  private static getFloorType(type: number): FloorType {
+    if (type <= 4) return 'sand';
+    else if (type <= 8) return 'rock';
+    else if (type <= 12) return 'ice';
+    else return 'hole';
+  }
+
   // Methods
   get(pos: Coords): Case | undefined {
     if ((pos.x < 0 || pos.x >= this.size.x)) return;

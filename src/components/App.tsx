@@ -8,6 +8,7 @@ import {
   Menu as MenuIcon
 } from '@material-ui/icons';
 
+import data from 'assets/map';
 import { Map } from 'data/Map';
 
 import Drawer from './drawer/Drawer';
@@ -17,18 +18,7 @@ import Zone from 'containers/map/Zone';
 import styles from './App.module.scss';
 
 // Constants
-const map = new Map([
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
-  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }]
-]);
+const map = Map.loadMap(data);
 
 // Component
 const App: FC = () => {
