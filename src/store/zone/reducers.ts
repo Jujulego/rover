@@ -5,7 +5,8 @@ import { ZoneActionTypes, ZoneState } from './types';
 const initialState: ZoneState = {
   center: { x: 0, y: 0 },
   options: {
-    coords: true
+    coords: true,
+    height: true
   }
 };
 

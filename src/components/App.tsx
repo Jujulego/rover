@@ -18,16 +18,16 @@ import styles from './App.module.scss';
 
 // Constants
 const map = new Map([
-  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
-  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'hole' }, { floor: 'sand' }, { floor: 'sand' }, { floor: 'rock' }],
-  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'ice'  }, { floor: 'ice'  }, { floor: 'hole' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'ice'  }, { floor: 'ice'  }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }],
-  [{ floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }, { floor: 'rock' }]
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'hole' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'sand' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'hole' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'ice'  }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }],
+  [{ height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }, { height: 1, floor: 'rock' }]
 ]);
 
 // Component

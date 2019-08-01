@@ -56,6 +56,10 @@ const Settings: FC<Props> = (props) => {
           control={<Switch checked={options.coords} onChange={() => dispatch(toggleOption('coords'))} />}
           label="Afficher les coordonnées"
         />
+        <FormControlLabel
+          control={<Switch checked={options.height} onChange={() => dispatch(toggleOption('height'))} />}
+          label="Afficher les hauteurs"
+        />
       </Collapse>
     </>
   );

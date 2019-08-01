@@ -15,6 +15,7 @@ type Props = {
   map: Map,
   pos: Coords,
   showCoords?: boolean,
+  showHeight?: boolean,
   className?: string,
   style?: { [name: string]: any },
 
@@ -24,7 +25,9 @@ type Props = {
 // Component
 const Case: FC<Props> = (props) => {
   const {
-    map, pos, showCoords = false,
+    map, pos,
+    showCoords = false,
+    showHeight = false,
     className, style,
     onClick
   } = props;
@@ -42,8 +45,13 @@ const Case: FC<Props> = (props) => {
       <Floor type={data ? data.floor : 'hole'} borders={map.borders(pos)} />
       <div className={styles.data}>
         { showCoords && (
-          <Typography classes={{ root: styles.coords}}>
+          <Typography classes={{ root: styles.coords }}>
             { pos.x } { pos.y }
+          </Typography>
+        ) }
+        { showHeight && (
+          <Typography classes={{ root: styles.height }}>
+            { data && data.height }
           </Typography>
         ) }
       </div>
