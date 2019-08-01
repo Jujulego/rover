@@ -103,7 +103,6 @@ const Zone: FC<Props> = (props) => {
                 onClick={handleCaseClick} />
         )) }
       </div>
-      <div style={{ position: 'absolute', height: 96, width: 96, border: 'solid 1px red' }} />
     </div>
   );
 };

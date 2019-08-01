@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -21,14 +21,15 @@ import CoordsField from 'components/utils/CoordsField';
 import styles from './Settings.module.scss';
 
 // Types
-type Props = { onOpenDrawer ?: () => void }
+type Props = {
+  open: boolean,
+  onOpen: () => void,
+  onClose: () => void
+}
 
 // Component
 const Settings: FC<Props> = (props) => {
-  const { onOpenDrawer } = props;
-
-  // State
-  const [open, setOpen] = useState(false);
+  const { open, onOpen, onClose } = props;
 
   // Redux
   const dispatch = useDispatch();
@@ -36,9 +37,11 @@ const Settings: FC<Props> = (props) => {
 
   // Function
   function handleClick() {
-    setOpen(!open);
-
-    if (onOpenDrawer) onOpenDrawer();
+    if (open) {
+      onClose();
+    } else {
+      onOpen()
+    }
   }
 
   // Rendering
