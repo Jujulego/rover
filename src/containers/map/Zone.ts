@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { Dispatch } from 'redux';
 import { connect } from "react-redux";
 
 import { Coords } from 'data/Coords';
@@ -8,11 +8,17 @@ import { moveZone } from 'store/zone/actions';
 
 import Zone from 'components/map/Zone';
 
-// Components
-const mapStateToProps = (state: AppState) => ({
+// Props
+type Props = {
+  rover: string
+}
+
+// Component
+const mapStateToProps = (state: AppState, ownProps: Props) => ({
   center: state.zone.center,
   zoom: state.zone.zoom,
-  options: state.zone.options
+  options: state.zone.options,
+  rover: state.rovers[ownProps.rover]
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -4,19 +4,6 @@ import { Direction } from "data/constants";
 export interface Coords { x: number, y: number }
 
 // Utils
-export function isTop(d: Direction): boolean {
-  return d === 'topLeft' || d === 'top' || d === 'topRight';
-}
-export function isRight(d: Direction): boolean {
-  return d === 'topRight' || d === 'right' || d === 'bottomRight';
-}
-export function isBottom(d: Direction): boolean {
-  return d === 'bottomRight' || d === 'bottom' || d === 'bottomLeft';
-}
-export function isLeft(d: Direction): boolean {
-  return d === 'bottomLeft' || d === 'left' || d === 'topLeft';
-}
-
 export function distance(c1: Coords, c2: Coords): number {
   const dx = Math.abs(c2.x - c1.x);
   const dy = Math.abs(c2.y - c1.y);

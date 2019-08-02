@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   CssBaseline, AppBar, Toolbar,
   Typography, IconButton
@@ -13,6 +14,8 @@ import data from 'assets/map';
 import { Map } from 'data/Map';
 import { RoverAI } from 'data/RoverAI';
 
+import { addRover } from 'store/rovers/actions';
+
 import Drawer from './drawer/Drawer';
 
 import Zone from 'containers/map/Zone';
@@ -21,12 +24,19 @@ import styles from './App.module.scss';
 
 // Constants
 const map = Map.loadMap(data);
-const rover = new RoverAI(map, { x: 1, y: 1 });
 
 // Component
 const App: FC = () => {
   // State
   const [open, setOpen] = useState(false);
+
+  // Redux
+  const dispatch = useDispatch();
+
+  // Effects
+  useEffect(() => {
+    dispatch(addRover('test', new RoverAI(map, { x: 1, y: 1 })))
+  }, []);
 
   // Rendering
   return (
@@ -46,7 +56,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Zone map={map} rover={rover} />
+        <Zone map={map} rover="test" />
       </Drawer>
     </div>
   );

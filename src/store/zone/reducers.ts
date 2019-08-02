@@ -9,7 +9,7 @@ const initialState: ZoneState = {
     coords: true,
     distance: true,
     height: true,
-    slope: true
+    slope: false
   }
 };
 

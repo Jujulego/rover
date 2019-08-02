@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { Coords, distance, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
-import { RoverAI } from 'data/RoverAI';
+import { RoverState } from 'store/rovers/types';
 
 import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
@@ -17,7 +17,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
-  rover: RoverAI,
+  rover?: RoverState,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
@@ -113,13 +113,18 @@ const Zone: FC<Props> = (props) => {
             <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
           ) : (
             <>
-              <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                    map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                    distance={options.distance ? distance(center, c) : undefined}
-                    slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
-                    onClick={handleCaseClick} />
-              { (c.x === rover.pos.x && c.y === rover.pos.y) && (
-                <Rover key="rover" data={rover} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
+              <Case
+                key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                map={map} pos={c} showCoords={options.coords} showHeight={options.height}
+                distance={options.distance ? distance(center, c) : undefined}
+                slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
+                onClick={handleCaseClick}
+              />
+              { (rover && c.x === rover.data.pos.x && c.y === rover.data.pos.y) && (
+                <Rover
+                  key="rover" style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                  data={rover.data} color={rover.color}
+                />
               ) }
             </>
           )
