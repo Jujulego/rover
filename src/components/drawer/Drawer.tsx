@@ -17,11 +17,6 @@ type Props = {
   onOpen: () => void
 }
 
-type PanelsState = { [name: string]: boolean }
-
-// Initial state
-const initalPanelsState: PanelsState = {};
-
 // Component
 const Drawer: FC<Props> = (props) => {
   const {
@@ -30,18 +25,23 @@ const Drawer: FC<Props> = (props) => {
   } = props;
 
   // State
-  const [panels, setPanels] = useState<PanelsState>(initalPanelsState);
+  const [panel, setPanel] = useState<string | null>(null);
 
   // Functions
-  function setPanel(name: string, state: boolean) {
-    if (state) onOpen();
-    setPanels(old => ({ ...old, [name]: state }));
-  }
+  const panelProps = (name: string) => ({
+    open: panel === name,
+    onOpen: () => setPanel(name),
+    onClose: () => setPanel(null)
+  });
 
   // Effects
   useEffect(() => {
-    if (!open) setPanels(initalPanelsState);
+    if (!open) setPanel(null);
   }, [open]);
+
+  useEffect(() => {
+    if (panel != null) onOpen();
+  }, [panel]);
 
   // Rendering
   return (
@@ -52,17 +52,9 @@ const Drawer: FC<Props> = (props) => {
         classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
       >
         <List component="nav">
-          <MapPanel
-            open={panels.settings}
-            onOpen={() => setPanel('settings', true)}
-            onClose={() => setPanel('settings', false)}
-          />
+          <MapPanel {...panelProps('map')} />
           <Divider component="hr" />
-          <RoverPanel
-            open={panels.rover} name="test"
-            onOpen={() => setPanel('rover', true)}
-            onClose={() => setPanel('rover', false)}
-          />
+          <RoverPanel {...panelProps('rover')} name="test" />
         </List>
       </MaterialDrawer>
       <main className={clsx(styles.content, { [styles.close]: !open })}>

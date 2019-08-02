@@ -15,6 +15,8 @@ import rovers from 'assets/rovers';
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
 
+import styles from './RoverPanel.module.scss';
+
 // Types
 type Props = {
   open: boolean,
