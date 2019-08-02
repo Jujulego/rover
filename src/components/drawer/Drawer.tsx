@@ -1,26 +1,26 @@
 import React, { FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { Drawer as MaterialDrawer, List } from '@material-ui/core';
+import {
+  Divider,
+  Drawer as MaterialDrawer, List
+} from '@material-ui/core';
 
-import MapPanel from 'components/drawer/MapPanel';
+import MapPanel from './MapPanel';
+import RoverPanel from './RoverPanel';
 
 import styles from './Drawer.module.scss';
 
 // Types
-type Panels = 'settings';
-
 type Props = {
   open: boolean,
   onOpen: () => void
 }
 
-type PanelsState = { [name in Panels]: boolean }
+type PanelsState = { [name: string]: boolean }
 
 // Initial state
-const initalPanelsState: PanelsState = {
-  settings: false
-};
+const initalPanelsState: PanelsState = {};
 
 // Component
 const Drawer: FC<Props> = (props) => {
@@ -33,7 +33,7 @@ const Drawer: FC<Props> = (props) => {
   const [panels, setPanels] = useState<PanelsState>(initalPanelsState);
 
   // Functions
-  function setPanel(name: Panels, state: boolean) {
+  function setPanel(name: string, state: boolean) {
     if (state) onOpen();
     setPanels(old => ({ ...old, [name]: state }));
   }
@@ -52,9 +52,16 @@ const Drawer: FC<Props> = (props) => {
         classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
       >
         <List component="nav">
-          <MapPanel open={panels.settings}
-                    onOpen={() => setPanel('settings', true)}
-                    onClose={() => setPanel('settings', false)}
+          <MapPanel
+            open={panels.settings}
+            onOpen={() => setPanel('settings', true)}
+            onClose={() => setPanel('settings', false)}
+          />
+          <Divider component="hr" />
+          <RoverPanel
+            open={panels.rover} name="test"
+            onOpen={() => setPanel('rover', true)}
+            onClose={() => setPanel('rover', false)}
           />
         </List>
       </MaterialDrawer>
