@@ -1,7 +1,10 @@
 import { RoverColor } from 'assets/rovers';
 import { RoverAI } from 'data/RoverAI';
 
-import { ADD_ROVER } from './constants';
+import {
+  ADD_ROVER,
+  SET_ROVER_COLOR
+} from './constants';
 
 // Actions
 type AddRoverAction = {
@@ -11,7 +14,14 @@ type AddRoverAction = {
   color: RoverColor
 }
 
-export type RoversActionTypes = AddRoverAction;
+type SetRoverColorAction = {
+  type: typeof SET_ROVER_COLOR,
+  name: string,
+  color: RoverColor
+}
+
+export type RoverActionTypes = SetRoverColorAction;
+export type RoversActionTypes = AddRoverAction | RoverActionTypes;
 
 // State type
 export interface RoverState {
