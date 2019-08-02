@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Coords, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
 
-import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
+import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Case from './Case';
 
@@ -68,7 +68,7 @@ const Zone: FC<Props> = (props) => {
     }
   });
 
-  useEffect(() => {
+  useDebouncedEffect(() => {
     if (containerRef.current != null) {
       computeSize(containerRef.current);
     }
