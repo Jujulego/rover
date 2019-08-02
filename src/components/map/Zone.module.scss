@@ -25,5 +25,10 @@
         left ease $transition-duration * 2,
         transform ease $transition-duration * 2;
     }
+
+    > div {
+      height: 96px;
+      width: 96px;
+    }
   }
 }

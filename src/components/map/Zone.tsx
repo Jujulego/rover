@@ -3,10 +3,12 @@ import clsx from 'clsx';
 
 import { Coords, distance, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
+import { RoverAI } from 'data/RoverAI';
 
 import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Case from './Case';
+import Rover from './Rover';
 
 import styles from './Zone.module.scss';
 
@@ -15,6 +17,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
+  rover: RoverAI,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
@@ -32,6 +35,7 @@ function min(rd1: number, d2: number): number {
 const Zone: FC<Props> = (props) => {
   const {
     map, center, zoom,
+    rover,
     options,
     onMove
   } = props;
@@ -106,13 +110,18 @@ const Zone: FC<Props> = (props) => {
       <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
         { generateZone(centers, size, (c, i, j) => (
           map.isOut(c) ? (
-            <div key={`(${c.x} ${c.y})`} style={{ height: 96, width: 96, gridColumn: i + 1, gridRow: j + 1 }} />
+            <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
           ) : (
-            <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                  map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                  distance={options.distance ? distance(center, c) : undefined}
-                  slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
-                  onClick={handleCaseClick} />
+            <>
+              <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                    map={map} pos={c} showCoords={options.coords} showHeight={options.height}
+                    distance={options.distance ? distance(center, c) : undefined}
+                    slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
+                    onClick={handleCaseClick} />
+              { (c.x === rover.pos.x && c.y === rover.pos.y) && (
+                <Rover key="rover" data={rover} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
+              ) }
+            </>
           )
         )) }
       </div>

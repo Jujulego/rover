@@ -9,7 +9,9 @@ import {
 } from '@material-ui/icons';
 
 import data from 'assets/map';
+
 import { Map } from 'data/Map';
+import { RoverAI } from 'data/RoverAI';
 
 import Drawer from './drawer/Drawer';
 
@@ -19,6 +21,7 @@ import styles from './App.module.scss';
 
 // Constants
 const map = Map.loadMap(data);
+const rover = new RoverAI(map, { x: 1, y: 1 });
 
 // Component
 const App: FC = () => {
@@ -43,7 +46,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Zone map={map} />
+        <Zone map={map} rover={rover} />
       </Drawer>
     </div>
   );

@@ -3,7 +3,7 @@ import { ZoneActionTypes, ZoneState } from './types';
 
 // Initial state
 const initialState: ZoneState = {
-  center: { x: 0, y: 0 },
+  center: { x: 1, y: 1 },
   zoom: 1,
   options: {
     coords: true,
