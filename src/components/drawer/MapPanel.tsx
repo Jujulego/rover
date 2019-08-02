@@ -62,8 +62,16 @@ const MapPanel: FC<Props> = (props) => {
           label="Afficher les coordonnées"
         />
         <FormControlLabel
+          control={<Switch checked={options.distance} onChange={() => dispatch(toggleOption('distance'))} />}
+          label="Afficher les distances"
+        />
+        <FormControlLabel
           control={<Switch checked={options.height} onChange={() => dispatch(toggleOption('height'))} />}
           label="Afficher les hauteurs"
+        />
+        <FormControlLabel
+          control={<Switch checked={options.slope} onChange={() => dispatch(toggleOption('slope'))} />}
+          label="Afficher les pentes"
         />
         <CoordsField label="Center" value={center} onChange={(c) => dispatch(moveZone(c))} />
         <SliderField label="Zoom"

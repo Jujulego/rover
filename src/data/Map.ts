@@ -62,20 +62,17 @@ export class Map {
   }
 
   // Methods
+  isOut(pos: Coords): boolean {
+    return (pos.x < 0 || pos.x >= this.size.x) || (pos.y < 0 || pos.y >= this.size.y);
+  }
+
   get(pos: Coords): Case | undefined {
-    if ((pos.x < 0 || pos.x >= this.size.x)) return;
-    if ((pos.y < 0 || pos.y >= this.size.y)) return;
+    if (this.isOut(pos)) return;
 
     return this.data[pos.y][pos.x];
   }
   getOrDefault(pos: Coords): Case {
-    if ((pos.x < 0 || pos.x >= this.size.x)) return { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR };
-    if ((pos.y < 0 || pos.y >= this.size.y)) return { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR };
-
-    return this.data[pos.y][pos.x];
-  }
-  set(pos: Coords, c: Case) {
-    this.data[pos.y][pos.x] = c;
+    return this.isOut(pos) ? { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR } : this.data[pos.y][pos.x];
   }
 
   map<T>(cb: (pos: Coords, c: Case) => T): Array<T> {

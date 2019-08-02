@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { Coords, generateZone } from 'data/Coords';
+import { Coords, distance, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
 
 import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
@@ -11,7 +11,7 @@ import Case from './Case';
 import styles from './Zone.module.scss';
 
 // Types
-export type ZoneOptions = 'coords' | 'height';
+export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
@@ -105,9 +105,15 @@ const Zone: FC<Props> = (props) => {
     <div ref={containerCb} className={styles.container}>
       <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
         { generateZone(centers, size, (c, i, j) => (
-          <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                onClick={handleCaseClick} />
+          map.isOut(c) ? (
+            <div key={`(${c.x} ${c.y})`} style={{ height: 96, width: 96, gridColumn: i + 1, gridRow: j + 1 }} />
+          ) : (
+            <Case key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                  map={map} pos={c} showCoords={options.coords} showHeight={options.height}
+                  distance={options.distance ? distance(center, c) : undefined}
+                  slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
+                  onClick={handleCaseClick} />
+          )
         )) }
       </div>
     </div>
