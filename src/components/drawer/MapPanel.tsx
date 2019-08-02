@@ -13,10 +13,11 @@ import {
 } from '@material-ui/icons';
 
 import { AppState } from 'store';
-import { moveZone, toggleOption } from 'store/zone/actions';
+import { moveZone, toggleOption, setZoom } from 'store/zone/actions';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
+import SliderField from 'components/utils/SliderField';
 
 import styles from 'components/drawer/MapPanel.module.scss';
 
@@ -33,7 +34,7 @@ const MapPanel: FC<Props> = (props) => {
 
   // Redux
   const dispatch = useDispatch();
-  const { center, options } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { center, zoom, options } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -52,8 +53,10 @@ const MapPanel: FC<Props> = (props) => {
         <ListItemText primary="Carte" />
         { open ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
       </ListItem>
-      <Collapse classes={{ wrapperInner: styles.panel }}
-                in={open} timeout="auto" unmountOnExit>
+      <Collapse
+        classes={{ wrapperInner: styles.panel }}
+        in={open} timeout="auto" unmountOnExit
+      >
         <FormControlLabel
           control={<Switch checked={options.coords} onChange={() => dispatch(toggleOption('coords'))} />}
           label="Afficher les coordonnées"
@@ -62,7 +65,12 @@ const MapPanel: FC<Props> = (props) => {
           control={<Switch checked={options.height} onChange={() => dispatch(toggleOption('height'))} />}
           label="Afficher les hauteurs"
         />
-        <CoordsField label="center" value={center} onChange={(c) => dispatch(moveZone(c))} />
+        <CoordsField label="Center" value={center} onChange={(c) => dispatch(moveZone(c))} />
+        <SliderField label="Zoom"
+          value={zoom * 20} min={10} max={20}
+          format={value => `\u00D7${value / 20}`}
+          onChange={(value) => dispatch(setZoom(value / 20))}
+        />
       </Collapse>
     </>
   );

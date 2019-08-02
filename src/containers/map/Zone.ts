@@ -11,6 +11,7 @@ import Zone from 'components/map/Zone';
 // Components
 const mapStateToProps = (state: AppState) => ({
   center: state.zone.center,
+  zoom: state.zone.zoom,
   options: state.zone.options
 });
 

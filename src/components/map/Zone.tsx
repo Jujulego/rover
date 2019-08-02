@@ -14,7 +14,7 @@ import styles from './Zone.module.scss';
 export type ZoneOptions = 'coords' | 'height';
 
 type Props = {
-  map: Map, center: Coords,
+  map: Map, center: Coords, zoom: number,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
@@ -31,7 +31,8 @@ function min(rd1: number, d2: number): number {
 // Component
 const Zone: FC<Props> = (props) => {
   const {
-    map, options, center,
+    map, center, zoom,
+    options,
     onMove
   } = props;
 
@@ -50,8 +51,8 @@ const Zone: FC<Props> = (props) => {
 
   function computeSize(node: HTMLDivElement) {
     setSize({
-      x: odd(Math.ceil(node.clientWidth / 96)),
-      y: odd(Math.ceil(node.clientHeight / 96))
+      x: odd(Math.ceil(node.clientWidth / (96 * zoom))),
+      y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
     });
   }
 
@@ -68,6 +69,12 @@ const Zone: FC<Props> = (props) => {
   });
 
   useEffect(() => {
+    if (containerRef.current != null) {
+      computeSize(containerRef.current);
+    }
+  }, [zoom]);
+
+  useEffect(() => {
     setMoving(true);
     setFrom(prevCenter);
   }, [center.x, center.y]);
@@ -80,13 +87,13 @@ const Zone: FC<Props> = (props) => {
 
   // Rendering
   const centers = [prevCenter || center];
-  const translate = { top: 0, left: 0 };
+  const translate = { top: 0, left: 0, transform: `scale(${zoom})` };
 
   if (prevCenter != null && from != null) {
     centers.push(from);
 
-    translate.top = min(from.y - prevCenter.y, size.y) * 48;
-    translate.left = min(from.x - prevCenter.x, size.x) * 48;
+    translate.top = min(from.y - prevCenter.y, size.y) * 48 * zoom;
+    translate.left = min(from.x - prevCenter.x, size.x) * 48 * zoom;
 
     if (moving) {
       translate.top *= -1;

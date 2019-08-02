@@ -1,0 +1,19 @@
+@import "assets/theme";
+@import "assets/spacing";
+
+// Style
+.fields {
+  min-height: 32px;
+
+  display: flex;
+
+  @include row-spacing(spacing(2));
+
+  .field {
+    flex: 1;
+  }
+}
+
+label + .fields {
+  margin-top: spacing(2);
+}

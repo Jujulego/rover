@@ -18,9 +18,12 @@
 
     display: grid;
 
+    transition: transform ease $transition-duration * 2;
+
     &.moved {
       transition: top ease $transition-duration * 2,
-        left ease $transition-duration * 2;
+        left ease $transition-duration * 2,
+        transform ease $transition-duration * 2;
     }
   }
 }
