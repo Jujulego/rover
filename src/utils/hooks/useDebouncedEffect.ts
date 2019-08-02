@@ -9,7 +9,7 @@ function useDebounceEffect(effect: () => void, deps: DependencyList, wait: numbe
     debounced();
 
     return debounced.cancel;
-  }, [wait, ...deps]);
+  }, [wait, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
 export default useDebounceEffect;

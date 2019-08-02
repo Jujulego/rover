@@ -1,9 +1,7 @@
-// Types
-export type Direction = 'top' | 'topRight' | 'right' | 'bottomRight' | 'bottom' | 'bottomLeft' | 'left' | 'topLeft';
-export interface Coords { x: number, y: number }
+import { Direction } from "data/constants";
 
-// Constants
-export const DIRECTIONS: Array<Direction> = ['top', 'topRight', 'right', 'bottomRight', 'bottom', 'bottomLeft', 'left', 'topLeft'];
+// Types
+export interface Coords { x: number, y: number }
 
 // Utils
 export function isTop(d: Direction): boolean {
@@ -17,6 +15,23 @@ export function isBottom(d: Direction): boolean {
 }
 export function isLeft(d: Direction): boolean {
   return d === 'bottomLeft' || d === 'left' || d === 'topLeft';
+}
+
+export function distance(c1: Coords, c2: Coords): number {
+  const dx = Math.abs(c2.x - c1.x);
+  const dy = Math.abs(c2.y - c1.y);
+
+  return dx + dy - Math.min(dx, dy);
+}
+
+export function realDistance(c1: Coords, c2: Coords): number {
+  const dx = Math.abs(c2.x - c1.x);
+  const dy = Math.abs(c2.y - c1.y);
+
+  const diags = Math.min(dx, dy);
+  const lines = Math.max(dx, dy) - diags;
+
+  return lines * 5 + diags * Math.sqrt(50);
 }
 
 export function surrounding(pos: Coords, direction: Direction): Coords {

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 
-import { DIRECTIONS } from 'data/Coords';
 import { FloorType, Borders } from 'data/Map';
 
 import styles from './Floor.module.scss';
+import { DIRECTIONS } from "data/constants";
 
 // Types
 type Props = {

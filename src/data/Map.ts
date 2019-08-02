@@ -1,6 +1,6 @@
+import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
 import {
-  Coords, Direction,
-  DIRECTIONS, surrounding
+  Coords, realDistance, surrounding
 } from './Coords';
 
 // Types
@@ -68,6 +68,12 @@ export class Map {
 
     return this.data[pos.y][pos.x];
   }
+  getOrDefault(pos: Coords): Case {
+    if ((pos.x < 0 || pos.x >= this.size.x)) return { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR };
+    if ((pos.y < 0 || pos.y >= this.size.y)) return { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR };
+
+    return this.data[pos.y][pos.x];
+  }
   set(pos: Coords, c: Case) {
     this.data[pos.y][pos.x] = c;
   }
@@ -93,5 +99,12 @@ export class Map {
     });
 
     return borders;
+  }
+
+  slope(c1: Coords, c2: Coords): number {
+    const z1 = this.getOrDefault(c1).height;
+    const z2 = this.getOrDefault(c2).height;
+
+    return (z2 - z1) / realDistance(c1, c2);
   }
 }

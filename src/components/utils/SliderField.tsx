@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import {
-  Grid,
   FormControl, InputLabel,
   Slider, Typography
 } from "@material-ui/core";
