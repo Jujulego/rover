@@ -31,9 +31,16 @@ export abstract class RoverAI {
   protected abstract compute(): Coords;
 
   // Methods
+  protected energyCost(p: Coords): number {
+    const e = (p.x === this._pos.x || p.y === this._pos.y) ? 1 : 1.4;
+    const slope = this.map.slope(this._pos, p);
+
+    return e * (1 + slope);
+  }
+
   private moveTo(p: Coords) {
+    this._energy -= this.energyCost(p);
     this._pos = p;
-    --this._energy;
   }
 
   play(): RoverAI {
@@ -45,14 +52,25 @@ export abstract class RoverAI {
 
       const c = this.map.get(result);
 
-      // In a hole
-      if (!c || c.floor === 'hole') {
+      // Not enough energy
+      if (this._energy < 0) {
         this._wait = 10;
-      }
+        this._pos = this._ppos;
+      } else {
+        // In a hole
+        if (!c || c.floor === 'hole') {
+          this._wait = 10;
+        }
 
-      // Out of energy
-      if (this._energy <= 0) {
-        this._wait = 10;
+        // On ice
+        if (c && c.floor === 'ice') {
+          this._energy = 100;
+        }
+
+        // Out of energy
+        if (this._energy === 0) {
+          this._wait = 10;
+        }
       }
     } else {
       --this._wait;

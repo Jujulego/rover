@@ -107,7 +107,7 @@ const RoverPanel: FC<Props> = (props) => {
           <IconButton size="small" onClick={handleLocation}><LocationSearchingIcon /></IconButton>
         </div>
         <div className={styles.data}>
-          <Typography>Energie: {rover.data.energy}</Typography>
+          <Typography>Energie: {Math.round(rover.data.energy * 100) / 100}</Typography>
         </div>
         <FormControl component="fieldset">
           <InputLabel>Couleur</InputLabel>
