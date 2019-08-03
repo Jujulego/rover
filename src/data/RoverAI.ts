@@ -69,7 +69,7 @@ export abstract class RoverAI {
     // Sand
     const c = this.map.getOrDefault(p);
     if (c.floor === 'sand') {
-      r *= Math.sign(slope) * .1;
+      r += Math.sign(slope) * .1;
     }
 
     return r;
@@ -85,8 +85,16 @@ export abstract class RoverAI {
     if (this._wait === 0) {
       const result = this.compute();
 
-      // Trop pentu
-      if (Math.abs(this.map.slope(this._pos, result)) > 1.5) {
+      // Out of range
+      if (distance(this._pos, result) !== 1) {
+        console.log('Invalid result !', result);
+        return this;
+      }
+
+      // Slope too tricky
+      const slope = this.map.slope(this._pos, result);
+      if (Math.abs(slope) > 1.5) {
+        console.log('Cannot climb !', result, '(slope =', slope, ')');
         this._wait = 10;
         return this;
       }
@@ -96,6 +104,7 @@ export abstract class RoverAI {
 
       // Not enough energy
       if (this._energy < 0) {
+        console.log('Not enough energy', result);
         this._wait = 10;
         this._pos = this._ppos;
       } else {
@@ -103,6 +112,7 @@ export abstract class RoverAI {
 
         // In a hole
         if (!c || c.floor === 'hole') {
+          console.log('Felt in a hole', result);
           this._wait = 10;
         }
 
@@ -113,6 +123,7 @@ export abstract class RoverAI {
 
         // Out of energy
         if (this._energy === 0) {
+          console.log('Out of energy', result);
           this._wait = 10;
         }
       }
