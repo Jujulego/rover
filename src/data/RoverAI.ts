@@ -40,6 +40,7 @@ export abstract class RoverAI {
 
   private moveTo(p: Coords) {
     this._energy -= this.energyCost(p);
+    this._ppos = this._pos;
     this._pos = p;
   }
 
@@ -47,16 +48,22 @@ export abstract class RoverAI {
     if (this._wait === 0) {
       const result = this.compute();
 
-      this._ppos = this._pos;
-      this.moveTo(result);
+      // Trop pentu
+      if (Math.abs(this.map.slope(this._pos, result)) > 1.5) {
+        this._wait = 10;
+        return this;
+      }
 
-      const c = this.map.get(result);
+      // Move
+      this.moveTo(result);
 
       // Not enough energy
       if (this._energy < 0) {
         this._wait = 10;
         this._pos = this._ppos;
       } else {
+        const c = this.map.get(result);
+
         // In a hole
         if (!c || c.floor === 'hole') {
           this._wait = 10;
@@ -78,7 +85,7 @@ export abstract class RoverAI {
       if (this._wait === 0) {
         // Recover energy
         if (this._energy <= 0) {
-          this._energy = 100;
+          this._energy = 10;
         }
 
         // Get out of the hole
