@@ -11,12 +11,20 @@ const initialState: RoversState = {};
 // Reducers
 function roverReducer(state: RoverState, action: RoverActionTypes) {
   switch (action.type) {
-    case PLAY_ROVER:
+    case PLAY_ROVER: {
+      const track = [...state.track];
+      const last = track[track.length-1];
+
+      if (!last || last.x !== state.data.pos.x || last.y !== state.data.pos.y) {
+        track.push(state.data.pos);
+      }
+
       return {
         ...state,
-        track: [...state.track, state.data.pos],
+        track,
         data: state.data.play()
       };
+    }
 
     case SET_ROVER_COLOR:
       return {

@@ -1,3 +1,5 @@
+@import "assets/theme";
+
 .rover {
   position: relative;
   z-index: 10;
@@ -25,6 +27,8 @@
       width: 100%;
 
       background-color: #FFEB3B;
+
+      transition: height ease $transition-duration;
     }
   }
 }

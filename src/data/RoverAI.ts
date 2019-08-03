@@ -7,6 +7,7 @@ export abstract class RoverAI {
   private readonly map: Map;
 
   private _pos: Coords;
+  private _wait: number = 0;
   private _energy: number = 100;
 
   // Property
@@ -34,7 +35,19 @@ export abstract class RoverAI {
   }
 
   play(): RoverAI {
-    this.moveTo(this.compute());
+    if (this._wait === 0) {
+      this.moveTo(this.compute());
+
+      if (this._energy <= 0) {
+        this._wait = 10;
+      }
+    } else {
+      --this._wait;
+
+      if (this._wait === 0 && this._energy <= 0) {
+        this._energy = 100;
+      }
+    }
 
     return this;
   }
