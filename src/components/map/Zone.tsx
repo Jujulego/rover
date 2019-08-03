@@ -19,6 +19,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 type Props = {
   map: Map, center: Coords, zoom: number,
   rovers: RoversState,
+  track?: string,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }

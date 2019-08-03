@@ -10,7 +10,9 @@ import {
 import {
   ExpandLess as ExpandLessIcon,
   ExpandMore as ExpandMoreIcon,
-  LocationSearching as LocationSearchingIcon
+  LocationSearching as LocationSearchingIcon,
+  LocationOff as LocationOffIcon,
+  LocationOn as LocationOnIcon
 } from '@material-ui/icons';
 
 import rovers, { RoverColor } from 'assets/rovers';
@@ -18,7 +20,7 @@ import rovers, { RoverColor } from 'assets/rovers';
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
 import { playRover, setRoverColor } from 'store/rovers/actions';
-import { moveZone } from 'store/zone/actions';
+import { moveZone, trackRover, stopTracking } from 'store/zone/actions';
 
 import styles from './RoverPanel.module.scss';
 
@@ -43,6 +45,7 @@ const RoverPanel: FC<Props> = (props) => {
   // Redux
   const dispatch = useDispatch();
   const rover = useSelector<AppState,RoverState>(state => state.rovers[name]);
+  const track = useSelector<AppState,string | undefined>(state => state.zone.track);
 
   // Function
   function handleClick() {
@@ -57,6 +60,15 @@ const RoverPanel: FC<Props> = (props) => {
     dispatch(moveZone(rover.data.pos));
   }
 
+  function handleTrack() {
+    if (track === name) {
+      dispatch(moveZone(rover.data.pos));
+      dispatch(stopTracking())
+    } else {
+      dispatch(trackRover(name))
+    }
+  }
+
   function handleStep() {
     dispatch(playRover(name));
   }
@@ -65,7 +77,7 @@ const RoverPanel: FC<Props> = (props) => {
     if (playing == null) {
       setPlaying(setInterval(() => {
         dispatch(playRover(name));
-      }, 500) as unknown as number);
+      }, 750) as unknown as number);
     } else {
       clearInterval(playing);
       setPlaying(null);
@@ -88,6 +100,9 @@ const RoverPanel: FC<Props> = (props) => {
       >
         <div className={styles.data}>
           <Typography>Position: x = {rover.data.pos.x} y = {rover.data.pos.y}</Typography>
+          <IconButton size="small" onClick={handleTrack}>
+            { (track === name) ? <LocationOffIcon /> : <LocationOnIcon /> }
+          </IconButton>
           <IconButton size="small" onClick={handleLocation}><LocationSearchingIcon /></IconButton>
         </div>
         <FormControl component="fieldset">

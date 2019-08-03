@@ -1,4 +1,4 @@
-import { TOGGLE_OPTION, MOVE_ZONE, SET_ZOOM } from './constants';
+import { TOGGLE_OPTION, MOVE_ZONE, SET_ZOOM, TRACK_ROVER, STOP_TRACKING } from './constants';
 import { ZoneActionTypes, ZoneState } from './types';
 
 // Initial state
@@ -31,6 +31,12 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
 
     case MOVE_ZONE:
       return { ...state, center: action.center };
+
+    case TRACK_ROVER:
+      return { ...state, track: action.name };
+
+    case STOP_TRACKING:
+      return { ...state, track: undefined };
 
     case SET_ZOOM:
       return { ...state, zoom: action.zoom };
