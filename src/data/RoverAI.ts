@@ -1,5 +1,5 @@
-import { Coords, surrounding } from './Coords';
-import { Map } from './Map';
+import { Coords, distance, surrounding } from './Coords';
+import { FloorType, Map } from './Map';
 
 // Class
 export abstract class RoverAI {
@@ -31,11 +31,48 @@ export abstract class RoverAI {
   protected abstract compute(): Coords;
 
   // Methods
-  protected energyCost(p: Coords): number {
-    const e = (p.x === this._pos.x || p.y === this._pos.y) ? 1 : 1.4;
-    const slope = this.map.slope(this._pos, p);
+  // - utils
+  protected slopeTo(p: Coords): number {
+    const d = distance(this._pos, p);
+    if (d === 0) return 0;
 
-    return e * (1 + slope);
+    // Energy cost
+    this._energy -= .1 * (d - 1);
+
+    return this.map.slope(this._pos, p);
+  }
+  protected floorType(p: Coords): FloorType {
+    const d = distance(this._pos, p);
+
+    // Energy cost
+    if (d === 0) {
+      this._energy -= .1;
+    } else if (d === 1) {
+      this._energy -= .2;
+    } else {
+      this._energy -= .4;
+    }
+
+    const c = this.map.get(p);
+    return c ? c.floor : 'hole';
+  }
+
+  // - rules
+  private energyCost(p: Coords): number {
+    // Distance
+    let r = (p.x === this._pos.x || p.y === this._pos.y) ? 1 : 1.4;
+
+    // Slope
+    const slope = this.map.slope(this._pos, p);
+    r *= 1 + slope;
+
+    // Sand
+    const c = this.map.getOrDefault(p);
+    if (c.floor === 'sand') {
+      r *= Math.sign(slope) * .1;
+    }
+
+    return r;
   }
 
   private moveTo(p: Coords) {
