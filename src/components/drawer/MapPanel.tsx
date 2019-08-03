@@ -12,14 +12,16 @@ import {
   Map as MapIcon
 } from '@material-ui/icons';
 
+import { Coords } from 'data/Coords';
+
 import { AppState } from 'store';
-import { moveZone, toggleOption, setZoom } from 'store/zone/actions';
+import { moveZone, stopTracking, toggleOption, setZoom } from 'store/zone/actions';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
 import SliderField from 'components/utils/SliderField';
 
-import styles from 'components/drawer/MapPanel.module.scss';
+import styles from './MapPanel.module.scss';
 
 // Types
 type Props = {
@@ -43,6 +45,11 @@ const MapPanel: FC<Props> = (props) => {
     } else {
       onOpen()
     }
+  }
+
+  function handleMove(c: Coords) {
+    dispatch(moveZone(c));
+    dispatch(stopTracking());
   }
 
   // Rendering
@@ -73,7 +80,7 @@ const MapPanel: FC<Props> = (props) => {
           control={<Switch checked={options.slope} onChange={() => dispatch(toggleOption('slope'))} />}
           label="Afficher les pentes"
         />
-        <CoordsField label="Center" value={center} onChange={(c) => dispatch(moveZone(c))} />
+        <CoordsField label="Center" value={center} onChange={handleMove} />
         <SliderField label="Zoom"
           value={zoom * 20} min={10} max={20}
           format={value => `\u00D7${value / 20}`}

@@ -29,8 +29,8 @@ export abstract class RoverAI {
 
   // Methods
   private moveTo(p: Coords) {
-    console.log(p);
     this._pos = p;
+    --this._energy;
   }
 
   play(): RoverAI {

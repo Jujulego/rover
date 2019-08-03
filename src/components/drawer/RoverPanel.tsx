@@ -58,6 +58,7 @@ const RoverPanel: FC<Props> = (props) => {
 
   function handleLocation() {
     dispatch(moveZone(rover.data.pos));
+    dispatch(stopTracking())
   }
 
   function handleTrack() {
@@ -104,6 +105,9 @@ const RoverPanel: FC<Props> = (props) => {
             { (track === name) ? <LocationOffIcon /> : <LocationOnIcon /> }
           </IconButton>
           <IconButton size="small" onClick={handleLocation}><LocationSearchingIcon /></IconButton>
+        </div>
+        <div className={styles.data}>
+          <Typography>Energie: {rover.data.energy}</Typography>
         </div>
         <FormControl component="fieldset">
           <InputLabel>Couleur</InputLabel>

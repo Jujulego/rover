@@ -1,7 +1,30 @@
 .rover {
+  position: relative;
   z-index: 10;
 
   img {
-    margin: (96px - 64px) / 2;
+    margin: 16px;
+  }
+
+  .gauge {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+
+    height: 20px;
+    width: 4px;
+    overflow: hidden;
+
+    border: gray solid 1px;
+    border-radius: 2px;
+
+    > div {
+      position: absolute;
+      bottom: 0;
+
+      width: 100%;
+
+      background-color: #FFEB3B;
+    }
   }
 }

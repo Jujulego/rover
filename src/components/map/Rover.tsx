@@ -32,6 +32,9 @@ const Rover: FC<Props> = (props) => {
   return (
     <div className={styles.rover} style={style} onClick={handleClick}>
       <img src={rovers[color]} alt={`${color} rover`} />
+      <div className={styles.gauge}>
+        <div style={{ height: `${data.energy}%`}} />
+      </div>
     </div>
   );
 };
