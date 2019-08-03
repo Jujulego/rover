@@ -26,7 +26,7 @@ export class Map {
   get size(): Coords {
     return {
       x: this.data.length,
-      y: this.data.length
+      y: this.data.length > 0 ? this.data[0].length : 0
     };
   }
 
@@ -46,7 +46,7 @@ export class Map {
       }
 
       result[result.length - 1].push({ floor, height });
-      if (result[result.length - 1].length === Math.sqrt(map[0].length)) {
+      if (result[result.length - 1].length === Math.sqrt(map[0].length) && i !== map[0].length - 1) {
         result.push([]);
       }
     }
