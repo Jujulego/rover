@@ -10,6 +10,15 @@
 
   @include column-spacing(spacing(1));
 
+  .data {
+    display: flex;
+    align-items: center;
+
+    > p {
+      flex: 1 0 min-content;
+    }
+  }
+
   .buttons {
     display: flex;
 

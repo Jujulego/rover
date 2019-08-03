@@ -2,22 +2,25 @@ import React, { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse, Button,
+  Collapse, Button, IconButton,
   ListItem, ListItemIcon, ListItemText,
-  FormControl, InputLabel, Select, MenuItem
+  FormControl, InputLabel, Select, MenuItem,
+  Typography
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon
+  ExpandMore as ExpandMoreIcon,
+  LocationSearching as LocationSearchingIcon
 } from '@material-ui/icons';
 
 import rovers, { RoverColor } from 'assets/rovers';
 
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
+import { playRover, setRoverColor } from 'store/rovers/actions';
+import { moveZone } from 'store/zone/actions';
 
 import styles from './RoverPanel.module.scss';
-import { playRover, setRoverColor } from "store/rovers/actions";
 
 // Types
 type Props = {
@@ -50,14 +53,18 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
+  function handleLocation() {
+    dispatch(moveZone(rover.data.pos));
+  }
+
   function handleStep() {
-    dispatch(playRover(name))
+    dispatch(playRover(name));
   }
 
   function handlePlayStop() {
     if (playing == null) {
       setPlaying(setInterval(() => {
-        dispatch(playRover(name))
+        dispatch(playRover(name));
       }, 500) as unknown as number);
     } else {
       clearInterval(playing);
@@ -79,6 +86,10 @@ const RoverPanel: FC<Props> = (props) => {
         classes={{ wrapperInner: styles.panel }}
         in={open} timeout="auto" unmountOnExit
       >
+        <div className={styles.data}>
+          <Typography>Position: x = {rover.data.pos.x} y = {rover.data.pos.y}</Typography>
+          <IconButton size="small" onClick={handleLocation}><LocationSearchingIcon /></IconButton>
+        </div>
         <FormControl component="fieldset">
           <InputLabel>Couleur</InputLabel>
           <Select value={rover.color} onChange={(e) => dispatch(setRoverColor(name, e.target.value as RoverColor))}>
