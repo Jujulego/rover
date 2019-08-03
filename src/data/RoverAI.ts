@@ -32,16 +32,16 @@ export abstract class RoverAI {
 
   // Methods
   // - utils
-  protected slopeTo(p: Coords): number {
-    const d = distance(this._pos, p);
+  protected getSlope(c1: Coords, c2: Coords): number {
+    const d = Math.min(distance(this._pos, c1), distance(this._pos, c2));
     if (d === 0) return 0;
 
     // Energy cost
     this._energy -= .1 * (d - 1);
 
-    return this.map.slope(this._pos, p);
+    return this.map.slope(c1, c2);
   }
-  protected floorType(p: Coords): FloorType {
+  protected getFloor(p: Coords): FloorType {
     const d = distance(this._pos, p);
 
     // Energy cost
