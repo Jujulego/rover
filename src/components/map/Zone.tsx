@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 import { Coords, distance, generateZone } from 'data/Coords';
@@ -112,21 +112,20 @@ const Zone: FC<Props> = (props) => {
           map.isOut(c) ? (
             <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
           ) : (
-            <>
-              <Case
-                key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }}
+            <Fragment key={`(${c.x} ${c.y})`}>
+              <Case style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c} showCoords={options.coords} showHeight={options.height}
                 distance={options.distance ? distance(center, c) : undefined}
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}
               />
               { (rover && c.x === rover.data.pos.x && c.y === rover.data.pos.y) && (
-                <Rover
-                  key="rover" style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                <Rover style={{ gridColumn: i + 1, gridRow: j + 1 }}
                   data={rover.data} color={rover.color}
+                  onClick={handleCaseClick}
                 />
               ) }
-            </>
+            </Fragment>
           )
         )) }
       </div>

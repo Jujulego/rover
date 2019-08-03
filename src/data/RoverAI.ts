@@ -2,7 +2,7 @@ import { Coords, surrounding } from './Coords';
 import { Map } from './Map';
 
 // Class
-export /*abstract*/ class RoverAI {
+export abstract class RoverAI {
   // Attributs
   private readonly map: Map;
 
@@ -19,20 +19,23 @@ export /*abstract*/ class RoverAI {
   }
 
   // Constructor
-  /*protected*/ constructor(map: Map, pos: Coords) {
+  constructor(map: Map, pos: Coords) {
     this.map = map;
     this._pos = pos;
   }
 
   // Abstract methods
-  //protected abstract compute(): Coords;
+  protected abstract compute(): Coords;
 
   // Methods
   private moveTo(p: Coords) {
+    console.log(p);
     this._pos = p;
   }
 
-  play() {
-    this.moveTo(surrounding(this.pos, 'right'));
+  play(): RoverAI {
+    this.moveTo(this.compute());
+
+    return this;
   }
 }

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse,
+  Collapse, Button,
   ListItem, ListItemIcon, ListItemText,
   FormControl, InputLabel, Select, MenuItem
 } from '@material-ui/core';
@@ -17,7 +17,7 @@ import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
 
 import styles from './RoverPanel.module.scss';
-import { setRoverColor } from "store/rovers/actions";
+import { playRover, setRoverColor } from "store/rovers/actions";
 
 // Types
 type Props = {
@@ -47,6 +47,10 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
+  function handlePlay() {
+    dispatch(playRover(name))
+  }
+
   // Rendering
   return rover ? (
     <>
@@ -71,6 +75,15 @@ const RoverPanel: FC<Props> = (props) => {
             <MenuItem value="yellow">Jaune</MenuItem>
           </Select>
         </FormControl>
+        <div className={styles.buttons}>
+          <Button
+            classes={{ root: styles.play }}
+            color="primary" variant="contained" fullWidth
+            onClick={handlePlay}
+          >
+            Play
+          </Button>
+        </div>
       </Collapse>
     </>
   ) : null;

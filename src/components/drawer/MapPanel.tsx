@@ -49,7 +49,7 @@ const MapPanel: FC<Props> = (props) => {
   return (
     <>
       <ListItem button onClick={handleClick}>
-        <ListItemIcon><MapIcon /></ListItemIcon>
+        <ListItemIcon><MapIcon color="primary" /></ListItemIcon>
         <ListItemText primary="Carte" />
         { open ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
       </ListItem>

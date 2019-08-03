@@ -12,7 +12,7 @@ import {
 import data from 'assets/map';
 
 import { Map } from 'data/Map';
-import { RoverAI } from 'data/RoverAI';
+import { StupidRover } from 'data/rovers';
 
 import { addRover } from 'store/rovers/actions';
 
@@ -35,7 +35,7 @@ const App: FC = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(addRover('test', new RoverAI(map, { x: 1, y: 1 })))
+    dispatch(addRover('test', new StupidRover(map, { x: 1, y: 1 })))
   }, []);
 
   // Rendering

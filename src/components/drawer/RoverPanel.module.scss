@@ -8,5 +8,13 @@
 
   padding: spacing(1) spacing(2);
 
-  @include column-spacing(spacing(1))
+  @include column-spacing(spacing(1));
+
+  .buttons {
+    display: flex;
+
+    .play {
+      flex: 2
+    }
+  }
 }
