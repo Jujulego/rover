@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -34,6 +34,9 @@ const RoverPanel: FC<Props> = (props) => {
     onOpen, onClose
   } = props;
 
+  // Refs
+  const [playing, setPlaying] = useState<number | null>(null);
+
   // Redux
   const dispatch = useDispatch();
   const rover = useSelector<AppState,RoverState>(state => state.rovers[name]);
@@ -47,8 +50,19 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
-  function handlePlay() {
+  function handleStep() {
     dispatch(playRover(name))
+  }
+
+  function handlePlayStop() {
+    if (playing == null) {
+      setPlaying(setInterval(() => {
+        dispatch(playRover(name))
+      }, 500) as unknown as number);
+    } else {
+      clearInterval(playing);
+      setPlaying(null);
+    }
   }
 
   // Rendering
@@ -58,7 +72,7 @@ const RoverPanel: FC<Props> = (props) => {
         <ListItemIcon>
           <img height={24} width={24} src={rovers[rover.color]} alt={`${rover.color} rover`} />
         </ListItemIcon>
-        <ListItemText primary={`Rover ${name}`} />
+        <ListItemText primary={<span>Rover <em>"{ name }"</em></span>} />
         { open ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
       </ListItem>
       <Collapse
@@ -77,11 +91,19 @@ const RoverPanel: FC<Props> = (props) => {
         </FormControl>
         <div className={styles.buttons}>
           <Button
-            classes={{ root: styles.play }}
-            color="primary" variant="contained" fullWidth
-            onClick={handlePlay}
+            classes={{ root: styles.step }}
+            variant="outlined" fullWidth disabled={playing != null}
+            onClick={handleStep}
           >
-            Play
+            Step
+          </Button>
+          <Button
+            classes={{ root: styles.play }}
+            color={ playing ? 'secondary' : 'primary' }
+            variant="outlined" fullWidth
+            onClick={handlePlayStop}
+          >
+            { playing ? 'Stop' : 'Play' }
           </Button>
         </div>
       </Collapse>

@@ -13,6 +13,12 @@
   .buttons {
     display: flex;
 
+    @include row-spacing(spacing(2));
+
+    .step {
+      flex: 1
+    }
+
     .play {
       flex: 2
     }

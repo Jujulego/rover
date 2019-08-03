@@ -3,7 +3,8 @@ import clsx from 'clsx';
 
 import { Coords, distance, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
-import { RoverState } from 'store/rovers/types';
+
+import { RoversState, RoverState } from 'store/rovers/types';
 
 import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
@@ -17,7 +18,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
-  rover?: RoverState,
+  rovers: RoversState,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
@@ -35,7 +36,7 @@ function min(rd1: number, d2: number): number {
 const Zone: FC<Props> = (props) => {
   const {
     map, center, zoom,
-    rover,
+    rovers,
     options,
     onMove
   } = props;
@@ -59,6 +60,19 @@ const Zone: FC<Props> = (props) => {
       y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
     });
   }
+  
+  function mapRovers<T>(pos: Coords, cb: (name: string, rover: RoverState) => T): Array<T> {
+    const results: Array<T> = [];
+    
+    Object.keys(rovers).forEach((name) => {
+      const rover = rovers[name];
+      if (rover.data.pos.x === pos.x && rover.data.pos.y === pos.y) {
+        results.push(cb(name, rover))
+      }
+    });
+    
+    return results;
+  } 
 
   // Callback
   const [containerRef, containerCb] = useNode((node: HTMLDivElement) => {
@@ -119,12 +133,13 @@ const Zone: FC<Props> = (props) => {
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}
               />
-              { (rover && c.x === rover.data.pos.x && c.y === rover.data.pos.y) && (
-                <Rover style={{ gridColumn: i + 1, gridRow: j + 1 }}
+              { mapRovers(c, (name, rover) => (
+                <Rover key={name}
+                  style={{ gridColumn: i + 1, gridRow: j + 1 }}
                   data={rover.data} color={rover.color}
                   onClick={handleCaseClick}
                 />
-              ) }
+              )) }
             </Fragment>
           )
         )) }

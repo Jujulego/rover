@@ -1,10 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 
 import {
   Divider,
   Drawer as MaterialDrawer, List
 } from '@material-ui/core';
+
+import { AppState } from 'store';
+import { RoversState } from 'store/rovers/types';
 
 import MapPanel from './MapPanel';
 import RoverPanel from './RoverPanel';
@@ -26,6 +30,9 @@ const Drawer: FC<Props> = (props) => {
 
   // State
   const [panel, setPanel] = useState<string | null>(null);
+
+  // Redux
+  const rovers = useSelector<AppState,RoversState>(state => state.rovers);
 
   // Functions
   const panelProps = (name: string) => ({
@@ -53,8 +60,12 @@ const Drawer: FC<Props> = (props) => {
       >
         <List component="nav">
           <MapPanel {...panelProps('map')} />
-          <Divider component="hr" />
-          <RoverPanel {...panelProps('rover')} name="test" />
+          { Object.keys(rovers).map((rover) => (
+            <Fragment key={rover}>
+              <Divider component="hr" />
+              <RoverPanel {...panelProps(`rover-${rover}`)} name={rover} />
+            </Fragment>
+          )) }
         </List>
       </MaterialDrawer>
       <main className={clsx(styles.content, { [styles.close]: !open })}>

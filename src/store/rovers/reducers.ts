@@ -3,10 +3,10 @@ import {
   PLAY_ROVER,
   SET_ROVER_COLOR
 } from './constants';
-import { RoverActionTypes, RoversActionTypes, RoverState } from './types';
+import { RoverActionTypes, RoversActionTypes, RoversState, RoverState } from './types';
 
 // Initial state
-const initialState: { [name: string]: RoverState } = {};
+const initialState: RoversState = {};
 
 // Reducers
 function roverReducer(state: RoverState, action: RoverActionTypes) {

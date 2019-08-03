@@ -37,3 +37,5 @@ export interface RoverState {
   color: RoverColor,
   track: Array<Coords>
 }
+
+export type RoversState = { [name: string]: RoverState }

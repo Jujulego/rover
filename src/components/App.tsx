@@ -35,7 +35,8 @@ const App: FC = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(addRover('test', new StupidRover(map, { x: 1, y: 1 })))
+    dispatch(addRover('stupid-boy', new StupidRover(map, { x: 1, y: 1 }, 'right')));
+    dispatch(addRover('stupid-girl', new StupidRover(map, { x: 1, y: 1 }, 'bottom'), 'pink'));
   }, []);
 
   // Rendering
@@ -56,7 +57,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Zone map={map} rover="test" />
+        <Zone map={map} />
       </Drawer>
     </div>
   );

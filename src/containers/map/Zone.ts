@@ -8,17 +8,12 @@ import { moveZone } from 'store/zone/actions';
 
 import Zone from 'components/map/Zone';
 
-// Props
-type Props = {
-  rover: string
-}
-
 // Component
-const mapStateToProps = (state: AppState, ownProps: Props) => ({
+const mapStateToProps = (state: AppState) => ({
   center: state.zone.center,
   zoom: state.zone.zoom,
   options: state.zone.options,
-  rover: state.rovers[ownProps.rover]
+  rovers: state.rovers
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
