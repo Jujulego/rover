@@ -6,7 +6,7 @@ const initialState: ZoneState = {
   center: { x: 1, y: 1 },
   zoom: 1,
   options: {
-    coords: false,
+    coords: true,
     distance: false,
     height: false,
     slope: false
