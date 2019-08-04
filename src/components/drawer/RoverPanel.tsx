@@ -1,18 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse, Button, IconButton,
+  Collapse, Button,
   ListItem, ListItemIcon, ListItemText,
   FormControl, InputLabel, Select, MenuItem,
   Typography
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  LocationSearching as LocationSearchingIcon,
-  LocationOff as LocationOffIcon,
-  LocationOn as LocationOnIcon
+  ExpandMore as ExpandMoreIcon
 } from '@material-ui/icons';
 
 import rovers, { RoverColor } from 'assets/rovers';
@@ -89,6 +86,16 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
+  // Effects
+  useEffect(() => {
+    if (playing != null) {
+      if (rover.data.arrived) {
+        clearInterval(playing);
+        setPlaying(null);
+      }
+    }
+  }, [rover.data.pos.x,rover.data.pos.y]);
+
   // Rendering
   return rover ? (
     <>
@@ -125,7 +132,7 @@ const RoverPanel: FC<Props> = (props) => {
         <div className={styles.buttons}>
           <Button
             classes={{ root: styles.step }}
-            variant="outlined" fullWidth disabled={playing != null}
+            variant="outlined" fullWidth disabled={playing != null || rover.data.arrived}
             onClick={handleStep}
           >
             Step
@@ -133,7 +140,7 @@ const RoverPanel: FC<Props> = (props) => {
           <Button
             classes={{ root: styles.play }}
             color={ playing ? 'secondary' : 'primary' }
-            variant="outlined" fullWidth
+            variant="outlined" fullWidth disabled={rover.data.arrived}
             onClick={handlePlayStop}
           >
             { playing ? 'Stop' : 'Play' }

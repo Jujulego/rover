@@ -14,7 +14,6 @@ class StupidRover extends RoverAI {
     this.direction = direction;
   }
 
-
   // Methods
   protected compute(): Coords {
     return surrounding(this.pos, this.direction);

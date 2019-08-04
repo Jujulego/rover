@@ -23,6 +23,10 @@ export abstract class RoverAI {
     return this._energy;
   }
 
+  get arrived(): boolean {
+    return this.pos.x === this.target.x && this.pos.y === this.target.y;
+  }
+
   // Constructor
   constructor(map: Map, pos: Coords, target: Coords) {
     this.start = pos;
@@ -91,9 +95,10 @@ export abstract class RoverAI {
     if (this._wait === 0) {
       const result = this.compute();
 
-      // Out of range
-      if (distance(this._pos, result) !== 1) {
-        console.log('Invalid result !', result);
+      // Out of range / stay
+      const d = distance(this._pos, result);
+      if (d !== 1) {
+        if (d > 1) console.log('Invalid result !', result);
         return this;
       }
 

@@ -9,7 +9,7 @@ import {
 import { RoverActionTypes, RoversActionTypes } from './types';
 
 // Actions
-export const addRover = (name: string, data: RoverAI, color: RoverColor = 'blue'): RoversActionTypes => ({
+export const addRover = (name: string, data: RoverAI, color: RoverColor): RoversActionTypes => ({
   type: ADD_ROVER, name, data, color
 });
 

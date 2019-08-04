@@ -12,7 +12,7 @@ import {
 import data from 'assets/map';
 
 import { Map } from 'data/Map';
-import { StupidRover } from 'data/rovers';
+import { SimpleRover, StupidRover } from 'data/rovers';
 
 import { addRover } from 'store/rovers/actions';
 
@@ -23,7 +23,16 @@ import Zone from 'containers/map/Zone';
 import styles from './App.module.scss';
 
 // Constants
-const map = Map.loadMap(data);
+//const map = Map.loadMap(data);
+const map = new Map([
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }]
+]);
 
 // Component
 const App: FC = () => {
@@ -39,6 +48,7 @@ const App: FC = () => {
     const end = { x: 5, y: 5 };
 
     dispatch(addRover('stupid', new StupidRover(map, start, end, 'right'), 'blue'));
+    dispatch(addRover('simple', new SimpleRover(map, start, end), 'pink'));
   }, []);
 
   // Rendering
