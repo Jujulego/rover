@@ -5,8 +5,7 @@ import { RoverAI } from 'data/RoverAI';
 
 import {
   ADD_ROVER,
-  PLAY_ROVER,
-  SET_ROVER_COLOR
+  PLAY_ROVER, RESTART_ROVER, SET_ROVER_COLOR
 } from './constants';
 
 // Actions
@@ -17,8 +16,8 @@ type AddRoverAction = {
   color: RoverColor
 }
 
-type PlayRoverAction = {
-  type: typeof PLAY_ROVER,
+type SimpleRoverAction = {
+  type: typeof PLAY_ROVER | typeof RESTART_ROVER,
   name: string
 }
 
@@ -28,7 +27,7 @@ type SetRoverColorAction = {
   color: RoverColor
 }
 
-export type RoverActionTypes = SetRoverColorAction | PlayRoverAction;
+export type RoverActionTypes = SimpleRoverAction | SetRoverColorAction;
 export type RoversActionTypes = AddRoverAction | RoverActionTypes;
 
 // State type

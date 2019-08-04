@@ -157,4 +157,13 @@ export abstract class RoverAI {
 
     return this;
   }
+
+  restart(): RoverAI {
+    this._pos = this.start;
+    this._ppos = this.start;
+    this._energy = 100;
+    this._wait = 0;
+
+    return this;
+  }
 }

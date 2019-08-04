@@ -16,7 +16,7 @@ import rovers, { RoverColor } from 'assets/rovers';
 
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
-import { playRover, setRoverColor } from 'store/rovers/actions';
+import { playRover, setRoverColor, restartRover } from 'store/rovers/actions';
 import { moveZone, trackRover, stopTracking } from 'store/zone/actions';
 
 import CoordsData from 'components/utils/CoordsData';
@@ -86,6 +86,15 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
+  function handleRestart() {
+    if (playing != null) {
+      clearInterval(playing);
+      setPlaying(null);
+    }
+
+    dispatch(restartRover(name))
+  }
+
   // Effects
   useEffect(() => {
     if (playing != null) {
@@ -146,6 +155,7 @@ const RoverPanel: FC<Props> = (props) => {
             { playing ? 'Stop' : 'Play' }
           </Button>
         </div>
+        <Button variant="outlined" color="secondary" fullWidth onClick={handleRestart}>Restart</Button>
       </Collapse>
     </>
   ) : null;
