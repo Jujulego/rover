@@ -1,4 +1,4 @@
-import { Coords, distance, surrounding } from './Coords';
+import { Coords, distance } from './Coords';
 import { FloorType, Map } from './Map';
 
 // Class
