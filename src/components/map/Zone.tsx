@@ -11,6 +11,7 @@ import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/
 import Case from './Case';
 import Rover from './Rover';
 
+import targetImg from 'assets/target.png';
 import styles from './Zone.module.scss';
 
 // Types
@@ -18,7 +19,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
-  rovers: RoversState,
+  rovers: RoversState, target: Coords,
   track?: string,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
@@ -37,7 +38,7 @@ function min(rd1: number, d2: number): number {
 const Zone: FC<Props> = (props) => {
   const {
     map, center, zoom,
-    rovers,
+    rovers, target,
     options,
     onMove
   } = props;
@@ -134,6 +135,11 @@ const Zone: FC<Props> = (props) => {
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}
               />
+              { (c.x === target.x && c.y === target.y) && (
+                <div className={styles.target} style={{ gridColumn: i + 1, gridRow: j + 1 }}>
+                  <img src={targetImg} alt="target" />
+                </div>
+              ) }
               { mapRovers(c, (name, rover) => (
                 <Rover key={name}
                   style={{ gridColumn: i + 1, gridRow: j + 1 }}

@@ -23,8 +23,11 @@ import Zone from 'containers/map/Zone';
 import styles from './App.module.scss';
 
 // Constants
-//const map = Map.loadMap(data);
-const map = new Map([
+const START = { x: 1, y: 1 };
+const END = { x: 5, y: 5 };
+
+//const MAP = Map.loadMap(data);
+const MAP = new Map([
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
@@ -44,11 +47,9 @@ const App: FC = () => {
 
   // Effects
   useEffect(() => {
-    const start = { x: 1, y: 1 };
-    const end = { x: 5, y: 5 };
-
-    dispatch(addRover('stupid', new StupidRover(map, start, end, 'right'), 'blue'));
-    dispatch(addRover('simple', new SimpleRover(map, start, end), 'pink'));
+    // rovers
+    dispatch(addRover('stupid', new StupidRover(MAP, START, END, 'right'), 'blue'));
+    dispatch(addRover('simple', new SimpleRover(MAP, START, END), 'pink'));
   }, []);
 
   // Rendering
@@ -69,7 +70,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Zone map={map} />
+        <Zone map={MAP} target={END} />
       </Drawer>
     </div>
   );
