@@ -12,6 +12,7 @@ import styles from './CoordsField.module.scss';
 type Props = {
   label: String,
   value: Coords,
+  disabled?: boolean,
   onChange?: (nval: Coords) => void
 }
 
@@ -22,7 +23,11 @@ type Values = {
 
 // Component
 const CoordsField: FC<Props> = (props) => {
-  const { label, value, onChange } = props;
+  const {
+    label, value,
+    disabled = false,
+    onChange
+  } = props;
 
   // State
   const [values, setValues] = useState<Values>({ x: '', y: '' });
@@ -60,14 +65,14 @@ const CoordsField: FC<Props> = (props) => {
 
   // Rendering
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" disabled={disabled}>
       <InputLabel shrink>{ label }</InputLabel>
       <div className={styles.fields}>
-        <TextField classes={{ root: styles.field }} fullWidth
+        <TextField classes={{ root: styles.field }} fullWidth disabled={disabled}
                    type="number" value={values.x} placeholder="x"
                    onChange={handleChange('x')}
         />
-        <TextField classes={{ root: styles.field }} fullWidth
+        <TextField classes={{ root: styles.field }} fullWidth disabled={disabled}
                    type="number" value={values.y} placeholder="y"
                    onChange={handleChange('y')}
         />

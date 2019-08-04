@@ -35,8 +35,10 @@ const App: FC = () => {
 
   // Effects
   useEffect(() => {
-    dispatch(addRover('stupid-boy', new StupidRover(map, { x: 1, y: 1 }, 'bottomRight')));
-    dispatch(addRover('stupid-girl', new StupidRover(map, { x: 1, y: 1 }, 'bottom'), 'pink'));
+    const start = { x: 1, y: 1 };
+    const end = { x: 5, y: 5 };
+
+    dispatch(addRover('stupid', new StupidRover(map, start, end, 'right'), 'blue'));
   }, []);
 
   // Rendering

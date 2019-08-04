@@ -4,6 +4,9 @@ import { FloorType, Map } from './Map';
 // Class
 export abstract class RoverAI {
   // Attributs
+  readonly start: Coords;
+  readonly target: Coords;
+
   private readonly map: Map;
 
   private _pos: Coords;
@@ -21,7 +24,10 @@ export abstract class RoverAI {
   }
 
   // Constructor
-  constructor(map: Map, pos: Coords) {
+  constructor(map: Map, pos: Coords, target: Coords) {
+    this.start = pos;
+    this.target = target;
+
     this.map = map;
     this._pos = pos;
     this._ppos = pos;

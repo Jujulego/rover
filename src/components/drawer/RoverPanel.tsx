@@ -22,6 +22,8 @@ import { RoverState } from 'store/rovers/types';
 import { playRover, setRoverColor } from 'store/rovers/actions';
 import { moveZone, trackRover, stopTracking } from 'store/zone/actions';
 
+import CoordsData from 'components/utils/CoordsData';
+
 import styles from './RoverPanel.module.scss';
 
 // Types
@@ -56,9 +58,11 @@ const RoverPanel: FC<Props> = (props) => {
     }
   }
 
-  function handleLocation() {
-    dispatch(moveZone(rover.data.pos));
-    dispatch(stopTracking())
+  function handleLocate(name: 'pos' | 'start' | 'target') {
+    return () => {
+      dispatch(moveZone(rover.data[name]));
+      dispatch(stopTracking())
+    };
   }
 
   function handleTrack() {
@@ -99,13 +103,12 @@ const RoverPanel: FC<Props> = (props) => {
         classes={{ wrapperInner: styles.panel }}
         in={open} timeout="auto" unmountOnExit
       >
-        <div className={styles.data}>
-          <Typography>Position: x = {rover.data.pos.x} y = {rover.data.pos.y}</Typography>
-          <IconButton size="small" onClick={handleTrack}>
-            { (track === name) ? <LocationOffIcon /> : <LocationOnIcon /> }
-          </IconButton>
-          <IconButton size="small" onClick={handleLocation}><LocationSearchingIcon /></IconButton>
-        </div>
+        <CoordsData className={styles.data}
+          label="Position" coords={rover.data.pos} onLocate={handleLocate('pos')}
+          tracking={track === name} onTrack={handleTrack}
+        />
+        <CoordsData className={styles.data} label="Départ" coords={rover.data.start} onLocate={handleLocate('start')} />
+        <CoordsData className={styles.data} label="Cible" coords={rover.data.target} onLocate={handleLocate('target')} />
         <div className={styles.data}>
           <Typography>Energie: {Math.round(rover.data.energy * 100) / 100}</Typography>
         </div>
