@@ -1,3 +1,5 @@
+import { equal } from 'data/Coords';
+
 import { ADD_ROVER, PLAY_ROVER, RESTART_ROVER, SET_ROVER_COLOR } from './constants';
 import { RoverActionTypes, RoversActionTypes, RoversState, RoverState } from './types';
 
@@ -11,7 +13,7 @@ function roverReducer(state: RoverState, action: RoverActionTypes) {
       const track = [...state.track];
       const last = track[track.length-1];
 
-      if (!last || last.x !== state.data.pos.x || last.y !== state.data.pos.y) {
+      if (!last || !equal(last, state.data.pos)) {
         track.push(state.data.pos);
       }
 

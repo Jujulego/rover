@@ -4,6 +4,10 @@ import { Direction } from "data/constants";
 export interface Coords { x: number, y: number }
 
 // Utils
+export function equal(c1: Coords, c2: Coords): boolean {
+  return (c1.x === c2.x) && (c1.y === c2.y)
+}
+
 export function distance(c1: Coords, c2: Coords): number {
   const dx = Math.abs(c2.x - c1.x);
   const dy = Math.abs(c2.y - c1.y);
@@ -19,6 +23,12 @@ export function realDistance(c1: Coords, c2: Coords): number {
   const lines = Math.max(dx, dy) - diags;
 
   return lines * 5 + diags * Math.sqrt(50);
+}
+
+export function slope(c1: Coords, z1: number, c2: Coords, z2: number) {
+  const d = realDistance(c1, c2);
+
+  return (d !== 0) ? (z2 - z1) / d : 0;
 }
 
 export function surrounding(pos: Coords, direction: Direction): Coords {

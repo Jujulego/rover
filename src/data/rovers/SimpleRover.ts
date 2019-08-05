@@ -1,9 +1,9 @@
 import { DIRECTIONS } from '../constants';
+import { CachedRover } from '../CachedRover';
 import { Coords, distance, surrounding } from '../Coords';
-import { RoverAI } from '../RoverAI';
 
 // Class
-class SimpleRover extends RoverAI {
+class SimpleRover extends CachedRover {
   // Methods
   protected compute(): Coords {
     const cases = DIRECTIONS.map(dir => surrounding(this.pos, dir));

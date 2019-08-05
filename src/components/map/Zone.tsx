@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { Coords, distance, generateZone } from 'data/Coords';
+import { Coords, distance, equal, generateZone } from 'data/Coords';
 import { Map } from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
@@ -68,7 +68,7 @@ const Zone: FC<Props> = (props) => {
     
     Object.keys(rovers).forEach((name) => {
       const rover = rovers[name];
-      if (rover.data.pos.x === pos.x && rover.data.pos.y === pos.y) {
+      if (equal(rover.data.pos, pos)) {
         results.push(cb(name, rover))
       }
     });

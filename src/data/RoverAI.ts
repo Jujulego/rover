@@ -1,4 +1,4 @@
-import { Coords, distance } from './Coords';
+import { Coords, distance, equal } from './Coords';
 import { FloorType, Map } from './Map';
 
 // Class
@@ -24,7 +24,7 @@ export abstract class RoverAI {
   }
 
   get arrived(): boolean {
-    return this.pos.x === this.target.x && this.pos.y === this.target.y;
+    return equal(this.pos, this.target);
   }
 
   // Constructor

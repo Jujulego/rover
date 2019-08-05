@@ -1,6 +1,6 @@
 import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
 import {
-  Coords, realDistance, surrounding
+  Coords, realDistance, slope, surrounding
 } from './Coords';
 
 // Types
@@ -101,8 +101,7 @@ export class Map {
   slope(c1: Coords, c2: Coords): number {
     const z1 = this.getOrDefault(c1).height;
     const z2 = this.getOrDefault(c2).height;
-    const d = realDistance(c1, c2);
 
-    return (d !== 0) ? (z2 - z1) / d : 0;
+    return slope(c1, z1, c2, z2);
   }
 }
