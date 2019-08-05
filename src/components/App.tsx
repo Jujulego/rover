@@ -12,7 +12,7 @@ import {
 import data from 'assets/map';
 
 import { Map } from 'data/Map';
-import { SimpleRover, StupidRover } from 'data/rovers';
+import { ChristelleRover, SimpleRover, StupidRover } from 'data/rovers';
 
 import { addRover } from 'store/rovers/actions';
 
@@ -24,7 +24,7 @@ import styles from './App.module.scss';
 
 // Constants
 const START = { x: 1, y: 1 };
-const END = { x: 5, y: 5 };
+const END = { x: 5, y: 6 };
 
 //const MAP = Map.loadMap(data);
 const MAP = new Map([
@@ -49,7 +49,8 @@ const App: FC = () => {
   useEffect(() => {
     // rovers
     dispatch(addRover('stupid', new StupidRover(MAP, START, END, 'right'), 'blue'));
-    dispatch(addRover('simple', new SimpleRover(MAP, START, END), 'pink'));
+    dispatch(addRover('christelle', new ChristelleRover(MAP, START, END), 'pink'));
+    dispatch(addRover('simple', new SimpleRover(MAP, START, END), 'green'));
   }, []);
 
   // Rendering

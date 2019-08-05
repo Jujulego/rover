@@ -11,6 +11,7 @@ class SimpleRover extends CachedRover {
 
     for (let i = 0; i < cases.length; ++i) {
       const floor = this.getFloor(cases[i]); // cost 0.2 energy
+
       if (floor !== 'hole') {
         return cases[i];
       }
