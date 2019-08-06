@@ -5,8 +5,8 @@ import DStarRover from './DStarRover';
 // Class
 class PathRover extends DStarRover {
   // Methods
-  protected heuristic(p: Coords, base: number): number {
-    return realDistance(p, this.target);
+  protected heuristic(from: Coords, to: Coords): number {
+    return realDistance(from, to);
   }
 }
 
