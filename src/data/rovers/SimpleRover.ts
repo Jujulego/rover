@@ -1,7 +1,7 @@
 import { DIRECTIONS } from '../constants';
 import { Coords, distance, surrounding } from '../Coords';
 
-import { CachedRover } from './CachedRover';
+import CachedRover from './CachedRover';
 
 // Class
 class SimpleRover extends CachedRover {

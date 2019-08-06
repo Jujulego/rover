@@ -1,6 +1,6 @@
-import { RoverAI } from 'data/RoverAI';
-import { FloorType } from 'data/Map';
-import { Coords, equal, slope } from "data/Coords";
+import { FloorType } from '../Map';
+import { Coords, hash, equal, slope } from '../Coords';
+import { RoverAI } from '../RoverAI';
 
 // Type
 type CachedCase = { floor ?: FloorType, height ?: number };
@@ -10,7 +10,7 @@ type CachedSlope = { c1: Coords, c2: Coords, slope: number };
 const SLOPE_CACHE_LIMIT = 128;
 
 // Class
-export abstract class CachedRover extends RoverAI {
+abstract class CachedRover extends RoverAI {
   // Attributes
   private _mapCache: { [name in string]: CachedCase } = {};
   private _slopeCache: Array<CachedSlope> = [];
@@ -60,17 +60,13 @@ export abstract class CachedRover extends RoverAI {
   }
 
   // - map cache
-  private static hash(c: Coords): string {
-    return `${c.x},${c.y}`;
-  }
-
   protected getCachedCase(c: Coords): CachedCase {
-    return this._mapCache[CachedRover.hash(c)] || {};
+    return this._mapCache[hash(c)] || {};
   }
 
   private update(c: Coords, data: CachedCase) {
-    const hash = CachedRover.hash(c);
-    this._mapCache[hash] = { ...this._mapCache[hash], ...data };
+    const h = hash(c);
+    this._mapCache[h] = { ...this._mapCache[h], ...data };
   }
 
   // - slope cache
@@ -111,3 +107,5 @@ export abstract class CachedRover extends RoverAI {
     }
   }
 }
+
+export default CachedRover;

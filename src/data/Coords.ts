@@ -4,6 +4,10 @@ import { Direction } from "data/constants";
 export interface Coords { x: number, y: number }
 
 // Utils
+export function hash(c: Coords): string {
+  return `${c.x},${c.y}`;
+}
+
 export function equal(c1: Coords, c2: Coords): boolean {
   return (c1.x === c2.x) && (c1.y === c2.y)
 }
