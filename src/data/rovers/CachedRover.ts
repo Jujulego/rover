@@ -1,5 +1,5 @@
-import { RoverAI } from './RoverAI';
-import { FloorType } from './Map';
+import { RoverAI } from 'data/RoverAI';
+import { FloorType } from 'data/Map';
 import { Coords, equal, slope } from "data/Coords";
 
 // Type
@@ -30,7 +30,7 @@ export abstract class CachedRover extends RoverAI {
 
   protected getFloor(c: Coords): FloorType {
     // Try cache
-    const cached = this.get(c);
+    const cached = this.getCachedCase(c);
     if (cached.floor) return cached.floor;
 
     // Ask and store
@@ -42,15 +42,15 @@ export abstract class CachedRover extends RoverAI {
 
   protected getSlope(c1: Coords, c2: Coords): number {
     // Try map cache first
-    const cached1 = this.get(c1);
-    const cached2 = this.get(c2);
+    const cached1 = this.getCachedCase(c1);
+    const cached2 = this.getCachedCase(c2);
     if (cached1.height && cached2.height) {
       return slope(c1, cached1.height, c2, cached2.height);
     }
 
     // Try slope cache
     const cached = this.getCachedSlope(c1, c2);
-    if (cached) return cached;
+    if (cached != null) return cached;
 
     // Ask and store
     const result = super.getSlope(c1, c2);
@@ -64,14 +64,13 @@ export abstract class CachedRover extends RoverAI {
     return `${c.x},${c.y}`;
   }
 
-  private get(c: Coords): CachedCase {
+  protected getCachedCase(c: Coords): CachedCase {
     return this._mapCache[CachedRover.hash(c)] || {};
   }
 
   private update(c: Coords, data: CachedCase) {
     const hash = CachedRover.hash(c);
     this._mapCache[hash] = { ...this._mapCache[hash], ...data };
-    console.log(this._mapCache);
   }
 
   // - slope cache
@@ -86,7 +85,7 @@ export abstract class CachedRover extends RoverAI {
     this._slopeCache[0] = tmp;
   }
 
-  private getCachedSlope(c1: Coords, c2: Coords): number | undefined {
+  protected getCachedSlope(c1: Coords, c2: Coords): number | null {
     for (let i = 0; i < this._slopeCache.length; ++i) {
       const cached = this._slopeCache[i];
 
@@ -101,7 +100,7 @@ export abstract class CachedRover extends RoverAI {
       }
     }
 
-    return;
+    return null;
   }
 
   private storeSlope(c1: Coords, c2: Coords, slope: number) {

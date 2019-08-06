@@ -44,10 +44,9 @@ export abstract class RoverAI {
   // - utils
   protected getSlope(c1: Coords, c2: Coords): number {
     const d = Math.min(distance(this._pos, c1), distance(this._pos, c2));
-    if (d === 0) return 0;
 
     // Energy cost
-    this._energy -= .1 * (d - 1);
+    this._energy -= .1 * d;
 
     return this.map.slope(c1, c2);
   }

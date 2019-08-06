@@ -1,6 +1,7 @@
 import { DIRECTIONS } from '../constants';
-import { CachedRover } from '../CachedRover';
 import { Coords, distance, surrounding } from '../Coords';
+
+import { CachedRover } from './CachedRover';
 
 // Class
 class SimpleRover extends CachedRover {
@@ -11,10 +12,12 @@ class SimpleRover extends CachedRover {
 
     for (let i = 0; i < cases.length; ++i) {
       const floor = this.getFloor(cases[i]); // cost 0.2 energy
+      if (floor === 'hole') continue;
 
-      if (floor !== 'hole') {
-        return cases[i];
-      }
+      const slope = this.getSlope(this.pos, cases[i]);
+      if (Math.abs(slope) >= 1.5) continue;
+
+      return cases[i];
     }
 
     return cases[0];
