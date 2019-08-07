@@ -23,18 +23,18 @@ import Zone from 'containers/map/Zone';
 import styles from './App.module.scss';
 
 // Constants
-const START = { x: 1, y: 1 };
-const END = { x: 5, y: 6 };
+const START = { x: 0, y: 0 };
+const END = { x: 6, y: 6 };
 
 //const MAP = Map.loadMap(data);
 const MAP = new Map([
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
-  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
-  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }],
-  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }]
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }],
+  [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }]
 ]);
 
 // Component

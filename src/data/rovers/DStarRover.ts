@@ -118,9 +118,18 @@ abstract class DStarRover extends CachedRover {
               }
             }
           } else { // p not from pos
-            if (flag === 'UNREACHABLE') {
+            if (flag === 'UNREACHABLE') { // pos is unreachable
               // Maybe can start updates from there
               queue.unshift({ pos: p, flag: 'UPDATED' });
+            } else { // pos is updated
+              // pos is updated so p can be also be updated
+              const nc = data.cost + this.heuristic(pos, p);
+
+              if (nc < d.cost) {
+                this._data[hash(p)].cost = nc;
+                this._data[hash(p)].from = pos;
+                queue.unshift({ pos: p, flag: 'UPDATED' });
+              }
             }
           }
         } else if (!d.obstacle) { // p is unreachable and not obstacle
