@@ -125,27 +125,27 @@ const Zone: FC<Props> = (props) => {
     <div ref={containerCb} className={styles.container}>
       <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
         { generateZone(centers, size, (c, i, j) => (
-          map.isOut(c) ? (
-            <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
-          ) : (
-            <Fragment key={`(${c.x} ${c.y})`}>
+          <Fragment key={`(${c.x} ${c.y})`}>
+            { map.isOut(c) ? (
+              <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
+            ) : (
               <Case
                 style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                debug={debug !== undefined ? rovers[debug].data : undefined}
+                debug={debug !== undefined ? rovers[debug] : undefined}
                 isTarget={equal(c, target)}
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}
               />
-              { mapRovers(c, (name, rover) => (
-                <Rover key={name}
-                  style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                  data={rover.data} color={rover.color}
-                  onClick={handleCaseClick}
-                />
-              )) }
-            </Fragment>
-          )
+            ) }
+            { mapRovers(c, (name, rover) => (
+              <Rover key={name}
+                     style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                     data={rover.data} color={rover.color}
+                     onClick={handleCaseClick}
+              />
+            )) }
+          </Fragment>
         )) }
       </div>
     </div>

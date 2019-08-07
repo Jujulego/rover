@@ -4,11 +4,12 @@ import clsx from 'clsx';
 import { Typography } from '@material-ui/core';
 
 import { DEFAULT_HEIGHT } from 'data/constants';
-import { Coords } from 'data/Coords';
+import { Coords, equal, hash } from 'data/Coords';
 import { Map } from 'data/Map';
-import { RoverAI } from 'data/RoverAI';
 import CachedRover from 'data/rovers/CachedRover';
 import DStarRover from 'data/rovers/DStarRover';
+
+import { RoverState } from 'store/rovers/types';
 
 import Floor from './Floor';
 
@@ -20,7 +21,7 @@ type Props = {
   map: Map,
   pos: Coords,
   slope?: number,
-  debug?: RoverAI,
+  debug?: RoverState,
 
   isTarget?: boolean,
   showCoords?: boolean,
@@ -31,6 +32,13 @@ type Props = {
 
   onClick?: (_: Coords) => void
 };
+
+// Utils
+const computeLine = (from: Coords, to: Coords) => ({
+  x1: 96, y1: 96,
+  x2: 96 * (1 + to.x - from.x),
+  y2: 96 * (1 + to.y - from.y)
+});
 
 // Component
 const Case: FC<Props> = (props) => {
@@ -51,8 +59,26 @@ const Case: FC<Props> = (props) => {
 
   // Rendering
   const data = map.get(pos);
-  const cached = debug instanceof CachedRover ? debug.getCachedCase(pos) : null;
-  const dstar = debug instanceof DStarRover ? debug.getDStarData(pos) : null;
+
+  const ia = debug && debug.data;
+  const cached = ia instanceof CachedRover ? ia.getCachedCase(pos) : null;
+  const dstar = ia instanceof DStarRover ? ia.getDStarData(pos) : null;
+
+  const prev = new Array<Coords>();
+  if (debug) {
+    if (debug.track.length > 0) {
+      const last = debug.track[debug.track.length - 1];
+      if (ia && equal(pos, last)) {
+        prev.push(ia.pos);
+      }
+    }
+
+    for (let i = 1; i < debug.track.length; ++i) {
+      if (equal(pos, debug.track[i-1])) {
+        prev.push(debug.track[i]);
+      }
+    }
+  }
 
   return (
     <div className={clsx(styles.case, className)} style={style} onClick={handleClick}>
@@ -63,9 +89,14 @@ const Case: FC<Props> = (props) => {
       { isTarget && (
         <img className={styles.target} src={targetImg} alt="target" />
       ) }
-      { (dstar && dstar.from && !dstar.obstacle) && (
-        <svg className={styles.dstar} height={192} width={192}>
-          <line x1={96} y1={96} x2={96 * (1 + dstar.from.x - pos.x)} y2={96 * (1 + dstar.from.y - pos.y)} stroke="#FDD835" width={5} />
+      { debug && (
+        <svg className={styles.svg} height={200} width={200}>
+          { prev.map((p) => (
+            <line key={hash(p)} className={styles.track} {...computeLine(pos, p)} />
+          )) }
+          { (dstar && dstar.from && !dstar.obstacle) && (
+            <line className={styles.dstar} {...computeLine(pos, dstar.from)} />
+          ) }
         </svg>
       ) }
       <div className={styles.data}>

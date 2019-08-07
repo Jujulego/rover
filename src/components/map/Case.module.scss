@@ -11,12 +11,22 @@
     margin: 16px;
   }
 
-  .dstar {
+  .svg {
     position: absolute;
-    top: -48px; left: -48px;
+    top: -52px; left: -52px;
     z-index: 1;
 
     pointer-events: none;
+
+    .track {
+      stroke: #3F51B5;
+      stroke-width: 6px;
+    }
+
+    .dstar {
+      stroke: #FFEB3B;
+      stroke-width: 2px;
+    }
   }
 
   .data {
