@@ -23,7 +23,7 @@
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
 
-    .coords, .distance, .height, .slope {
+    .coords, .cost, .height, .slope {
       position: absolute;
 
       color: #333333;
@@ -35,7 +35,7 @@
       left: spacing(1);
     }
 
-    .distance {
+    .cost {
       top: spacing(1);
       right: spacing(1);
     }

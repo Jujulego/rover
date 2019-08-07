@@ -72,6 +72,9 @@ const Case: FC<Props> = (props) => {
         { showCoords && (
           <Typography classes={{ root: styles.coords }}>({ pos.x },{ pos.y })</Typography>
         ) }
+        { dstar && (
+          <Typography classes={{ root: styles.cost }}>{ (dstar.obstacle || dstar.from == null) ? '\u221E' : Math.round(dstar.cost * 100) / 100 }</Typography>
+        ) }
         { (showHeight) && (
           <Typography classes={{ root: styles.height }}>{ data ? data.height : <em>{ DEFAULT_HEIGHT }</em> }</Typography>
         ) }
