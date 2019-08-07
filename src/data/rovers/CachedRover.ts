@@ -60,7 +60,7 @@ abstract class CachedRover extends RoverAI {
   }
 
   // - map cache
-  protected getCachedCase(c: Coords): CachedCase {
+  getCachedCase(c: Coords): CachedCase {
     return this._mapCache[hash(c)] || {};
   }
 
@@ -81,7 +81,7 @@ abstract class CachedRover extends RoverAI {
     this._slopeCache[0] = tmp;
   }
 
-  protected getCachedSlope(c1: Coords, c2: Coords): number | null {
+  getCachedSlope(c1: Coords, c2: Coords): number | null {
     for (let i = 0; i < this._slopeCache.length; ++i) {
       const cached = this._slopeCache[i];
 

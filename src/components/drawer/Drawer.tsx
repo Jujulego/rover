@@ -59,7 +59,7 @@ const Drawer: FC<Props> = (props) => {
         classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
       >
         <List component="nav">
-          <MapPanel {...panelProps('map')} />
+          <MapPanel {...panelProps('map')} rovers={Object.keys(rovers)} />
           { Object.keys(rovers).map((rover) => (
             <Fragment key={rover}>
               <Divider component="hr" />

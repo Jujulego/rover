@@ -11,6 +11,7 @@ type Flag = 'UNREACHABLE' | 'UPDATED';
 
 // Class
 abstract class DStarRover extends CachedRover {
+  // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
   private readonly _size: Coords;
   private _data: { [name: string]: Data } = {};
@@ -115,7 +116,7 @@ abstract class DStarRover extends CachedRover {
           } else { // p not from pos
             if (flag === 'UNREACHABLE') {
               // Maybe can start updates from there
-              queue.unshift({pos: p, flag: 'UPDATED'});
+              queue.unshift({ pos: p, flag: 'UPDATED' });
             }
           }
         } else if (!d.obstacle) { // p is unreachable and not obstacle
@@ -129,7 +130,7 @@ abstract class DStarRover extends CachedRover {
       });
     }
   }
-  
+
   protected compute(): Coords {
     // Get surrounding cases
     const cases = this.surroundings(this.pos);
@@ -159,7 +160,7 @@ abstract class DStarRover extends CachedRover {
 
       return c;
     }
-    
+
     return cases[0];
   }
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Collapse,
   ListItem, ListItemIcon, ListItemText,
-  FormControlLabel, Switch
+  FormControlLabel, Switch, FormControl, InputLabel, Select, MenuItem
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
@@ -15,7 +15,7 @@ import {
 import { Coords } from 'data/Coords';
 
 import { AppState } from 'store';
-import { moveZone, stopTracking, toggleOption, setZoom } from 'store/zone/actions';
+import { moveZone, stopTracking, toggleOption, setZoom, debugRover } from 'store/zone/actions';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
@@ -26,17 +26,22 @@ import styles from './MapPanel.module.scss';
 // Types
 type Props = {
   open: boolean,
+  rovers: Array<string>,
   onOpen: () => void,
   onClose: () => void
 }
 
 // Component
 const MapPanel: FC<Props> = (props) => {
-  const { open, onOpen, onClose } = props;
+  const {
+    open,
+    rovers,
+    onOpen, onClose
+  } = props;
 
   // Redux
   const dispatch = useDispatch();
-  const { center, zoom, options } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { center, zoom, debug = "", options } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -86,6 +91,15 @@ const MapPanel: FC<Props> = (props) => {
           format={value => `\u00D7${value / 20}`}
           onChange={(value) => dispatch(setZoom(value / 20))}
         />
+        <FormControl component="fieldset">
+          <InputLabel>Debug rover</InputLabel>
+          <Select value={debug} onChange={(e) => dispatch(debugRover(e.target.value as string || undefined))}>
+            <MenuItem value=""><em>Aucun</em></MenuItem>
+            { rovers.map(r => (
+              <MenuItem key={r} value={r}>{ r }</MenuItem>
+            )) }
+          </Select>
+        </FormControl>
       </Collapse>
     </>
   );

@@ -11,7 +11,6 @@ import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/
 import Case from './Case';
 import Rover from './Rover';
 
-import targetImg from 'assets/target.png';
 import styles from './Zone.module.scss';
 
 // Types
@@ -20,7 +19,7 @@ export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
 type Props = {
   map: Map, center: Coords, zoom: number,
   rovers: RoversState, target: Coords,
-  track?: string,
+  track?: string, debug?: string,
   options: { [name in ZoneOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
@@ -39,6 +38,7 @@ const Zone: FC<Props> = (props) => {
   const {
     map, center, zoom,
     rovers, target,
+    debug,
     options,
     onMove
   } = props;
@@ -62,19 +62,19 @@ const Zone: FC<Props> = (props) => {
       y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
     });
   }
-  
+
   function mapRovers<T>(pos: Coords, cb: (name: string, rover: RoverState) => T): Array<T> {
     const results: Array<T> = [];
-    
+
     Object.keys(rovers).forEach((name) => {
       const rover = rovers[name];
       if (equal(rover.data.pos, pos)) {
         results.push(cb(name, rover))
       }
     });
-    
+
     return results;
-  } 
+  }
 
   // Callback
   const [containerRef, containerCb] = useNode((node: HTMLDivElement) => {
@@ -129,17 +129,15 @@ const Zone: FC<Props> = (props) => {
             <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
           ) : (
             <Fragment key={`(${c.x} ${c.y})`}>
-              <Case style={{ gridColumn: i + 1, gridRow: j + 1 }}
+              <Case
+                style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c} showCoords={options.coords} showHeight={options.height}
                 distance={options.distance ? distance(center, c) : undefined}
+                debug={debug !== undefined ? rovers[debug].data : undefined}
+                isTarget={equal(c, target)}
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}
               />
-              { (c.x === target.x && c.y === target.y) && (
-                <div className={styles.target} style={{ gridColumn: i + 1, gridRow: j + 1 }}>
-                  <img src={targetImg} alt="target" />
-                </div>
-              ) }
               { mapRovers(c, (name, rover) => (
                 <Rover key={name}
                   style={{ gridColumn: i + 1, gridRow: j + 1 }}

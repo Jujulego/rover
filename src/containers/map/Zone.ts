@@ -23,6 +23,7 @@ function mapStateToProps(state: AppState) {
     center,
     zoom: state.zone.zoom,
     options: state.zone.options,
+    debug: state.zone.debug,
     rovers: state.rovers
   };
 }

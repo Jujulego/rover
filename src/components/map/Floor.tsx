@@ -9,12 +9,18 @@ import { DIRECTIONS } from "data/constants";
 // Types
 type Props = {
   type: FloorType,
-  borders?: Borders
+  borders?: Borders,
+  unknown?: boolean | null,
+  className?: string,
 };
 
 // Component
 const Floor: FC<Props> = (props) => {
-  const { type, borders = {} } = props;
+  const {
+    type, borders = {},
+    unknown = false,
+    className
+  } = props;
 
   // Rendering
   const bordersStyle: { [name in string]: boolean } = {};
@@ -23,7 +29,7 @@ const Floor: FC<Props> = (props) => {
   });
 
   return (
-    <div className={clsx(styles.floor, styles[type], bordersStyle)}>
+    <div className={clsx(styles.floor, styles[type], bordersStyle, { [styles.unknown]: unknown }, className)}>
       <div /><div /><div /><div /><div /><div /><div /><div /><div />
     </div>
   );

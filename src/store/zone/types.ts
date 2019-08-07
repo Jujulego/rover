@@ -1,7 +1,7 @@
 import { Coords } from 'data/Coords';
 import { ZoneOptions } from 'components/map/Zone';
 
-import { TOGGLE_OPTION, MOVE_ZONE, SET_ZOOM, TRACK_ROVER, STOP_TRACKING } from './constants';
+import { TOGGLE_OPTION, MOVE_ZONE, SET_ZOOM, TRACK_ROVER, STOP_TRACKING, DEBUG_ROVER } from './constants';
 
 // Actions types
 interface MoveZoneAction {
@@ -28,12 +28,18 @@ interface SetZoomAction {
   zoom: number
 }
 
-export type ZoneActionTypes = ToggleOptionAction | MoveZoneAction | TrackRoverAction | StopTrackingAction | SetZoomAction
+interface DebugRoverAction {
+  type: typeof DEBUG_ROVER,
+  rover: string | undefined
+}
+
+export type ZoneActionTypes = ToggleOptionAction | MoveZoneAction | TrackRoverAction | StopTrackingAction | SetZoomAction | DebugRoverAction
 
 // State type
 export interface ZoneState {
   center: Coords,
   zoom: number,
   track?: string,
+  debug?: string,
   options: { [name in ZoneOptions]?: boolean }
 }
