@@ -1,15 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, ReactChild, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse, Button,
+  Collapse, Button, Grid,
   ListItem, ListItemIcon, ListItemText,
-  FormControl, InputLabel, Select, MenuItem,
+  Select, MenuItem,
   Typography
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon
+  ExpandMore as ExpandMoreIcon,
+  PlayArrow as PlayArrowIcon,
+  Refresh as RefreshIcon,
+  Stop as StopIcon
 } from '@material-ui/icons';
 
 import rovers, { RoverColor } from 'assets/rovers';
@@ -31,7 +34,17 @@ type Props = {
   onClose: () => void
 }
 
-// Component
+// Constants
+const LABEL_XS = 4;
+
+// Components
+const Data: FC<{ label: string, children: ReactChild }> = (props) => (
+  <Grid container alignItems="center" spacing={1} wrap="nowrap">
+    <Grid item xs={LABEL_XS}><Typography>{ props.label }</Typography></Grid>
+    <Grid item xs>{ props.children }</Grid>
+  </Grid>
+);
+
 const RoverPanel: FC<Props> = (props) => {
   const {
     open, name,
@@ -119,25 +132,34 @@ const RoverPanel: FC<Props> = (props) => {
         classes={{ wrapperInner: styles.panel }}
         in={open} timeout="auto" unmountOnExit
       >
-        <CoordsData className={styles.data}
-          label="Position" coords={rover.data.pos} onLocate={handleLocate('pos')}
-          tracking={track === name} onTrack={handleTrack}
-        />
-        <CoordsData className={styles.data} label="Départ" coords={rover.data.start} onLocate={handleLocate('start')} />
-        <CoordsData className={styles.data} label="Cible" coords={rover.data.target} onLocate={handleLocate('target')} />
-        <div className={styles.data}>
-          <Typography>Energie: {Math.round(rover.data.energy * 100) / 100}</Typography>
-        </div>
-        <FormControl component="fieldset">
-          <InputLabel>Couleur</InputLabel>
-          <Select value={rover.color} onChange={(e) => dispatch(setRoverColor(name, e.target.value as RoverColor))}>
+        <Data label="Position">
+          <CoordsData
+            className={styles.data}
+            coords={rover.data.pos} onLocate={handleLocate('pos')}
+            tracking={track === name} onTrack={handleTrack}
+          />
+        </Data>
+        <Data label="Départ">
+          <CoordsData className={styles.data} coords={rover.data.start} onLocate={handleLocate('start')} />
+        </Data>
+        <Data label="Cible">
+          <CoordsData className={styles.data} coords={rover.data.target} onLocate={handleLocate('target')} />
+        </Data>
+        <Data label="Energie">
+          <Typography>{ Math.round(rover.data.energy * 100) / 100 }</Typography>
+        </Data>
+        <Data label="Attente">
+          <Typography>{ rover.data.wait }</Typography>
+        </Data>
+        <Data label="Couleur">
+          <Select value={rover.color} onChange={(e) => dispatch(setRoverColor(name, e.target.value as RoverColor))} fullWidth>
             <MenuItem value="blue">Bleu</MenuItem>
             <MenuItem value="green">Vert</MenuItem>
             <MenuItem value="pink">Rose</MenuItem>
             <MenuItem value="white">Blanc</MenuItem>
             <MenuItem value="yellow">Jaune</MenuItem>
           </Select>
-        </FormControl>
+        </Data>
         <div className={styles.buttons}>
           <Button
             classes={{ root: styles.step }}
@@ -152,10 +174,21 @@ const RoverPanel: FC<Props> = (props) => {
             variant="outlined" fullWidth disabled={rover.data.arrived}
             onClick={handlePlayStop}
           >
+            { playing ? (
+              <StopIcon className={styles.btnIcon} />
+            ) : (
+              <PlayArrowIcon className={styles.btnIcon} />
+            ) }
             { playing ? 'Stop' : 'Play' }
           </Button>
         </div>
-        <Button variant="outlined" color="secondary" fullWidth onClick={handleRestart}>Restart</Button>
+        <Button
+          variant="outlined" color="secondary" fullWidth
+          onClick={handleRestart}
+        >
+          <RefreshIcon className={styles.btnIcon} />
+          Restart
+        </Button>
       </Collapse>
     </>
   ) : null;

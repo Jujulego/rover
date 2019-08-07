@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import {
-  Collapse,
   IconButton, Typography
 } from "@material-ui/core";
 import {
@@ -14,7 +13,6 @@ import { Coords } from 'data/Coords';
 
 // Types
 type Props = {
-  label: string,
   coords: Coords,
   tracking?: boolean,
   onTrack?: () => void,
@@ -26,16 +24,15 @@ type Props = {
 // Component
 const CoordsData: FC<Props> = (props) => {
   const {
-    label, coords,
+    coords, onLocate,
     tracking = false, onTrack,
-    onLocate,
     className
   } = props;
 
   // Rendering
   return (
     <div className={className}>
-      <Typography>{label}: x = {coords.x} y = {coords.y}</Typography>
+      <Typography>x = {coords.x} y = {coords.y}</Typography>
       { onTrack && (
         <IconButton size="small" onClick={onTrack}>
           { (tracking) ? <LocationOffIcon /> : <LocationOnIcon /> }

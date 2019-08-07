@@ -1,6 +1,6 @@
 import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
 import {
-  Coords, realDistance, slope, surrounding
+  Coords, slope, surrounding
 } from './Coords';
 
 // Types

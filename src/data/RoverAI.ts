@@ -23,6 +23,10 @@ export abstract class RoverAI {
     return this._energy;
   }
 
+  get wait(): number {
+    return this._wait;
+  }
+
   get arrived(): boolean {
     return equal(this.pos, this.target);
   }
