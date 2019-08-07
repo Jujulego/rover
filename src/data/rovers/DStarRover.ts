@@ -32,6 +32,10 @@ abstract class DStarRover extends CachedRover {
     return (p.x >= 0 && p.x < this._size.x) && (p.y >= 0 && p.y < this._size.y);
   }
 
+  getDStarData(p: Coords): Data {
+    return this._data[hash(p)]
+  }
+
   private surroundings(p: Coords): Array<Coords> {
     return DIRECTIONS.reduce(
       (acc, dir) => {
@@ -132,36 +136,30 @@ abstract class DStarRover extends CachedRover {
   }
 
   protected compute(): Coords {
-    // Get surrounding cases
-    const cases = this.surroundings(this.pos);
+    let i = 8;
+    while (i) {
+      const dp = this._data[hash(this.pos)];
+      if (dp.from == null) return this.pos;
 
-    // Sort according to computed data
-    cases.sort((c1, c2) => this._data[hash(c2)].cost - this._data[hash(c1)].cost);
-
-    // Check for obstacles
-    while (cases.length > 0) {
-      const c = cases.pop();
-      if (!c) break;
+      const df = this._data[hash(dp.from)];
 
       // Check if known as an obstacle
-      if (this._data[hash(c)].obstacle) continue;
+      if (df.obstacle) return this.pos;
 
       // Check if there is an obstacle
-      const floor = this.getFloor(c); // cost 0.2 energy
+      const floor = this.getFloor(dp.from); // cost 0.2 energy
       if (floor === 'hole') {
         // Update and recompute path
-        this.addObstacle(c);
+        this.addObstacle(dp.from);
 
-        // Sort again
-        cases.sort((c1, c2) => this._data[hash(c2)].cost - this._data[hash(c1)].cost);
-
+        --i;
         continue;
       }
 
-      return c;
+      return dp.from;
     }
 
-    return cases[0];
+    return this.pos;
   }
 
   restart(): RoverAI {

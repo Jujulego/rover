@@ -7,12 +7,13 @@ import { DEFAULT_HEIGHT } from 'data/constants';
 import { Coords } from 'data/Coords';
 import { Map } from 'data/Map';
 import { RoverAI } from 'data/RoverAI';
+import CachedRover from 'data/rovers/CachedRover';
+import DStarRover from 'data/rovers/DStarRover';
 
 import Floor from './Floor';
 
 import targetImg from 'assets/target.png';
 import styles from './Case.module.scss';
-import CachedRover from "data/rovers/CachedRover";
 
 // Types
 type Props = {
@@ -52,6 +53,7 @@ const Case: FC<Props> = (props) => {
   // Rendering
   const data = map.get(pos);
   const cached = debug instanceof CachedRover ? debug.getCachedCase(pos) : null;
+  const dstar = debug instanceof DStarRover ? debug.getDStarData(pos) : null;
 
   return (
     <div className={clsx(styles.case, className)} style={style} onClick={handleClick}>
@@ -61,6 +63,11 @@ const Case: FC<Props> = (props) => {
       />
       { isTarget && (
         <img className={styles.target} src={targetImg} alt="target" />
+      ) }
+      { (dstar && dstar.from && !dstar.obstacle) && (
+        <svg className={styles.dstar} height={192} width={192}>
+          <line x1={96} y1={96} x2={96 * (1 + dstar.from.x - pos.x)} y2={96 * (1 + dstar.from.y - pos.y)} stroke="red" width={3} />
+        </svg>
       ) }
       <div className={styles.data}>
         { showCoords && (
