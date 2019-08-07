@@ -14,7 +14,7 @@ import Rover from './Rover';
 import styles from './Zone.module.scss';
 
 // Types
-export type ZoneOptions = 'coords' | 'distance' | 'height' | 'slope';
+export type ZoneOptions = 'coords' | 'height' | 'slope';
 
 type Props = {
   map: Map, center: Coords, zoom: number,
@@ -132,7 +132,6 @@ const Zone: FC<Props> = (props) => {
               <Case
                 style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                distance={options.distance ? distance(center, c) : undefined}
                 debug={debug !== undefined ? rovers[debug].data : undefined}
                 isTarget={equal(c, target)}
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}

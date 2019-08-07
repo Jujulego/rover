@@ -20,7 +20,6 @@ type Props = {
   map: Map,
   pos: Coords,
   slope?: number,
-  distance?: number,
   debug?: RoverAI,
 
   isTarget?: boolean,
@@ -36,7 +35,7 @@ type Props = {
 // Component
 const Case: FC<Props> = (props) => {
   const {
-    map, pos, distance, slope,
+    map, pos, slope,
     debug,
     isTarget = false,
     showCoords = false,
@@ -72,9 +71,6 @@ const Case: FC<Props> = (props) => {
       <div className={styles.data}>
         { showCoords && (
           <Typography classes={{ root: styles.coords }}>({ pos.x },{ pos.y })</Typography>
-        ) }
-        { (distance !== undefined) && (
-          <Typography classes={{ root: styles.distance }}>{ distance }</Typography>
         ) }
         { (showHeight) && (
           <Typography classes={{ root: styles.height }}>{ data ? data.height : <em>{ DEFAULT_HEIGHT }</em> }</Typography>

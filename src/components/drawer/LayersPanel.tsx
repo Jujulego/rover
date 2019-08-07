@@ -68,10 +68,6 @@ const LayersPanel: FC<Props> = (props) => {
           label="Afficher les coordonnées"
         />
         <FormControlLabel
-          control={<Switch checked={options.distance} onChange={() => dispatch(toggleOption('distance'))} />}
-          label="Afficher les distances"
-        />
-        <FormControlLabel
           control={<Switch checked={options.height} onChange={() => dispatch(toggleOption('height'))} />}
           label="Afficher les hauteurs"
         />
