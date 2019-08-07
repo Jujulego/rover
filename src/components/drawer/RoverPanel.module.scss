@@ -1,15 +1,10 @@
 @import "assets/theme";
 @import "assets/spacing";
 
+@import "./Panel.module";
+
 // Style
 .panel {
-  display: flex;
-  flex-direction: column;
-
-  padding: spacing(1) spacing(2);
-
-  @include column-spacing(spacing(1));
-
   .data {
     display: flex;
     align-items: center;

@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Collapse,
-  ListItem, ListItemIcon, ListItemText,
-  FormControlLabel, Switch, FormControl, InputLabel, Select, MenuItem
+  ListItem, ListItemIcon, ListItemText
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
@@ -15,18 +14,17 @@ import {
 import { Coords } from 'data/Coords';
 
 import { AppState } from 'store';
-import { moveZone, stopTracking, toggleOption, setZoom, debugRover } from 'store/zone/actions';
+import { moveZone, stopTracking, setZoom } from 'store/zone/actions';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
 import SliderField from 'components/utils/SliderField';
 
-import styles from './MapPanel.module.scss';
+import styles from './Panel.module.scss';
 
 // Types
 type Props = {
   open: boolean,
-  rovers: Array<string>,
   onOpen: () => void,
   onClose: () => void
 }
@@ -35,13 +33,12 @@ type Props = {
 const MapPanel: FC<Props> = (props) => {
   const {
     open,
-    rovers,
     onOpen, onClose
   } = props;
 
   // Redux
   const dispatch = useDispatch();
-  const { center, zoom, debug = "", options } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { center, zoom } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -69,37 +66,12 @@ const MapPanel: FC<Props> = (props) => {
         classes={{ wrapperInner: styles.panel }}
         in={open} timeout="auto" unmountOnExit
       >
-        <FormControlLabel
-          control={<Switch checked={options.coords} onChange={() => dispatch(toggleOption('coords'))} />}
-          label="Afficher les coordonnées"
-        />
-        <FormControlLabel
-          control={<Switch checked={options.distance} onChange={() => dispatch(toggleOption('distance'))} />}
-          label="Afficher les distances"
-        />
-        <FormControlLabel
-          control={<Switch checked={options.height} onChange={() => dispatch(toggleOption('height'))} />}
-          label="Afficher les hauteurs"
-        />
-        <FormControlLabel
-          control={<Switch checked={options.slope} onChange={() => dispatch(toggleOption('slope'))} />}
-          label="Afficher les pentes"
-        />
         <CoordsField label="Center" value={center} onChange={handleMove} />
         <SliderField label="Zoom"
           value={zoom * 20} min={10} max={20}
           format={value => `\u00D7${value / 20}`}
           onChange={(value) => dispatch(setZoom(value / 20))}
         />
-        <FormControl component="fieldset">
-          <InputLabel>Debug rover</InputLabel>
-          <Select value={debug} onChange={(e) => dispatch(debugRover(e.target.value as string || undefined))}>
-            <MenuItem value=""><em>Aucun</em></MenuItem>
-            { rovers.map(r => (
-              <MenuItem key={r} value={r}>{ r }</MenuItem>
-            )) }
-          </Select>
-        </FormControl>
       </Collapse>
     </>
   );

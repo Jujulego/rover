@@ -11,6 +11,7 @@ import { AppState } from 'store';
 import { RoversState } from 'store/rovers/types';
 
 import MapPanel from './MapPanel';
+import LayersPanel from './LayersPanel';
 import RoverPanel from './RoverPanel';
 
 import styles from './Drawer.module.scss';
@@ -59,7 +60,9 @@ const Drawer: FC<Props> = (props) => {
         classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
       >
         <List component="nav">
-          <MapPanel {...panelProps('map')} rovers={Object.keys(rovers)} />
+          <MapPanel {...panelProps('map')} />
+          <Divider component="hr" />
+          <LayersPanel {...panelProps('layers')} rovers={Object.keys(rovers)} />
           { Object.keys(rovers).map((rover) => (
             <Fragment key={rover}>
               <Divider component="hr" />

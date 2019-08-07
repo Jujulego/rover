@@ -66,7 +66,7 @@ const Case: FC<Props> = (props) => {
       ) }
       { (dstar && dstar.from && !dstar.obstacle) && (
         <svg className={styles.dstar} height={192} width={192}>
-          <line x1={96} y1={96} x2={96 * (1 + dstar.from.x - pos.x)} y2={96 * (1 + dstar.from.y - pos.y)} stroke="red" width={3} />
+          <line x1={96} y1={96} x2={96 * (1 + dstar.from.x - pos.x)} y2={96 * (1 + dstar.from.y - pos.y)} stroke="#03A9F4" width={5} />
         </svg>
       ) }
       <div className={styles.data}>
