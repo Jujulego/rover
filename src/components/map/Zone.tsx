@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 import Coords, { distance, equal, generateZone } from 'data/Coords';
+import Level from 'data/Level';
 import Map from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
@@ -18,7 +19,7 @@ import { CircularProgress, Typography } from "@material-ui/core";
 export type ZoneOptions = 'coords' | 'height' | 'slope';
 
 type Props = {
-  level?: string, map?: Map,
+  level?: Level, map?: Map,
   center: Coords, zoom: number,
   rovers: RoversState, target: Coords,
   track?: string, debug?: string,
@@ -115,7 +116,7 @@ const Zone: FC<Props> = (props) => {
         { level && (
           <>
             <CircularProgress classes={{ root: styles.loader }}/>
-            <Typography>Chargement du niveau "{level}" ...</Typography>
+            <Typography>Chargement du niveau "{level.name}" ...</Typography>
           </>
         ) }
       </div>

@@ -1,4 +1,5 @@
 import Coords from 'data/Coords';
+import Level from 'data/Level';
 import Map from 'data/Map';
 
 import { ZoneOptions } from 'components/map/Zone';
@@ -18,7 +19,7 @@ interface MoveZoneAction {
 
 interface SetLevelAction {
   type: typeof SET_LEVEL,
-  level: string
+  level: Level
 }
 
 interface SetMapAction {
@@ -49,7 +50,7 @@ export type ZoneActionTypes = DebugRoverAction | SetLevelAction | SetMapAction |
 
 // State type
 export interface ZoneState {
-  level?: string, map?: Map,
+  level?: Level, map?: Map,
   center: Coords, zoom: number,
   track?: string,
   debug?: string,
