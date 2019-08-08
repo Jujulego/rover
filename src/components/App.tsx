@@ -9,8 +9,6 @@ import {
   Menu as MenuIcon
 } from '@material-ui/icons';
 
-import data from 'assets/levels/map';
-
 import Map from 'data/Map';
 import { ChristelleRover, PathRover, SimpleRover, StupidRover } from 'data/rovers';
 
@@ -26,7 +24,6 @@ import styles from './App.module.scss';
 const START = { x: 0, y: 0 };
 const END = { x: 6, y: 6 };
 
-//const MAP = Map.loadMap(data);
 const MAP = new Map([
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
   [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
@@ -72,7 +69,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Zone map={MAP} target={END} />
+        <Zone target={END} />
       </Drawer>
     </div>
   );

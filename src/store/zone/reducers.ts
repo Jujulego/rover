@@ -1,4 +1,4 @@
-import { DEBUG_ROVER, MOVE_ZONE, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
+import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
 import { ZoneActionTypes, ZoneState } from './types';
 
 // Initial state
@@ -28,23 +28,26 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
     case TOGGLE_OPTION:
       return { ...state, options: optionsReducer(state.options, action) };
 
+    case DEBUG_ROVER:
+      return { ...state, debug: action.rover };
+
     case MOVE_ZONE:
       return { ...state, center: action.center };
 
-    case TRACK_ROVER:
-      return { ...state, track: action.name };
+    case SET_LEVEL:
+      return { ...state, level: action.level, map: undefined };
+
+    case SET_MAP:
+      return { ...state, map: action.map };
 
     case STOP_TRACKING:
       return { ...state, track: undefined };
 
-    case SET_MAP:
-      return { ...state, level: action.level, map: action.map };
-
     case SET_ZOOM:
       return { ...state, zoom: action.zoom };
 
-    case DEBUG_ROVER:
-      return { ...state, debug: action.rover };
+    case TRACK_ROVER:
+      return { ...state, track: action.name };
 
     default:
       return state;

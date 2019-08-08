@@ -20,6 +20,7 @@ function mapStateToProps(state: AppState) {
   }
 
   return {
+    map: state.zone.map,
     center,
     zoom: state.zone.zoom,
     options: state.zone.options,

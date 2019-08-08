@@ -12,12 +12,14 @@ import Case from './Case';
 import Rover from './Rover';
 
 import styles from './Zone.module.scss';
+import { CircularProgress, Typography } from "@material-ui/core";
 
 // Types
 export type ZoneOptions = 'coords' | 'height' | 'slope';
 
 type Props = {
-  map: Map, center: Coords, zoom: number,
+  level?: string, map?: Map,
+  center: Coords, zoom: number,
   rovers: RoversState, target: Coords,
   track?: string, debug?: string,
   options: { [name in ZoneOptions]?: boolean },
@@ -36,7 +38,8 @@ function min(rd1: number, d2: number): number {
 // Component
 const Zone: FC<Props> = (props) => {
   const {
-    map, center, zoom,
+    level, map,
+    center, zoom,
     rovers, target,
     debug,
     options,
@@ -106,6 +109,19 @@ const Zone: FC<Props> = (props) => {
   }, [moving]);
 
   // Rendering
+  if (!map) {
+    return (
+      <div className={styles.container}>
+        { level && (
+          <>
+            <CircularProgress classes={{ root: styles.loader }}/>
+            <Typography>Chargement du niveau "{level}" ...</Typography>
+          </>
+        ) }
+      </div>
+    );
+  }
+
   const centers = [prevCenter || center];
   const translate = { top: 0, left: 0, transform: `scale(${zoom})` };
 
@@ -139,10 +155,11 @@ const Zone: FC<Props> = (props) => {
               />
             ) }
             { mapRovers(c, (name, rover) => (
-              <Rover key={name}
-                     style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                     data={rover.data} color={rover.color}
-                     onClick={handleCaseClick}
+              <Rover
+                key={name}
+                style={{ gridColumn: i + 1, gridRow: j + 1 }}
+                data={rover.data} color={rover.color}
+                onClick={handleCaseClick}
               />
             )) }
           </Fragment>

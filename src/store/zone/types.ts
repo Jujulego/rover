@@ -3,7 +3,7 @@ import Map from 'data/Map';
 
 import { ZoneOptions } from 'components/map/Zone';
 
-import { DEBUG_ROVER, MOVE_ZONE, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
+import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
 
 // Actions types
 interface DebugRoverAction {
@@ -16,9 +16,13 @@ interface MoveZoneAction {
   center: Coords
 }
 
+interface SetLevelAction {
+  type: typeof SET_LEVEL,
+  level: string
+}
+
 interface SetMapAction {
   type: typeof SET_MAP,
-  level: string,
   map: Map,
 }
 
@@ -41,7 +45,7 @@ interface TrackRoverAction {
   name: string,
 }
 
-export type ZoneActionTypes = DebugRoverAction | SetMapAction | SetZoomAction | StopTrackingAction | MoveZoneAction | ToggleOptionAction | TrackRoverAction
+export type ZoneActionTypes = DebugRoverAction | SetLevelAction | SetMapAction | SetZoomAction | StopTrackingAction | MoveZoneAction | ToggleOptionAction | TrackRoverAction
 
 // State type
 export interface ZoneState {

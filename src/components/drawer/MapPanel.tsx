@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse,
-  ListItem, ListItemIcon, ListItemText
+  Collapse, FormControl, InputLabel,
+  ListItem, ListItemIcon, ListItemText, MenuItem, Select
 } from '@material-ui/core';
 import {
   ExpandLess as ExpandLessIcon,
@@ -14,12 +14,14 @@ import {
 import Coords from 'data/Coords';
 
 import { AppState } from 'store';
-import { moveZone, stopTracking, setZoom } from 'store/zone/actions';
+import { moveZone, setZoom, stopTracking } from 'store/zone/actions';
+import { loadLevel } from 'store/zone/thunks';
 import { ZoneState } from 'store/zone/types';
 
 import CoordsField from 'components/utils/CoordsField';
 import SliderField from 'components/utils/SliderField';
 
+import levels from 'assets/levels';
 import styles from './Panel.module.scss';
 
 // Types
@@ -38,7 +40,7 @@ const MapPanel: FC<Props> = (props) => {
 
   // Redux
   const dispatch = useDispatch();
-  const { center, zoom } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { level, center, zoom } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -66,6 +68,14 @@ const MapPanel: FC<Props> = (props) => {
         classes={{ wrapperInner: styles.panel }}
         in={open} timeout="auto" unmountOnExit
       >
+        <FormControl component="fieldset">
+          <InputLabel>Niveau</InputLabel>
+          <Select value={level} onChange={(e) => dispatch(loadLevel(levels[e.target.value as string]))}>
+            { Object.keys(levels).map(n => (
+              <MenuItem key={n} value={n}>{ n }</MenuItem>
+            )) }
+          </Select>
+        </FormControl>
         <CoordsField label="Center" value={center} onChange={handleMove} />
         <SliderField label="Zoom"
           value={zoom * 20} min={10} max={20}
