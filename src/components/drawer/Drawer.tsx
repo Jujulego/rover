@@ -10,6 +10,7 @@ import {
 import { AppState } from 'store';
 import { RoversState } from 'store/rovers/types';
 
+import AddRover from './AddRover';
 import MapPanel from './MapPanel';
 import LayersPanel from './LayersPanel';
 import RoverPanel from './RoverPanel';
@@ -69,6 +70,8 @@ const Drawer: FC<Props> = (props) => {
               <RoverPanel {...panelProps(`rover-${rover}`)} name={rover} />
             </Fragment>
           )) }
+          <Divider component="hr" />
+          <AddRover />
         </List>
       </MaterialDrawer>
       <main className={clsx(styles.content, { [styles.close]: !open })}>
