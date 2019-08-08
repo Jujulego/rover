@@ -11,4 +11,4 @@ class GeneratedLevel extends Level {
   }
 }
 
-export default new GeneratedLevel("generated");
+export default new GeneratedLevel("generated", { x: 0, y: 0 }, { x: 150, y: 192 });

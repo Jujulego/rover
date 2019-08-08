@@ -1,14 +1,28 @@
 import { Dispatch } from 'redux';
 
-import { sleep } from 'utils';
 import Level from 'data/Level';
+import { ChristelleRover, PathRover, SimpleRover, StupidRover } from 'data/rovers';
 
-import { setLevel, setMap } from './actions';
+import { addRover, clearRovers } from '../rovers/actions';
+import { debugRover, setLevel, setMap, stopTracking } from './actions';
 
 // Thunks
 export const loadLevel = (lvl: Level) => async (dispatch: Dispatch) => {
-  dispatch(setLevel(lvl));
+  // Set new level and reset params
+  await Promise.all([
+    dispatch(setLevel(lvl)),
+    dispatch(clearRovers()),
+    dispatch(stopTracking()),
+    dispatch(debugRover())
+  ]);
 
+  // Load map
   const map = await lvl.loadMap();
-  dispatch(setMap(map));
+  await dispatch(setMap(map));
+
+  // Add rovers
+  await dispatch(addRover('stupid', new StupidRover(map, lvl.start, lvl.target, 'right'), 'blue'));
+  await dispatch(addRover('christelle', new ChristelleRover(map, lvl.start, lvl.target), 'pink'));
+  await dispatch(addRover('simple', new SimpleRover(map, lvl.start, lvl.target), 'green'));
+  await dispatch(addRover('path', new PathRover(map, lvl.start, lvl.target), 'white'));
 };

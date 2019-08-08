@@ -4,7 +4,7 @@ import Coords from 'data/Coords';
 import RoverAI from 'data/RoverAI';
 
 import {
-  ADD_ROVER,
+  ADD_ROVER, CLEAR_ROVERS,
   PLAY_ROVER, RESTART_ROVER, SET_ROVER_COLOR
 } from './constants';
 
@@ -14,6 +14,10 @@ type AddRoverAction = {
   name: string,
   data: RoverAI,
   color: RoverColor
+}
+
+type ClearRoversAction = {
+  type: typeof CLEAR_ROVERS
 }
 
 type SimpleRoverAction = {
@@ -28,7 +32,7 @@ type SetRoverColorAction = {
 }
 
 export type RoverActionTypes = SimpleRoverAction | SetRoverColorAction;
-export type RoversActionTypes = AddRoverAction | RoverActionTypes;
+export type RoversActionTypes = AddRoverAction | ClearRoversAction | RoverActionTypes;
 
 // State type
 export interface RoverState {

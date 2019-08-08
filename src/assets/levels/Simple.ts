@@ -17,4 +17,4 @@ class SimpleLevel extends Level {
   }
 }
 
-export default new SimpleLevel("simple");
+export default new SimpleLevel("simple", { x: 0, y: 0 }, { x: 6, y: 6 });
