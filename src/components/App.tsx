@@ -9,7 +9,7 @@ import {
   Menu as MenuIcon
 } from '@material-ui/icons';
 
-import data from 'assets/map';
+import data from 'assets/levels/map';
 
 import Map from 'data/Map';
 import { ChristelleRover, PathRover, SimpleRover, StupidRover } from 'data/rovers';

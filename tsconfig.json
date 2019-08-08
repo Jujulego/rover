@@ -24,6 +24,6 @@
     "src"
   ],
   "exclude": [
-    "assets/map.js"
+    "assets/levels/map.js"
   ]
 }
