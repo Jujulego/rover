@@ -2,13 +2,13 @@ import Coords from 'data/Coords';
 import Level from 'data/Level';
 import Map from 'data/Map';
 
-import { ZoneOptions } from 'components/map/Zone';
+import { MapOptions } from 'components/map/Map';
 
 import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
 import { ZoneActionTypes } from './types';
 
 // Actions
-export const toggleOption = (name: ZoneOptions): ZoneActionTypes => ({ type: TOGGLE_OPTION, name });
+export const toggleOption = (name: MapOptions): ZoneActionTypes => ({ type: TOGGLE_OPTION, name });
 export const moveZone = (center: Coords): ZoneActionTypes => ({ type: MOVE_ZONE, center });
 export const trackRover = (name: string): ZoneActionTypes => ({ type: TRACK_ROVER, name });
 export const stopTracking = (): ZoneActionTypes => ({ type: STOP_TRACKING });

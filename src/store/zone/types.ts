@@ -2,7 +2,7 @@ import Coords from 'data/Coords';
 import Level from 'data/Level';
 import Map from 'data/Map';
 
-import { ZoneOptions } from 'components/map/Zone';
+import { MapOptions } from 'components/map/Map';
 
 import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
 
@@ -38,7 +38,7 @@ interface StopTrackingAction {
 
 interface ToggleOptionAction {
   type: typeof TOGGLE_OPTION,
-  name: ZoneOptions
+  name: MapOptions
 }
 
 interface TrackRoverAction {
@@ -54,5 +54,5 @@ export interface ZoneState {
   center: Coords, zoom: number,
   track?: string,
   debug?: string,
-  options: { [name in ZoneOptions]?: boolean }
+  options: { [name in MapOptions]?: boolean }
 }

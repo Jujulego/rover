@@ -1,9 +1,11 @@
 import React, { FC, Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
+import { CircularProgress, Typography } from "@material-ui/core";
+
 import Coords, { distance, equal, generateZone } from 'data/Coords';
 import Level from 'data/Level';
-import Map from 'data/Map';
+import MapData from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 
@@ -12,18 +14,17 @@ import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/
 import Case from './Case';
 import Rover from './Rover';
 
-import styles from './Zone.module.scss';
-import { CircularProgress, Typography } from "@material-ui/core";
+import styles from 'components/map/Map.module.scss';
 
 // Types
-export type ZoneOptions = 'coords' | 'height' | 'slope';
+export type MapOptions = 'coords' | 'height' | 'slope';
 
 type Props = {
-  level?: Level, map?: Map,
+  level?: Level, map?: MapData,
   center: Coords, zoom: number,
   rovers: RoversState, target: Coords,
   track?: string, debug?: string,
-  options: { [name in ZoneOptions]?: boolean },
+  options: { [name in MapOptions]?: boolean },
   onMove?: (_: Coords) => void
 }
 
@@ -37,7 +38,7 @@ function min(rd1: number, d2: number): number {
 }
 
 // Component
-const Zone: FC<Props> = (props) => {
+const Map: FC<Props> = (props) => {
   const {
     level, map,
     center, zoom,
@@ -170,4 +171,4 @@ const Zone: FC<Props> = (props) => {
   );
 };
 
-export default Zone;
+export default Map;

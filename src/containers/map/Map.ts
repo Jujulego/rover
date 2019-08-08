@@ -6,7 +6,7 @@ import Coords from 'data/Coords';
 import { AppState } from 'store';
 import { moveZone } from 'store/zone/actions';
 
-import Zone from 'components/map/Zone';
+import Map from 'components/map/Map';
 
 // Component
 function mapStateToProps(state: AppState) {
@@ -35,4 +35,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   onMove: (center: Coords) => dispatch(moveZone(center))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Zone)
+export default connect(mapStateToProps, mapDispatchToProps)(Map)
