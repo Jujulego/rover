@@ -11,7 +11,7 @@ abstract class Level {
   }
 
   // Methods
-  abstract loadMap(): Map;
+  abstract async loadMap(): Promise<Map>;
 }
 
 export default Level;
