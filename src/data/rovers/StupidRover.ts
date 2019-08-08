@@ -1,7 +1,7 @@
 import { Direction } from '../constants';
-import { Coords, surrounding } from '../Coords';
-import { Map } from '../Map';
-import { RoverAI } from '../RoverAI';
+import Coords, { surrounding } from '../Coords';
+import Map from '../Map';
+import RoverAI from '../RoverAI';
 
 // Class
 class StupidRover extends RoverAI {

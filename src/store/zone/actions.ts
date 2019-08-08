@@ -1,4 +1,4 @@
-import { Coords } from 'data/Coords';
+import Coords from 'data/Coords';
 import { ZoneOptions } from 'components/map/Zone';
 
 import { DEBUG_ROVER, MOVE_ZONE, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';

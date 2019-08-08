@@ -1,6 +1,6 @@
 import { FloorType } from '../Map';
-import { Coords, hash, equal, slope } from '../Coords';
-import { RoverAI } from '../RoverAI';
+import Coords, { hash, equal, slope } from '../Coords';
+import RoverAI from '../RoverAI';
 
 // Type
 type CachedCase = { floor ?: FloorType, height ?: number };

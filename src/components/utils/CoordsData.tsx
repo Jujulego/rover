@@ -9,7 +9,7 @@ import {
   LocationOn as LocationOnIcon
 } from '@material-ui/icons';
 
-import { Coords } from 'data/Coords';
+import Coords from 'data/Coords';
 
 // Types
 type Props = {

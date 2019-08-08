@@ -1,5 +1,5 @@
 import { RoverColor } from 'assets/rovers';
-import { RoverAI } from 'data/RoverAI';
+import RoverAI from 'data/RoverAI';
 
 import {
   ADD_ROVER,

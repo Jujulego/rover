@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { connect } from "react-redux";
 
-import { Coords } from 'data/Coords';
+import Coords from 'data/Coords';
 
 import { AppState } from 'store';
 import { moveZone } from 'store/zone/actions';

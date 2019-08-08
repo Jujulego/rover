@@ -11,7 +11,7 @@ import {
   Map as MapIcon
 } from '@material-ui/icons';
 
-import { Coords } from 'data/Coords';
+import Coords from 'data/Coords';
 
 import { AppState } from 'store';
 import { moveZone, stopTracking, setZoom } from 'store/zone/actions';

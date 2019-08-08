@@ -1,7 +1,10 @@
 import { Direction } from "data/constants";
 
 // Types
-export interface Coords { x: number, y: number }
+export default interface Coords {
+  x: number,
+  y: number
+}
 
 // Utils
 export function hash(c: Coords): string {

@@ -4,7 +4,7 @@ import {
   FormControl, InputLabel, TextField
 } from '@material-ui/core';
 
-import { Coords } from 'data/Coords';
+import Coords from 'data/Coords';
 
 import styles from './CoordsField.module.scss';
 

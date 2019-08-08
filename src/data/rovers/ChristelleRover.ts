@@ -1,5 +1,5 @@
-import { Coords } from '../Coords';
-import { RoverAI } from '../RoverAI';
+import Coords from '../Coords';
+import RoverAI from '../RoverAI';
 
 // Class
 class ChristelleRover extends RoverAI {

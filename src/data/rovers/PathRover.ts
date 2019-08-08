@@ -1,4 +1,4 @@
-import { Coords, realDistance } from '../Coords';
+import Coords, { realDistance } from '../Coords';
 
 import DStarRover from './DStarRover';
 

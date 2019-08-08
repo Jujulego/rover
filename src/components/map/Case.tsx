@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { Typography } from '@material-ui/core';
 
 import { DEFAULT_HEIGHT } from 'data/constants';
-import { Coords, equal, hash } from 'data/Coords';
-import { Map } from 'data/Map';
+import Coords, { equal, hash } from 'data/Coords';
+import Map from 'data/Map';
 import CachedRover from 'data/rovers/CachedRover';
 import DStarRover from 'data/rovers/DStarRover';
 

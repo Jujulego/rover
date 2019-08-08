@@ -1,5 +1,5 @@
 import { DIRECTIONS } from '../constants';
-import { Coords, realDistance, surrounding } from '../Coords';
+import Coords, { realDistance, surrounding } from '../Coords';
 
 import CachedRover from './CachedRover';
 

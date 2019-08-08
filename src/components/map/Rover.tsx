@@ -1,10 +1,10 @@
 import React, { FC } from 'react'
 
-import rovers, { RoverColor } from 'assets/rovers';
-import { RoverAI } from 'data/RoverAI';
+import Coords from 'data/Coords';
+import RoverAI from 'data/RoverAI';
 
+import rovers, { RoverColor } from 'assets/rovers';
 import styles from './Rover.module.scss';
-import { Coords } from "data/Coords";
 
 // Types
 type Props = {

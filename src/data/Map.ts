@@ -1,6 +1,6 @@
 import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
-import {
-  Coords, slope, surrounding
+import Coords, {
+  slope, surrounding
 } from './Coords';
 
 // Types
@@ -13,7 +13,7 @@ export interface Case {
 }
 
 // Class
-export class Map {
+class Map {
   // Attributes
   private readonly data: Array<Array<Case>>;
 
@@ -105,3 +105,5 @@ export class Map {
     return slope(c1, z1, c2, z2);
   }
 }
+
+export default Map;

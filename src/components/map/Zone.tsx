@@ -1,8 +1,8 @@
 import React, { FC, Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { Coords, distance, equal, generateZone } from 'data/Coords';
-import { Map } from 'data/Map';
+import Coords, { distance, equal, generateZone } from 'data/Coords';
+import Map from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 

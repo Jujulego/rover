@@ -1,8 +1,8 @@
-import { Coords, distance, equal } from './Coords';
-import { FloorType, Map } from './Map';
+import Coords, { distance, equal } from './Coords';
+import Map, { FloorType } from './Map';
 
 // Class
-export abstract class RoverAI {
+abstract class RoverAI {
   // Attributs
   readonly start: Coords;
   readonly target: Coords;
@@ -170,3 +170,5 @@ export abstract class RoverAI {
     return this;
   }
 }
+
+export default RoverAI;

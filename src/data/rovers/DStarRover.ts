@@ -1,7 +1,7 @@
 import { DIRECTIONS } from '../constants';
-import { Coords, equal, hash, surrounding } from '../Coords';
-import { Map } from '../Map';
-import { RoverAI } from '../RoverAI';
+import Coords, { equal, hash, surrounding } from '../Coords';
+import Map from '../Map';
+import RoverAI from '../RoverAI';
 
 import CachedRover from './CachedRover';
 
