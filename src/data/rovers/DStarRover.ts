@@ -1,3 +1,6 @@
+import PriorityQueue from 'utils/PriorityQueue';
+import Queue from 'utils/Queue';
+
 import { DIRECTIONS } from '../constants';
 import Coords, { equal, hash, surrounding } from '../Coords';
 import Map from '../Map';
@@ -49,15 +52,18 @@ abstract class DStarRover extends CachedRover {
   }
 
   private init() {
+    const start = performance.now();
+
     // Initiate data
-    const queue = [{ cost: 0, pos: this.target }];
+    const queue = new PriorityQueue<{ cost: number, pos: Coords }>();
+    queue.enqueue({ cost: 0, pos: this.target }, 0);
     this._data = {
       [hash(this.target)]: { from: this.target, cost: 0 }
     };
 
-    while (queue.length !== 0) {
+    while (!queue.isEmpty) {
       // Take the first
-      const d = queue.pop();
+      const d = queue.dequeue();
       if (d === undefined) break;
       const { cost, pos } = d;
 
@@ -72,23 +78,27 @@ abstract class DStarRover extends CachedRover {
           this._data[hash(p)] = { cost: c, from: pos };
 
           // Enqueue
-          queue.unshift({ cost: c, pos: p });
+          queue.enqueue({ cost: c, pos: p }, c);
         }
       });
-
-      // Sort queue
-      queue.sort((d1, d2) => d2.cost - d1.cost);
     }
+
+    const end = performance.now();
+    console.log(`init took: ${end-start}ms`);
   }
 
   protected addObstacle(obs: Coords) {
+    const start = performance.now();
+
     // Set obstacle
     this._data[hash(obs)].obstacle = true;
 
     // Update data
-    const queue: Array<{ pos: Coords, flag: Flag }> = [{ pos: obs, flag: 'UNREACHABLE' }];
-    while (queue.length > 0) {
-      const d = queue.pop();
+    const queue = new Queue<{ pos: Coords, flag: Flag }>();
+    queue.enqueue({ pos: obs, flag: 'UNREACHABLE' });
+
+    while (!queue.isEmpty) {
+      const d = queue.dequeue();
       if (d === undefined) break;
       const { flag, pos } = d;
 
@@ -107,16 +117,16 @@ abstract class DStarRover extends CachedRover {
             if (flag === 'UNREACHABLE') { // pos unreachable
               // pos is unreachable so p should also be unreachable
               this._data[hash(p)].from = null;
-              queue.unshift({ pos: p, flag: 'UNREACHABLE' });
+              queue.enqueue({ pos: p, flag: 'UNREACHABLE' });
             } else { // pos updated
               // pos is updated so p should be also be updated
               this._data[hash(p)].cost = data.cost + this.heuristic(pos, p);
-              queue.unshift({ pos: p, flag: 'UPDATED' });
+              queue.enqueue({ pos: p, flag: 'UPDATED' });
             }
           } else { // p not from pos
             if (flag === 'UNREACHABLE') { // pos is unreachable
               // Maybe can start updates from there
-              queue.unshift({ pos: p, flag: 'UPDATED' });
+              queue.enqueue({ pos: p, flag: 'UPDATED' });
             } else { // pos is updated
               // pos is updated so p can be also be updated
               const nc = data.cost + this.heuristic(pos, p);
@@ -124,7 +134,7 @@ abstract class DStarRover extends CachedRover {
               if (nc < d.cost) {
                 this._data[hash(p)].cost = nc;
                 this._data[hash(p)].from = pos;
-                queue.unshift({ pos: p, flag: 'UPDATED' });
+                queue.enqueue({ pos: p, flag: 'UPDATED' });
               }
             }
           }
@@ -133,11 +143,14 @@ abstract class DStarRover extends CachedRover {
             // Update p
             this._data[hash(p)].cost = data.cost + this.heuristic(pos, p);
             this._data[hash(p)].from = pos;
-            queue.unshift({ pos: p, flag: 'UPDATED' });
+            queue.enqueue({ pos: p, flag: 'UPDATED' });
           }
         }
       });
     }
+
+    const end = performance.now();
+    console.log(`update took: ${end-start}ms`);
   }
 
   protected compute(): Coords {

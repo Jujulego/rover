@@ -6,10 +6,11 @@ $drawer-reduced-width: spacing(7) + 1;
 
 // Style
 .drawer {
+  height: calc(100% - #{spacing(8)});
   width: $drawer-width;
   flex-shrink: 0;
 
-  margin-top: spacing(8);
+  margin-top: #{spacing(8)};
 
   white-space: nowrap;
 
@@ -26,7 +27,7 @@ $drawer-reduced-width: spacing(7) + 1;
   max-height: calc(100vh - #{spacing(8)});
   overflow: auto;
 
-  margin-top: spacing(8);
+  margin-top: #{spacing(8)};
   margin-left: $drawer-width;
 
   transition: margin-left ease $transition-duration;
