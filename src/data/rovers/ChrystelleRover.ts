@@ -2,7 +2,7 @@ import Coords from '../Coords';
 import RoverAI from '../RoverAI';
 
 // Class
-class ChristelleRover extends RoverAI {
+class ChrystelleRover extends RoverAI {
   // Methods
   protected compute(): Coords {
     const road = this.shortestRoad(this.pos, this.target);
@@ -55,4 +55,4 @@ class ChristelleRover extends RoverAI {
   }
 }
 
-export default ChristelleRover;
+export default ChrystelleRover;
