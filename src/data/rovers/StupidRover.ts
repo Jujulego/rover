@@ -8,7 +8,7 @@ class StupidRover extends RoverAI {
   readonly direction: Direction;
 
   // Constructor
-  constructor(map: Map, pos: Coords, target: Coords, direction: Direction) {
+  constructor(map: Map, pos: Coords, target: Coords, direction: Direction = 'right') {
     super(map, pos, target);
 
     this.direction = direction;

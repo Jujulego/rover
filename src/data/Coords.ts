@@ -7,6 +7,10 @@ export default interface Coords {
 }
 
 // Utils
+export function isCoords(obj: any): obj is Coords {
+  return ('x' in obj) && ('y' in obj);
+}
+
 export function hash(c: Coords): string {
   return `${c.x},${c.y}`;
 }
