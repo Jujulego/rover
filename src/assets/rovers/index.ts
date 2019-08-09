@@ -16,4 +16,13 @@ const rovers: { [name in RoverColor]: string } = {
   yellow: yellowRover
 };
 
+// Colors
+export const roverColors: { [name in RoverColor]: string } = {
+  blue: '#3F51B5',
+  green: '#4CAF50',
+  pink: '#E91E63',
+  white: '#E0E0E0',
+  yellow: '#FFC107'
+};
+
 export default rovers;

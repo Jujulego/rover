@@ -75,6 +75,10 @@ const LayersPanel: FC<Props> = (props) => {
           control={<Switch checked={options.slope} onChange={() => dispatch(toggleOption('slope'))} />}
           label="Afficher les pentes"
         />
+        <FormControlLabel
+          control={<Switch checked={options.tracks} onChange={() => dispatch(toggleOption('tracks'))} />}
+          label="Afficher les traces"
+        />
         <FormControl component="fieldset">
           <InputLabel>Debug rover</InputLabel>
           <Select value={debug} onChange={(e) => dispatch(debugRover(e.target.value as string || undefined))}>

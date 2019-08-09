@@ -8,7 +8,8 @@ const initialState: ZoneState = {
   options: {
     coords: true,
     height: false,
-    slope: false
+    slope: false,
+    tracks: true
   }
 };
 

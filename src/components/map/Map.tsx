@@ -17,7 +17,7 @@ import Rover from './Rover';
 import styles from 'components/map/Map.module.scss';
 
 // Types
-export type MapOptions = 'coords' | 'height' | 'slope';
+export type MapOptions = 'coords' | 'height' | 'slope' | 'tracks';
 
 type Props = {
   level?: Level, map?: MapData,
@@ -150,7 +150,7 @@ const Map: FC<Props> = (props) => {
               <Case
                 style={{ gridColumn: i + 1, gridRow: j + 1 }}
                 map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                debug={debug !== undefined ? rovers[debug] : undefined}
+                tracks={options.tracks ? Object.values(rovers) : undefined} debug={debug !== undefined ? rovers[debug] : undefined}
                 isTarget={equal(c, target)}
                 slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
                 onClick={handleCaseClick}

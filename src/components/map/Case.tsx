@@ -13,6 +13,7 @@ import { RoverState } from 'store/rovers/types';
 
 import Floor from './Floor';
 
+import { roverColors } from "assets/rovers";
 import targetImg from 'assets/target.png';
 import styles from './Case.module.scss';
 
@@ -21,6 +22,7 @@ type Props = {
   map: Map,
   pos: Coords,
   slope?: number,
+  tracks?: Array<RoverState>,
   debug?: RoverState,
 
   isTarget?: boolean,
@@ -44,7 +46,7 @@ const computeLine = (from: Coords, to: Coords) => ({
 const Case: FC<Props> = (props) => {
   const {
     map, pos, slope,
-    debug,
+    tracks, debug,
     isTarget = false,
     showCoords = false,
     showHeight = false,
@@ -64,20 +66,22 @@ const Case: FC<Props> = (props) => {
   const cached = ia instanceof CachedRover ? ia.getCachedCase(pos) : null;
   const dstar = ia instanceof DStarRover ? ia.getDStarData(pos) : null;
 
-  const prev = new Array<Coords>();
-  if (debug) {
-    if (debug.track.length > 0) {
-      const last = debug.track[debug.track.length - 1];
-      if (ia && equal(pos, last)) {
-        prev.push(ia.pos);
+  const prev = new Array<{ p: Coords, c: string }>();
+  if (tracks) {
+    tracks.forEach(rover => {
+      if (rover.track.length > 0) {
+        const last = rover.track[rover.track.length - 1];
+        if (equal(pos, last)) {
+          prev.push({ p: rover.data.pos, c: roverColors[rover.color] });
+        }
       }
-    }
 
-    for (let i = 1; i < debug.track.length; ++i) {
-      if (equal(pos, debug.track[i-1])) {
-        prev.push(debug.track[i]);
+      for (let i = 1; i < rover.track.length; ++i) {
+        if (equal(pos, rover.track[i-1])) {
+          prev.push({ p: rover.track[i], c: roverColors[rover.color] });
+        }
       }
-    }
+    });
   }
 
   return (
@@ -89,12 +93,12 @@ const Case: FC<Props> = (props) => {
       { isTarget && (
         <img className={styles.target} src={targetImg} alt="target" />
       ) }
-      { debug && (
+      { (debug || tracks) && (
         <svg className={styles.svg} height={200} width={200}>
-          { prev.map((p) => (
-            <line key={hash(p)} className={styles.track} {...computeLine(pos, p)} />
+          { tracks && prev.map((p) => (
+            <line key={hash(p.p)} className={styles.track} stroke={p.c} {...computeLine(pos, p.p)} />
           )) }
-          { (dstar && dstar.from && !dstar.obstacle) && (
+          { (debug && dstar && dstar.from && !dstar.obstacle) && (
             <line className={styles.dstar} {...computeLine(pos, dstar.from)} />
           ) }
         </svg>

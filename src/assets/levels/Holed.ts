@@ -10,11 +10,11 @@ class HoledLevel extends Level {
       [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
       [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
       [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }],
-      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
-      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
-      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }]
+      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }],
+      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }],
+      [{ floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "rock", height: 0 }, { floor: "hole", height: 0 }, { floor: "rock", height: 0 }]
     ]);
   }
 }
 
-export default new HoledLevel("hole", { x: 0, y: 0 }, { x: 6, y: 6 });
+export default new HoledLevel("hole", { x: 0, y: 0 }, { x: 4, y: 6 });
