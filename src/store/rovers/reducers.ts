@@ -1,6 +1,14 @@
 import { equal } from 'data/Coords';
 
-import { ADD_ROVER, CLEAR_ROVERS, PLAY_ROVER, RESTART_ROVER, SET_ROVER_COLOR } from './constants';
+import {
+  ADD_ROVER,
+  CLEAR_ROVERS,
+  PLAY_ROVER,
+  RESTART_ROVER,
+  SET_ROVER_COLOR,
+  START_ROVER,
+  STOP_ROVER
+} from './constants';
 import { RoverActionTypes, RoversActionTypes, RoversState, RoverState } from './types';
 
 // Initial state
@@ -24,6 +32,13 @@ function roverReducer(state: RoverState, action: RoverActionTypes) {
       };
     }
 
+    case START_ROVER:
+    case STOP_ROVER:
+      return {
+        ...state,
+        active: action.type === START_ROVER
+      };
+
     case RESTART_ROVER:
       return {
         ...state,
@@ -45,6 +60,8 @@ function roverReducer(state: RoverState, action: RoverActionTypes) {
 export function roversReducer(state = initialState, action: RoversActionTypes) {
   switch (action.type) {
     case PLAY_ROVER:
+    case START_ROVER:
+    case STOP_ROVER:
     case RESTART_ROVER:
     case SET_ROVER_COLOR:
       return {
@@ -58,7 +75,8 @@ export function roversReducer(state = initialState, action: RoversActionTypes) {
         [action.name]: {
           data: action.data,
           color: action.color,
-          track: []
+          track: [],
+          active: false
         }
       };
 

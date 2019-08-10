@@ -1,4 +1,4 @@
-import React, { FC, ReactChild, useEffect, useState } from 'react';
+import React, { FC, ReactChild } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -19,7 +19,8 @@ import rovers, { RoverColor } from 'assets/rovers';
 
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
-import { playRover, setRoverColor, restartRover } from 'store/rovers/actions';
+import { playRover, setRoverColor, restartRover, stopRover } from 'store/rovers/actions';
+import { launchRover } from 'store/rovers/thunks';
 import { moveZone, trackRover, stopTracking } from 'store/zone/actions';
 
 import CoordsData from 'components/utils/CoordsData';
@@ -51,9 +52,6 @@ const RoverPanel: FC<Props> = (props) => {
     onOpen, onClose
   } = props;
 
-  // Refs
-  const [playing, setPlaying] = useState<number | null>(null);
-
   // Redux
   const dispatch = useDispatch();
   const rover = useSelector<AppState,RoverState>(state => state.rovers[name]);
@@ -78,9 +76,9 @@ const RoverPanel: FC<Props> = (props) => {
   function handleTrack() {
     if (track === name) {
       dispatch(moveZone(rover.data.pos));
-      dispatch(stopTracking())
+      dispatch(stopTracking());
     } else {
-      dispatch(trackRover(name))
+      dispatch(trackRover(name));
     }
   }
 
@@ -89,34 +87,16 @@ const RoverPanel: FC<Props> = (props) => {
   }
 
   function handlePlayStop() {
-    if (playing == null) {
-      setPlaying(setInterval(() => {
-        dispatch(playRover(name));
-      }, 750) as unknown as number);
+    if (rover.active) {
+      dispatch(stopRover(name));
     } else {
-      clearInterval(playing);
-      setPlaying(null);
+      dispatch(launchRover(name));
     }
   }
 
   function handleRestart() {
-    if (playing != null) {
-      clearInterval(playing);
-      setPlaying(null);
-    }
-
-    dispatch(restartRover(name))
+    dispatch(restartRover(name));
   }
-
-  // Effects
-  useEffect(() => {
-    if (playing != null) {
-      if (rover.data.arrived) {
-        clearInterval(playing);
-        setPlaying(null);
-      }
-    }
-  }, [rover.data.pos.x,rover.data.pos.y]);
 
   // Rendering
   return rover ? (
@@ -163,28 +143,28 @@ const RoverPanel: FC<Props> = (props) => {
         <div className={styles.buttons}>
           <Button
             classes={{ root: styles.step }}
-            variant="outlined" fullWidth disabled={playing != null || rover.data.arrived}
+            variant="outlined" fullWidth disabled={rover.active || rover.data.arrived}
             onClick={handleStep}
           >
             Step
           </Button>
           <Button
             classes={{ root: styles.play }}
-            color={ playing ? 'secondary' : 'primary' }
+            color={ rover.active ? 'secondary' : 'primary' }
             variant="outlined" fullWidth disabled={rover.data.arrived}
             onClick={handlePlayStop}
           >
-            { playing ? (
+            { rover.active ? (
               <StopIcon className={styles.btnIcon} />
             ) : (
               <PlayArrowIcon className={styles.btnIcon} />
             ) }
-            { playing ? 'Stop' : 'Play' }
+            { rover.active ? 'Stop' : 'Play' }
           </Button>
         </div>
         <Button
           variant="outlined" color="secondary" fullWidth
-          onClick={handleRestart}
+          onClick={handleRestart} disabled={rover.active}
         >
           <RefreshIcon className={styles.btnIcon} />
           Restart
