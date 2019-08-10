@@ -9,8 +9,11 @@ import RoverAI from '../RoverAI';
 import CachedRover from './CachedRover';
 
 // Types
-type Data = { from: Coords | null, cost: number, obstacle?: boolean };
 type Flag = 'UNREACHABLE' | 'UPDATED';
+type Flag2 = 'NEW' | 'RAISE' | 'LOWER';
+
+type Flagged = { pos: Coords, flag: Flag2 };
+type Data = { from: Coords | null, cost: number, obstacle?: boolean };
 
 // Class
 abstract class DStarRover extends CachedRover {
@@ -51,106 +54,111 @@ abstract class DStarRover extends CachedRover {
     );
   }
 
-  private init() {
+  private expand(...updates: Flagged[]) {
     const start = performance.now();
 
-    // Initiate data
-    const queue = new PriorityQueue<{ cost: number, pos: Coords }>();
-    queue.enqueue({ cost: 0, pos: this.target }, 0);
+    // Setup queue
+    const queue = new Queue<Flagged>();
+    updates.forEach(u => queue.enqueue(u));
+
+    while (!queue.isEmpty) {
+      // dequeue
+      const flagged = queue.dequeue() as Flagged;
+
+      // expand to neighbors
+      const { pos, flag } = flagged;
+      const data = this._data[hash(pos)] as Data;
+
+      this.surroundings(pos).forEach(p => {
+        const d = this._data[hash(p)];
+        if (d && d.obstacle) return;
+
+        const cost = data.cost + this.heuristic(pos, p);
+
+        switch (flag) {
+          case 'NEW':
+            if (!d) { // no data => new node
+              //console.log(`new:   ${p.x},${p.y} (${cost})`);
+
+              this._data[hash(p)] = { cost, from: pos };
+              queue.enqueue({ pos: p, flag: 'NEW' });
+            } else if (d.cost > cost) { // can reduce cost
+              //console.log(`lower: ${p.x},${p.y} (${d.cost} => ${cost} by ${pos.x},${pos.y})`);
+
+              this._data[hash(p)].cost = cost;
+              this._data[hash(p)].from = pos;
+              queue.enqueue({ pos: p, flag: 'LOWER' });
+            }
+
+            break;
+
+          case 'LOWER':
+            if (!d) break; // should not happen
+
+            if (!d.from || d.cost > cost) {
+              //console.log(`lower: ${p.x},${p.y} (${d.from ? d.cost : 'infinite'} => ${cost} by ${pos.x},${pos.y})`);
+
+              this._data[hash(p)].cost = cost;
+              this._data[hash(p)].from = pos;
+              queue.enqueue({ pos: p, flag: 'LOWER' });
+            }
+
+            break;
+
+          case 'RAISE':
+            if (!d) break; // should not happen
+            if (!d.from) break;
+
+            if (data.obstacle || !data.from) { // pos became unreachable
+              if (equal(d.from, pos)) { // path goes threw pos
+                //console.log(`raise: ${p.x},${p.y} (${d.cost} => infinite)`);
+
+                // p should be unreachable too
+                this._data[hash(p)].from = null;
+                queue.enqueue({ pos: p, flag: 'RAISE' });
+              } else if (!d.obstacle && (data.obstacle || d.cost <= data.cost)) { // maybe can lower from there (if reachable)
+                //console.log(`lower: ${p.x},${p.y} (start lowering)`);
+
+                queue.enqueue({ pos: p, flag: 'LOWER' });
+              }
+            } else {
+              if (equal(d.from, pos)) { // path goes threw pos
+                if (d.cost !== cost) {
+                  //console.log(`raise: ${p.x},${p.y} (${d.cost} => ${cost})`);
+
+                  // p should be raised too
+                  this._data[hash(p)].cost = cost;
+                  queue.enqueue({ pos: p, flag: 'RAISE' });
+                }
+              } else if (!d.obstacle && d.cost <= data.cost) { // maybe can lower from there (if reachable)
+                //console.log(`lower: ${p.x},${p.y} (start lowering)`);
+
+                queue.enqueue({ pos: p, flag: 'LOWER' });
+              }
+            }
+
+            break;
+        }
+      });
+    }
+
+    const end = performance.now();
+    console.log(`expand took: ${end-start}ms`);
+  }
+
+  private init() {
     this._data = {
       [hash(this.target)]: { from: this.target, cost: 0 }
     };
 
-    while (!queue.isEmpty) {
-      // Take the first
-      const d = queue.dequeue();
-      if (d === undefined) break;
-      const { cost, pos } = d;
-
-      // Get surroundings
-      this.surroundings(pos).forEach((p) => {
-        // Check if not inserted
-        const c = cost + this.heuristic(pos, p);
-        const data = this._data[hash(p)];
-
-        if (!data || data.cost > c) {
-          // Insert
-          this._data[hash(p)] = { cost: c, from: pos };
-
-          // Enqueue
-          queue.enqueue({ cost: c, pos: p }, c);
-        }
-      });
-    }
-
-    const end = performance.now();
-    console.log(`init took: ${end-start}ms`);
+    this.expand({ pos: this.target, flag: 'NEW' });
   }
 
   protected addObstacle(obs: Coords) {
-    const start = performance.now();
-
     // Set obstacle
     this._data[hash(obs)].obstacle = true;
 
-    // Update data
-    const queue = new Queue<{ pos: Coords, flag: Flag }>();
-    queue.enqueue({ pos: obs, flag: 'UNREACHABLE' });
-
-    while (!queue.isEmpty) {
-      const d = queue.dequeue();
-      if (d === undefined) break;
-      const { flag, pos } = d;
-
-      const data = this._data[hash(pos)];
-
-      // Get surroundings
-      this.surroundings(pos).forEach((p) => {
-        const d = this._data[hash(p)];
-
-        // Ignore if is obstacle
-        if (d.obstacle) return;
-
-        // Check if from is pos
-        if (d.from) { // p reachable
-          if (equal(d.from, pos)) { // p from pos
-            if (flag === 'UNREACHABLE') { // pos unreachable
-              // pos is unreachable so p should also be unreachable
-              this._data[hash(p)].from = null;
-              queue.enqueue({ pos: p, flag: 'UNREACHABLE' });
-            } else { // pos updated
-              // pos is updated so p should be also be updated
-              this._data[hash(p)].cost = data.cost + this.heuristic(pos, p);
-              queue.enqueue({ pos: p, flag: 'UPDATED' });
-            }
-          } else { // p not from pos
-            if (flag === 'UNREACHABLE') { // pos is unreachable
-              // Maybe can start updates from there
-              queue.enqueue({ pos: p, flag: 'UPDATED' });
-            } else { // pos is updated
-              // pos is updated so p can be also be updated
-              const nc = data.cost + this.heuristic(pos, p);
-
-              if (nc < d.cost) {
-                this._data[hash(p)].cost = nc;
-                this._data[hash(p)].from = pos;
-                queue.enqueue({ pos: p, flag: 'UPDATED' });
-              }
-            }
-          }
-        } else if (!d.obstacle) { // p is unreachable and not obstacle
-          if (flag === 'UPDATED') { // pos updated
-            // Update p
-            this._data[hash(p)].cost = data.cost + this.heuristic(pos, p);
-            this._data[hash(p)].from = pos;
-            queue.enqueue({ pos: p, flag: 'UPDATED' });
-          }
-        }
-      });
-    }
-
-    const end = performance.now();
-    console.log(`update took: ${end-start}ms`);
+    this.expand({ pos: obs, flag: 'RAISE' });
   }
 
   protected compute(): Coords {
