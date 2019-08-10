@@ -9,10 +9,9 @@ import RoverAI from '../RoverAI';
 import CachedRover from './CachedRover';
 
 // Types
-type Flag = 'UNREACHABLE' | 'UPDATED';
-type Flag2 = 'NEW' | 'RAISE' | 'LOWER';
+type Flag = 'NEW' | 'RAISE' | 'LOWER';
+type Flagged = { pos: Coords, flag: Flag };
 
-type Flagged = { pos: Coords, flag: Flag2 };
 type Data = { from: Coords | null, cost: number, obstacle?: boolean };
 
 // Class
@@ -174,7 +173,7 @@ abstract class DStarRover extends CachedRover {
 
       // Check if there is an obstacle
       const floor = this.getFloor(dp.from); // cost 0.2 energy
-      if (floor === 'hole') {
+      if (floor === 'hole' || floor !== 'sand') {
         // Update and recompute path
         this.addObstacle(dp.from);
 
@@ -190,7 +189,7 @@ abstract class DStarRover extends CachedRover {
 
   restart(): RoverAI {
     super.restart();
-    this.init();
+    //this.init();
 
     return this;
   }

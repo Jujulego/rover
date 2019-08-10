@@ -23,7 +23,7 @@ abstract class CachedRover extends RoverAI {
 
   restart(): RoverAI {
     super.restart();
-    this.resetCache();
+    //this.resetCache();
 
     return this;
   }
