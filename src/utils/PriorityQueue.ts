@@ -14,6 +14,7 @@ class PriorityQueue<T> {
   // Methods
   enqueue(value: T, priority: number) {
     this._queue.unshift({ value, priority });
+    if (!isFinite(priority)) return;
 
     // Sort !
     const inserted = this._queue[0];

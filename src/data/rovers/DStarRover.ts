@@ -1,4 +1,3 @@
-import PriorityQueue from 'utils/PriorityQueue';
 import Queue from 'utils/Queue';
 
 import { DIRECTIONS } from '../constants';
@@ -54,8 +53,6 @@ abstract class DStarRover extends CachedRover {
   }
 
   private expand(...updates: Flagged[]) {
-    const start = performance.now();
-
     // Setup queue
     const queue = new Queue<Flagged>();
     updates.forEach(u => queue.enqueue(u));
@@ -140,9 +137,6 @@ abstract class DStarRover extends CachedRover {
         }
       });
     }
-
-    const end = performance.now();
-    console.log(`expand took: ${end-start}ms`);
   }
 
   private init() {
