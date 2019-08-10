@@ -21,9 +21,9 @@ abstract class CachedRover extends RoverAI {
     this._slopeCache = [];
   }
 
-  restart(): RoverAI {
+  restart(keep: boolean = false): RoverAI {
     super.restart();
-    //this.resetCache();
+    if (!keep) this.resetCache();
 
     return this;
   }

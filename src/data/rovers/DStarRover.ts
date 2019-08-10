@@ -154,6 +154,10 @@ abstract class DStarRover extends CachedRover {
     this.expand({ pos: obs, flag: 'RAISE' });
   }
 
+  protected raiseTarget() {
+    this.expand({ pos: this.target, flag: 'RAISE' });
+  }
+
   protected compute(): Coords {
     let i = 8;
     while (i) {
@@ -181,9 +185,9 @@ abstract class DStarRover extends CachedRover {
     return this.pos;
   }
 
-  restart(): RoverAI {
-    super.restart();
-    //this.init();
+  restart(keep: boolean = false): RoverAI {
+    super.restart(keep);
+    if (!keep) this.init();
 
     return this;
   }

@@ -64,6 +64,10 @@ const AddRover: FC = () => {
     } else {
       event.persist();
       setForm(old => ({ ...old, [field]: event.target.value }));
+
+      if (field === 'algo' && form.name === '') {
+        setForm(old => ({ ...old, name: event.target.value as string }))
+      }
     }
   };
 
