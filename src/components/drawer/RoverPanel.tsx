@@ -17,6 +17,8 @@ import {
 
 import rovers, { RoverColor } from 'assets/rovers';
 
+import { round2 } from 'utils';
+
 import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
 import { playRover, setRoverColor, restartRover, stopRover } from 'store/rovers/actions';
@@ -126,7 +128,7 @@ const RoverPanel: FC<Props> = (props) => {
           <CoordsData className={styles.data} coords={rover.data.target} onLocate={handleLocate('target')} />
         </Data>
         <Data label="Energie">
-          <Typography>{ Math.round(rover.data.energy * 100) / 100 }</Typography>
+          <Typography>{ round2(rover.data.energy) } / { rover.data.gaugeSize }</Typography>
         </Data>
         <Data label="Attente">
           <Typography>{ rover.data.wait }</Typography>

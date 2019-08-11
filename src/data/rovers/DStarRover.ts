@@ -65,8 +65,8 @@ abstract class DStarRover extends CachedRover {
   private _data: { [name: string]: Data } = {};
 
   // Constructor
-  constructor(map: Map, pos: Coords, target: Coords) {
-    super(map, pos, target);
+  constructor(map: Map, pos: Coords, target: Coords, gaugeSize?: number) {
+    super(map, pos, target, gaugeSize);
 
     this._size = map.size;
     this.init();

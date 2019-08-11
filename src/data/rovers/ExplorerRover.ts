@@ -3,9 +3,15 @@ import Coords, { realDistance, direction, surrounding } from '../Coords';
 import RoverAI from '../RoverAI';
 
 import DStarRover, { UpdateList } from './DStarRover';
+import Map from 'data/Map';
 
 // Class
 class ExplorerRover extends DStarRover {
+  // Constructor
+  constructor(map: Map, pos: Coords, target: Coords) {
+    super(map, pos, target, 10000);
+  }
+
   // Methods
   protected heuristic(from: Coords, to: Coords): number {
     const d = realDistance(from, to);

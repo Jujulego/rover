@@ -33,7 +33,7 @@ const Rover: FC<Props> = (props) => {
     <div className={styles.rover} style={style} onClick={handleClick}>
       <img src={rovers[color]} alt={`${color} rover`} />
       <div className={styles.gauge}>
-        <div style={{ height: `${data.energy}%`}} />
+        <div style={{ height: `${data.energy * 100 / data.gaugeSize}%`}} />
       </div>
     </div>
   );

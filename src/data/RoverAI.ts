@@ -1,21 +1,19 @@
 import Coords, { distance, equal } from './Coords';
 import Map, { FloorType } from './Map';
 
-// Constants
-const ENERGY = 100;
-
 // Class
 abstract class RoverAI {
   // Attributs
   readonly start: Coords;
   readonly target: Coords;
+  readonly gaugeSize: number;
 
   private readonly map: Map;
 
   private _pos: Coords;
   private _ppos: Coords;
   private _wait: number = 0;
-  private _energy: number = ENERGY;
+  private _energy: number;
 
   // Property
   get pos(): Coords {
@@ -35,13 +33,15 @@ abstract class RoverAI {
   }
 
   // Constructor
-  constructor(map: Map, pos: Coords, target: Coords) {
+  constructor(map: Map, pos: Coords, target: Coords, gaugeSize: number = 100) {
     this.start = pos;
     this.target = target;
+    this.gaugeSize = gaugeSize;
 
     this.map = map;
     this._pos = pos;
     this._ppos = pos;
+    this._energy = gaugeSize;
   }
 
   // Abstract methods
@@ -135,7 +135,7 @@ abstract class RoverAI {
 
         // On ice
         if (c && c.floor === 'ice') {
-          this._energy = ENERGY;
+          this._energy = this.gaugeSize;
         }
 
         // Out of energy
@@ -167,7 +167,7 @@ abstract class RoverAI {
   restart(): RoverAI {
     this._pos = this.start;
     this._ppos = this.start;
-    this._energy = ENERGY;
+    this._energy = this.gaugeSize;
     this._wait = 0;
 
     return this;
