@@ -42,6 +42,24 @@ export function slope(c1: Coords, z1: number, c2: Coords, z2: number) {
   return (d !== 0) ? (z2 - z1) / d : 0;
 }
 
+export function direction(from: Coords, to: Coords): Direction | undefined {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+
+  switch (`${dx},${dy}`) {
+    case '0,-1': return 'top';
+    case '1,-1': return 'topRight';
+    case '1,0': return 'right';
+    case '1,1': return 'bottomRight';
+    case '0,1': return 'bottom';
+    case '-1,1': return 'bottomLeft';
+    case '-1,0': return 'left';
+    case '-1,-1': return 'topLeft';
+  }
+
+  return;
+}
+
 export function surrounding(pos: Coords, direction: Direction): Coords {
   switch (direction) {
     case 'top':         return { x: pos.x    , y: pos.y - 1 };

@@ -29,6 +29,7 @@ export const launchRover = (name: string, wait: number = 500) => async (dispatch
       ]);
     } catch (err) {
       console.error("Error while playing :", err);
+      throw err;
     }
   }
 

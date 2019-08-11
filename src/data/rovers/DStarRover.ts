@@ -147,20 +147,51 @@ abstract class DStarRover extends CachedRover {
     this.expand({ pos: this.target, flag: 'NEW' });
   }
 
-  protected addObstacle(obs: Coords) {
-    // Set obstacle
-    this._data[hash(obs)].obstacle = true;
+  protected addObstacles(...obstacles: Coords[]) {
+    // Set obstacles
+    const updates = obstacles.reduce((acc, obs) => {
+      if (this.inMap(obs)) {
+        this._data[hash(obs)].obstacle = true;
+        acc.push({ pos: obs, flag: 'RAISE' });
+      }
 
-    this.expand({ pos: obs, flag: 'RAISE' });
+      return acc;
+    }, new Array<Flagged>());
+
+    // Update path
+    this.expand(...updates);
   }
 
-  protected raiseTarget() {
-    this.expand({ pos: this.target, flag: 'RAISE' });
+  protected raise(...coords: Coords[]) {
+    // Set obstacles
+    const updates = coords.reduce((acc, c) => {
+      if (this.inMap(c)) {
+        acc.push({ pos: c, flag: 'RAISE' });
+      }
+
+      return acc;
+    }, new Array<Flagged>());
+
+    // Update path
+    this.expand(...updates);
+  }
+
+  protected detect(data: { from: Coords, cost: number }): boolean {
+    // Check if there is an obstacle
+    const floor = this.getFloor(data.from); // cost 0.2 energy
+    if (floor === 'hole') {
+      // Update and recompute path
+      this.addObstacles(data.from);
+
+      return true;
+    }
+
+    return false;
   }
 
   protected compute(): Coords {
     let i = 8;
-    while (i) {
+    while (true) {
       const dp = this._data[hash(this.pos)];
       if (dp.from == null) return this.pos;
 
@@ -170,19 +201,14 @@ abstract class DStarRover extends CachedRover {
       if (df.obstacle) return this.pos;
 
       // Check if there is an obstacle
-      const floor = this.getFloor(dp.from); // cost 0.2 energy
-      if (floor === 'hole' || floor !== 'sand') {
-        // Update and recompute path
-        this.addObstacle(dp.from);
-
+      if (this.detect({ from: dp.from, cost: dp.cost })) {
         --i;
-        continue;
+
+        if (i !== 0) continue;
       }
 
       return dp.from;
     }
-
-    return this.pos;
   }
 
   restart(keep: boolean = false): RoverAI {
