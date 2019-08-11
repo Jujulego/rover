@@ -184,7 +184,7 @@ abstract class DStarRover extends CachedRover {
                 // p should be unreachable too
                 this._data[hash(p)].from = null;
                 queue.enqueue({ pos: p, flag: 'RAISE' });
-              } else if (!d.obstacle && (data.obstacle || d.cost <= data.cost)) { // maybe can lower from there (if reachable)
+              } else if (!d.obstacle) { // maybe can lower from there (if reachable)
                 //console.log(`lower: ${p.x},${p.y} (start lowering)`);
 
                 queue.enqueue({ pos: p, flag: 'LOWER' });
@@ -198,7 +198,7 @@ abstract class DStarRover extends CachedRover {
                   this._data[hash(p)].cost = cost;
                   queue.enqueue({ pos: p, flag: 'RAISE' });
                 }
-              } else if (!d.obstacle && d.cost <= data.cost) { // maybe can lower from there (if reachable)
+              } else if (!d.obstacle) { // maybe can lower from there (if reachable)
                 //console.log(`lower: ${p.x},${p.y} (start lowering)`);
 
                 queue.enqueue({ pos: p, flag: 'LOWER' });

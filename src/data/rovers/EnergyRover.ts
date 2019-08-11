@@ -2,10 +2,11 @@ import { Direction } from 'data/constants';
 import Coords, { direction, surrounding } from '../Coords';
 
 import DStarRover, { UpdateList } from './DStarRover';
+import RoverAI from 'data/RoverAI';
 
 // Constants
 const TURN_COST = 100;
-const DEFAULT_SLOPE = 0.1; // 10%
+const DEFAULT_SLOPE = 0; // 0%
 
 // Class
 class EnergyRover extends DStarRover {
@@ -77,6 +78,13 @@ class EnergyRover extends DStarRover {
           break;
       }
     });
+  }
+
+  restart(): RoverAI {
+    super.restart(true);
+    this.raise(this.target);
+
+    return this;
   }
 }
 
