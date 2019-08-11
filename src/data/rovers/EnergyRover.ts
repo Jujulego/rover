@@ -1,20 +1,42 @@
 import { Direction } from 'data/constants';
-import Coords, { realDistance, direction, surrounding } from '../Coords';
-import RoverAI from '../RoverAI';
+import Coords, { direction, surrounding } from '../Coords';
 
 import DStarRover, { UpdateList } from './DStarRover';
 
+// Constants
+const TURN_COST = 100;
+const DEFAULT_SLOPE = 0.1; // 10%
+
 // Class
-class ExplorerRover extends DStarRover {
+class EnergyRover extends DStarRover {
   // Methods
   protected heuristic(from: Coords, to: Coords): number {
-    const d = realDistance(from, to);
+    // Distance
+    let r = (from.x === to.x || from.y === to.y) ? 1 : 1.4;
 
-    if (!this.getCachedCase(to).floor) {
-      return d / 2;
+    // Slope
+    const slope = this.getCachedSlope(from, to) || DEFAULT_SLOPE;
+    r *= 1 + slope;
+
+    if (Math.abs(slope) > 1.5) {
+      r += 10 * TURN_COST;
     }
 
-    return d;
+    // Sand
+    const c = this.getCachedCase(to);
+    switch (c.floor) {
+      case 'sand':
+        r += Math.sign(slope) * .1;
+        break;
+
+      case 'ice':
+        if (Math.abs(slope) <= 1.5) {
+          r = -TURN_COST;
+        }
+        break;
+    }
+
+    return r + TURN_COST;
   }
 
   private getDirs(to: Coords): Array<Direction> {
@@ -37,25 +59,25 @@ class ExplorerRover extends DStarRover {
     dirs.forEach(dir => {
       const c = surrounding(this.pos, dir);
 
-      if (this.getFloor(c) !== 'sand') {
-        updates.obstacles(c);
+      switch (this.getFloor(c)) {
+        case 'hole':
+          updates.obstacles(c);
+          break;
+
+        case 'ice':
+          const d = this.getDStarData(c);
+          if (d.from) {
+            updates.lower(d.from);
+          }
+
+          break;
+
+        case 'sand':
+          //updates.raise(c);
+          break;
       }
     });
   }
-
-  protected compute(): Coords {
-    this.getFloor(this.pos); // cost 0.1 energy (only on the 1st play)
-    this.raise(this.pos);
-
-    return super.compute();
-  }
-
-  restart(): RoverAI {
-    super.restart(true);
-    this.raise(this.target);
-
-    return this;
-  }
 }
 
-export default ExplorerRover;
+export default EnergyRover;

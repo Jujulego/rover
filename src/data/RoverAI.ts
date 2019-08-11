@@ -2,7 +2,7 @@ import Coords, { distance, equal } from './Coords';
 import Map, { FloorType } from './Map';
 
 // Constants
-const ENERGY = 10000;
+const ENERGY = 100;
 
 // Class
 abstract class RoverAI {

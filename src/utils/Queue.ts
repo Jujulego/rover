@@ -8,6 +8,10 @@ class Queue<T> {
     return this._queue.length === 0;
   }
 
+  get next(): T | undefined {
+    return this._queue[this._queue.length-1];
+  }
+
   // Methods
   enqueue(value: T) {
     this._queue.unshift(value);
