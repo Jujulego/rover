@@ -16,22 +16,17 @@ import borderBRAngle from './border-br-angle.png';
 import borderTRAngle from './border-tr-angle.png';
 
 // Theme
-const theme: Theme = {
-  floor,
-  borders: {
-    [Direction.T]:   borderT,
-    [Direction.TL]:  borderTL,
-    [Direction.L]:   borderL,
-    [Direction.BL]:  borderBL,
-    [Direction.B]:   borderB,
-    [Direction.BR]:  borderBR,
-    [Direction.R]:   borderR,
-    [Direction.TR]:  borderTR,
-    [Direction.TLA]: borderTLAngle,
-    [Direction.BLA]: borderBLAngle,
-    [Direction.BRA]: borderBRAngle,
-    [Direction.TRA]: borderTRAngle
-  }
-};
-
-export default theme;
+export default new Theme(floor, {
+  [Direction.T]:   borderT,
+  [Direction.TL]:  borderTL,
+  [Direction.L]:   borderL,
+  [Direction.BL]:  borderBL,
+  [Direction.B]:   borderB,
+  [Direction.BR]:  borderBR,
+  [Direction.R]:   borderR,
+  [Direction.TR]:  borderTR,
+  [Direction.TLA]: borderTLAngle,
+  [Direction.BLA]: borderBLAngle,
+  [Direction.BRA]: borderBRAngle,
+  [Direction.TRA]: borderTRAngle
+});
