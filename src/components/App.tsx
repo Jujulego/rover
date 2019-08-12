@@ -10,10 +10,9 @@ import {
 
 import Drawer from './drawer/Drawer';
 
-import Floor from './map2/Floor';
+import Map from 'containers/map2/Map';
 
 import styles from './App.module.scss';
-import Direction from 'data/Direction';
 
 // Component
 const App: FC = () => {
@@ -38,8 +37,7 @@ const App: FC = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} onOpen={() => setOpen(true)}>
-        <Floor type='ice' borders={{ [Direction.B]: true }} />
-        <Floor type='hole' />
+        <Map />
       </Drawer>
     </div>
   );

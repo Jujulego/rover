@@ -1,11 +1,10 @@
 @import "./parameters";
 
+// Styles
 .floor {
   display: grid;
   grid-template-columns: repeat(3, $case-size / 3);
   grid-template-rows: repeat(3, $case-size / 3);
-
-  background-color: #333333;
 
   div {
     position: relative;
