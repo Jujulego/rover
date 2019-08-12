@@ -2,7 +2,6 @@ import { Direction } from 'data/constants';
 import Coords, { direction, surrounding } from '../Coords';
 
 import DStarRover, { UpdateList } from './DStarRover';
-import RoverAI from 'data/RoverAI';
 
 // Constants
 const TURN_COST = 100;
@@ -59,16 +58,17 @@ class EnergyRover extends DStarRover {
     const dirs = this.getDirs(data.from);
     dirs.forEach(dir => {
       const c = surrounding(this.pos, dir);
+      const cached = this.getCachedCase(c);
+      const data = this.getDStarData(c);
 
       switch (this.getFloor(c)) {
         case 'hole':
-          updates.obstacles(c);
+          if (data && !data.obstacle) updates.obstacles(c);
           break;
 
         case 'ice':
-          const d = this.getDStarData(c);
-          if (d.from) {
-            updates.lower(d.from);
+          if (data && data.from && cached.floor !== 'ice') {
+            updates.lower(data.from);
           }
 
           break;
@@ -78,13 +78,6 @@ class EnergyRover extends DStarRover {
           break;
       }
     });
-  }
-
-  restart(): RoverAI {
-    super.restart(true);
-    this.raise(this.target);
-
-    return this;
   }
 }
 

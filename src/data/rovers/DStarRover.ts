@@ -112,6 +112,8 @@ abstract class DStarRover extends CachedRover {
 
   // - algorithm
   private expand(updates: UpdateList | Flagged[]) {
+    //const start = performance.now();
+
     // Setup queue
     const queue = new Queue<Flagged>();
     updates.forEach(u => {
@@ -140,7 +142,7 @@ abstract class DStarRover extends CachedRover {
         const d = this._data[hash(p)];
         if (d && d.obstacle) return;
 
-        const cost = data.cost + this.heuristic(pos, p);
+        let cost = data.cost + this.heuristic(pos, p);
         //console.log(`to ${p.x},${p.y} (${d ? d.cost : 'infinity'} => ${cost})`);
 
         switch (flag) {
@@ -150,7 +152,7 @@ abstract class DStarRover extends CachedRover {
 
               this._data[hash(p)] = { cost, from: pos };
               queue.enqueue({ pos: p, flag: 'NEW' });
-            } else if (d.cost > cost) { // can reduce cost
+            } else if (d.cost > cost) { // can reduce cost ?
               //console.log(`lower: ${p.x},${p.y} (${d.cost} => ${cost} by ${pos.x},${pos.y})`);
 
               this._data[hash(p)].cost = cost;
@@ -184,10 +186,15 @@ abstract class DStarRover extends CachedRover {
                 // p should be unreachable too
                 this._data[hash(p)].from = null;
                 queue.enqueue({ pos: p, flag: 'RAISE' });
-              } else if (!d.obstacle) { // maybe can lower from there (if reachable)
-                //console.log(`lower: ${p.x},${p.y} (start lowering)`);
+              } else if (!d.obstacle && !data.obstacle) { // will lower from there
+                const nc = d.cost + this.heuristic(p, pos);
+                //console.log(`lower: ${pos.x},${pos.y} (infinite => ${nc} by ${p.x},${p.y})`);
 
-                queue.enqueue({ pos: p, flag: 'LOWER' });
+                cost += nc - data.cost;
+                this._data[hash(pos)].cost = nc;
+                this._data[hash(pos)].from = p;
+
+                queue.enqueue({ pos, flag: 'LOWER' });
               }
             } else {
               if (equal(d.from, pos)) { // path goes threw pos
@@ -198,10 +205,18 @@ abstract class DStarRover extends CachedRover {
                   this._data[hash(p)].cost = cost;
                   queue.enqueue({ pos: p, flag: 'RAISE' });
                 }
-              } else if (!d.obstacle) { // maybe can lower from there (if reachable)
-                //console.log(`lower: ${p.x},${p.y} (start lowering)`);
+              } else if (!d.obstacle) { // maybe can lower from there
+                const nc = d.cost + this.heuristic(p, pos);
 
-                queue.enqueue({ pos: p, flag: 'LOWER' });
+                if (data.cost > nc) {
+                  //console.log(`lower: ${pos.x},${pos.y} (${data.cost} => ${nc} by ${p.x},${p.y})`);
+
+                  cost += nc - data.cost;
+                  this._data[hash(pos)].cost = nc;
+                  this._data[hash(pos)].from = p;
+
+                  queue.enqueue({pos, flag: 'LOWER'});
+                }
               }
             }
 
@@ -209,6 +224,9 @@ abstract class DStarRover extends CachedRover {
         }
       });
     }
+
+    //const end = performance.now();
+    //console.log(`expand took ${end-start}ms`);
   }
 
   // - callbacks
