@@ -1,0 +1,12 @@
+@import "parameters";
+
+// Style
+.case {
+  position: absolute;
+
+  .target {
+    position: absolute;
+    top: ($case-size - 64px) / 2;
+    left: ($case-size - 64px) / 2;
+  }
+}

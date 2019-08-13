@@ -2,21 +2,19 @@ import React, { FC, useState } from 'react';
 
 import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
-import Coords, { equal, generateZone } from 'data/Coords';
-import DataMap, { Case } from 'data/Map';
+import Coords, { equal, generateZone, hash } from 'data/Coords';
+import DataMap  from 'data/Map';
 
-import Floor from './Floor';
+import Case from './Case';
 
 import styles from './Map.module.scss';
+import { CASE_SIZE } from './constants';
 
 // Types
 type Props = {
-  map?: DataMap,
+  map?: DataMap, target: Coords,
   center: Coords, zoom: number
 }
-
-// Constants
-const CASE_SIZE = 96;
 
 // Utils
 function odd(x: number): number {
@@ -26,7 +24,7 @@ function odd(x: number): number {
 // Component
 const Map: FC<Props> = (props) => {
   const {
-    map,
+    map, target,
     center, zoom
   } = props;
 
@@ -83,17 +81,13 @@ const Map: FC<Props> = (props) => {
   return (
     <div ref={containerCb} className={styles.container}>
       <div className={styles.map} style={style}>
-        { generateZone(centers, size, (p) => {
-          if (map.isOut(p)) return null;
-
-          const c = map.get(p) as Case;
-          return (
-            <Floor
-              type={c.floor} borders={map.borders2(p)} cliffs={map.cliffs(p)}
-              style={{ position: 'absolute', top: p.y * CASE_SIZE, left: p.x * CASE_SIZE }}
-            />
-          );
-        }) }
+        { generateZone(centers, size, (pos) => (
+          <Case
+            key={hash(pos)}
+            pos={pos} map={map}
+            target={equal(pos, target)}
+          />
+        )) }
       </div>
     </div>
   );

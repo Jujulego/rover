@@ -6,10 +6,19 @@ import Map from 'components/map2/Map';
 
 // Component
 function mapStateToProps(state: AppState) {
+  let center = state.zone.center;
+  if (state.zone.track) {
+    const tracked = state.rovers[state.zone.track];
+
+    if (tracked) {
+      center = tracked.data.pos;
+    }
+  }
+
   return {
     map: state.zone.map,
-    center: state.zone.center,
-    zoom: state.zone.zoom
+    target: state.zone.level ? state.zone.level.target : { x: 0, y: 0 },
+    center, zoom: state.zone.zoom
   };
 }
 

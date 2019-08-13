@@ -14,7 +14,7 @@ import { RoverState } from 'store/rovers/types';
 import Floor from './Floor';
 
 import { roverColors } from "assets/rovers";
-import targetImg from 'assets/target.png';
+import targetImg from 'assets/themes/target.png';
 import styles from './Case.module.scss';
 
 // Types
