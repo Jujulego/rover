@@ -1,3 +1,6 @@
+@import "assets/spacing";
+@import "assets/theme";
+
 @import "./parameters";
 
 // Styles
@@ -9,6 +12,20 @@
   overflow: hidden;
 
   background-color: #333333;
+
+  .loader {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    @include column-spacing(spacing(2));
+  }
 
   .map {
     position: relative;

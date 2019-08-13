@@ -20,8 +20,7 @@ function mapStateToProps(state: AppState) {
   }
 
   return {
-    map: state.zone.map,
-    target: state.zone.level && state.zone.level.target,
+    level: state.zone.level, map: state.zone.map,
     center, zoom: state.zone.zoom, options: state.zone.options,
   };
 }

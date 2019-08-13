@@ -3,6 +3,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Coords, { equal, generateZone, hash } from 'data/Coords';
+import Level from 'data/Level';
 import DataMap  from 'data/Map';
 
 import Case from './Case';
@@ -10,10 +11,11 @@ import Case from './Case';
 import styles from './Map.module.scss';
 import { CASE_SIZE } from './constants';
 import { MapOptions } from 'components/map/Map';
+import { CircularProgress, Typography } from '@material-ui/core';
 
 // Types
 type Props = {
-  map?: DataMap, target?: Coords,
+  level?: Level, map?: DataMap,
   center: Coords, zoom: number,
   options: { [name in MapOptions]?: boolean },
   onMove: (p: Coords) => void
@@ -27,7 +29,7 @@ function odd(x: number): number {
 // Component
 const Map: FC<Props> = (props) => {
   const {
-    map, target,
+    level, map,
     center, zoom, options,
     onMove
   } = props;
@@ -75,8 +77,17 @@ const Map: FC<Props> = (props) => {
   }, [zoom]);
 
   // Rendering
-  if (!map) {
-    return <div className={styles.container} />;
+  if (!map || !level) {
+    return (
+      <div className={styles.container}>
+        { level && (
+          <div className={styles.loader}>
+            <CircularProgress />
+            <Typography>Chargement du niveau "{level.name}" ...</Typography>
+          </div>
+        ) }
+      </div>
+    );
   }
 
   const centers = [center];
@@ -98,7 +109,7 @@ const Map: FC<Props> = (props) => {
         { generateZone(centers, size, (pos) => (
           <Case
             key={hash(pos)}
-            pos={pos} map={map} target={target && equal(pos, target)}
+            pos={pos} map={map} target={equal(pos, level.target)}
             coords={options.coords} height={options.height}
             onClick={handleMoveTo(pos)}
           />
