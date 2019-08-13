@@ -9,11 +9,13 @@ import Case from './Case';
 
 import styles from './Map.module.scss';
 import { CASE_SIZE } from './constants';
+import { MapOptions } from 'components/map/Map';
 
 // Types
 type Props = {
-  map?: DataMap, target: Coords,
-  center: Coords, zoom: number
+  map?: DataMap, target?: Coords,
+  center: Coords, zoom: number,
+  options: { [name in MapOptions]?: boolean }
 }
 
 // Utils
@@ -25,7 +27,7 @@ function odd(x: number): number {
 const Map: FC<Props> = (props) => {
   const {
     map, target,
-    center, zoom
+    center, zoom, options
   } = props;
 
   // State
@@ -85,7 +87,7 @@ const Map: FC<Props> = (props) => {
           <Case
             key={hash(pos)}
             pos={pos} map={map}
-            target={equal(pos, target)}
+            coords={options.coords} target={target && equal(pos, target)}
           />
         )) }
       </div>

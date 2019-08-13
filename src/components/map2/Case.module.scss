@@ -4,9 +4,29 @@
 .case {
   position: absolute;
 
+  .data {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 100%;
+
+    pointer-events: none;
+
+    > * {
+      position: absolute;
+    }
+
+    .tl, .tr { top: 8px; }
+    .tl, .bl { left: 8px; }
+    .bl, .br { bottom: 8px; }
+    .tr, .br { right: 8px; }
+  }
+
   .target {
     position: absolute;
     top: ($case-size - 64px) / 2;
     left: ($case-size - 64px) / 2;
+
+    pointer-events: none;
   }
 }

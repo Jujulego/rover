@@ -17,8 +17,8 @@ function mapStateToProps(state: AppState) {
 
   return {
     map: state.zone.map,
-    target: state.zone.level ? state.zone.level.target : { x: 0, y: 0 },
-    center, zoom: state.zone.zoom
+    target: state.zone.level && state.zone.level.target,
+    center, zoom: state.zone.zoom, options: state.zone.options,
   };
 }
 
