@@ -63,6 +63,7 @@ abstract class DStarRover extends CachedRover {
   // Attributes
   private readonly _size: Coords;
   private _data: { [name: string]: Data } = {};
+  private _treeVersion: number = 0;
 
   // Constructor
   constructor(map: Map, pos: Coords, target: Coords, gaugeSize?: number) {
@@ -70,6 +71,11 @@ abstract class DStarRover extends CachedRover {
 
     this._size = map.size;
     this.init();
+  }
+
+  // Properties
+  get treeVersion(): number {
+    return this._treeVersion;
   }
 
   // Abstract methods
@@ -225,6 +231,7 @@ abstract class DStarRover extends CachedRover {
       });
     }
 
+    ++this._treeVersion;
     //const end = performance.now();
     //console.log(`expand took ${end-start}ms`);
   }

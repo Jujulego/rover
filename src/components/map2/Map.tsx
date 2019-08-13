@@ -59,8 +59,8 @@ const Map: FC<Props> = (props) => {
   // Functions
   function computeSize(node: HTMLDivElement) {
     setSize({
-      x: odd(Math.ceil(node.clientWidth / (96 * zoom))) + 4,
-      y: odd(Math.ceil(node.clientHeight / (96 * zoom))) + 4
+      x: odd(Math.ceil(node.clientWidth / (96 * zoom))) + 2,
+      y: odd(Math.ceil(node.clientHeight / (96 * zoom))) + 2
     });
 
     setDelta({
@@ -146,7 +146,7 @@ const Map: FC<Props> = (props) => {
               <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
             )) }
             { (debug && rovers[debug].data instanceof DStarRover) && (
-              <DStarTree rover={rovers[debug].data as DStarRover} />
+              <DStarTree rover={rovers[debug].data as DStarRover} map={map} zone={{ center, size }} />
             ) }
           </svg>
         ) }
