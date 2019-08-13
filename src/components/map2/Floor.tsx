@@ -103,7 +103,7 @@ const Floor: FC<Props> = (props) => {
             <img src={themes.hole.getImage(dir)} alt="hole" />
           ) }
           { !(dir && type === 'hole') && (
-            <img src={themes[type].getImage(dir)} alt={type} id={dir && dir.toString()} />
+            <img src={themes[type].getImage(dir)} alt={type} />
           ) }
           { cliff && (
             <img src={themes[type].getImage(cliff)} alt={type} />

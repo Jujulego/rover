@@ -1,8 +1,18 @@
-@import "parameters";
+@import "assets/theme";
+
+@import "./parameters";
 
 // Style
 .case {
   position: absolute;
+
+  img {
+    transition: filter ease $transition-duration;
+  }
+
+  &.unknown img {
+    filter: grayscale(.75) brightness(.75);
+  }
 
   .data {
     position: absolute;

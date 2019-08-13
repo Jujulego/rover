@@ -4,6 +4,7 @@ import { CircularProgress, Typography } from '@material-ui/core';
 
 import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
+import CachedRover from 'data/rovers/CachedRover';
 import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
 import DataMap  from 'data/Map';
@@ -23,8 +24,8 @@ import styles from './Map.module.scss';
 type Props = {
   level?: Level, map?: DataMap,
   center: Coords, zoom: number,
-  options: { [name in MapOptions]?: boolean }
-  rovers: RoversState,
+  options: { [name in MapOptions]?: boolean },
+  rovers: RoversState, debug?: string,
   onMove: (p: Coords) => void
 }
 
@@ -42,7 +43,7 @@ const Map: FC<Props> = (props) => {
   const {
     level, map,
     center, zoom, options,
-    rovers,
+    rovers, debug,
     onMove
   } = props;
 
@@ -68,6 +69,17 @@ const Map: FC<Props> = (props) => {
 
   function handleMoveTo(pos: Coords) {
     return () => onMove(pos);
+  }
+
+  function isUnknown(pos: Coords): boolean {
+    if (!debug) return false;
+
+    const rover = rovers[debug];
+    if (rover.data instanceof CachedRover) {
+      return rover.data.getCachedCase(pos).floor === undefined;
+    }
+
+    return false;
   }
 
   // Callback
@@ -122,7 +134,7 @@ const Map: FC<Props> = (props) => {
           <Case
             key={hash(pos)}
             pos={pos} map={map} target={equal(pos, level.target)}
-            coords={options.coords} height={options.height}
+            coords={options.coords} height={options.height} unknown={isUnknown(pos)}
             onClick={handleMoveTo(pos)}
           />
         )) }
