@@ -44,7 +44,7 @@ const Map: FC<Props> = (props) => {
           const c = map.get(p) as Case;
           return (
             <Floor
-              type={c.floor} borders={map.borders2(p)}
+              type={c.floor} borders={map.borders2(p)} cliffs={map.cliffs(p)}
               style={{ position: 'absolute', top: j * CASE_SIZE, left: i * CASE_SIZE }}
             />
           );

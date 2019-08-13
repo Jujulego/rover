@@ -7,8 +7,9 @@ import { DAngle, DStrait, MOVES } from 'data/Direction';
 
 // Types
 export type FloorType = 'rock' | 'sand' | 'ice' | 'hole';
-export type BorderType = 'hole' | 'end'
+export type BorderType = 'hole' | 'end';
 export type Borders = { [name in Direction]?: boolean };
+export type Cliffs = { [name in DStrait | DAngle]?: boolean };
 export type Borders2 = { [name in DStrait | DAngle]?: BorderType };
 
 export interface Case {
@@ -109,13 +110,28 @@ class Map {
     return MOVES.reduce((borders: Borders2, dir) => {
       const c = this.get(surrounding2(pos, dir));
 
-      if (data.floor === 'hole' && !c) {
+      if (!c || (data.floor === 'hole' && !c)) {
         borders[dir] = 'end';
-      } else if (!c || c.floor === 'hole') {
-        borders[dir] = c ? 'hole' : 'end';
+      } else if (c.floor === 'hole') {
+        borders[dir] = 'hole';
       }
 
       return borders;
+    }, {});
+  }
+
+  cliffs(pos: Coords): Cliffs {
+    const data = this.get(pos);
+    if (!data || data.floor === 'hole') return {};
+
+    return MOVES.reduce((cliffs: Cliffs, dir) => {
+      const c = this.get(surrounding2(pos, dir));
+
+      if (!c || c.floor === 'hole' || c.height < data.height) {
+        cliffs[dir] = true;
+      }
+
+      return cliffs;
     }, {});
   }
 
