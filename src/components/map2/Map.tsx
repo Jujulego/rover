@@ -8,14 +8,16 @@ import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
 import DataMap  from 'data/Map';
 
-import { RoversState } from 'store/rovers/types';
+import { RoversState, RoverState } from 'store/rovers/types';
 
 import { MapOptions } from 'components/map/Map';
+
+import { CASE_SIZE } from './constants';
+import Track from './svg/Track';
 import Case from './Case';
 import Rover from './Rover';
 
 import styles from './Map.module.scss';
-import { CASE_SIZE } from './constants';
 
 // Types
 type Props = {
@@ -29,6 +31,10 @@ type Props = {
 // Utils
 function odd(x: number): number {
   return (x % 2) ? x : x + 1;
+}
+
+function mapRovers<T>(rovers: RoversState, cb: (name: string, rover: RoverState) => T): Array<T> {
+  return Object.keys(rovers).map(name => cb(name, rovers[name]));
 }
 
 // Component
@@ -120,7 +126,14 @@ const Map: FC<Props> = (props) => {
             onClick={handleMoveTo(pos)}
           />
         )) }
-        { Object.keys(rovers).map(rover => <Rover key={rover} rover={rovers[rover]} />) }
+        { options.tracks && (
+          <svg>
+            { mapRovers(rovers, (name, rover) => (
+              <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
+            )) }
+          </svg>
+        ) }
+        { mapRovers(rovers, (name, rover) => <Rover key={name} rover={rover} />) }
       </div>
     </div>
   );
