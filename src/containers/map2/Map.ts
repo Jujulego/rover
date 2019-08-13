@@ -22,6 +22,7 @@ function mapStateToProps(state: AppState) {
   return {
     level: state.zone.level, map: state.zone.map,
     center, zoom: state.zone.zoom, options: state.zone.options,
+    rovers: state.rovers
   };
 }
 

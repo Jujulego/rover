@@ -1,0 +1,40 @@
+@import "parameters";
+
+// Style
+.rover {
+  position: absolute;
+  height: $case-size;
+  width: $case-size;
+
+  > img {
+    position: absolute;
+    top: ($case-size - 64px) / 2;
+    left: ($case-size - 64px) / 2;
+
+    pointer-events: none;
+  }
+
+  .gauge {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+
+    height: 20px;
+    width: 4px;
+    overflow: hidden;
+
+    border: gray solid 1px;
+    border-radius: 2px;
+
+    > div {
+      position: absolute;
+      bottom: 0;
+
+      width: 100%;
+
+      background-color: #FFEB3B;
+
+      transition: height ease $transition-duration;
+    }
+  }
+}

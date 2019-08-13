@@ -1,23 +1,28 @@
 import React, { FC, useState, useEffect } from 'react';
 
+import { CircularProgress, Typography } from '@material-ui/core';
+
 import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
 import DataMap  from 'data/Map';
 
+import { RoversState } from 'store/rovers/types';
+
+import { MapOptions } from 'components/map/Map';
 import Case from './Case';
+import Rover from './Rover';
 
 import styles from './Map.module.scss';
 import { CASE_SIZE } from './constants';
-import { MapOptions } from 'components/map/Map';
-import { CircularProgress, Typography } from '@material-ui/core';
 
 // Types
 type Props = {
   level?: Level, map?: DataMap,
   center: Coords, zoom: number,
-  options: { [name in MapOptions]?: boolean },
+  options: { [name in MapOptions]?: boolean }
+  rovers: RoversState,
   onMove: (p: Coords) => void
 }
 
@@ -31,6 +36,7 @@ const Map: FC<Props> = (props) => {
   const {
     level, map,
     center, zoom, options,
+    rovers,
     onMove
   } = props;
 
@@ -114,6 +120,7 @@ const Map: FC<Props> = (props) => {
             onClick={handleMoveTo(pos)}
           />
         )) }
+        { Object.keys(rovers).map(rover => <Rover key={rover} rover={rovers[rover]} />) }
       </div>
     </div>
   );
