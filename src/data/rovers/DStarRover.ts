@@ -1,6 +1,6 @@
 import Queue from 'utils/Queue';
 
-import { DIRECTIONS } from '../constants';
+import { MOVES } from '../Direction';
 import Coords, { equal, hash, surrounding } from '../Coords';
 import Map from '../Map';
 import RoverAI from '../RoverAI';
@@ -92,7 +92,7 @@ abstract class DStarRover extends CachedRover {
   }
 
   private surroundings(p: Coords): Array<Coords> {
-    return DIRECTIONS.reduce(
+    return MOVES.reduce(
       (acc, dir) => {
         const c = surrounding(p, dir);
         if (this.inMap(c)) acc.push(c);

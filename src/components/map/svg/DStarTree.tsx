@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 
 import DStarRover from 'data/rovers/DStarRover';
 import { MOVES } from 'data/Direction';
-import Coords, { equal, surrounding2 } from 'data/Coords';
+import Coords, { equal, surrounding } from 'data/Coords';
 import Map from 'data/Map';
 
 import { p2m } from '../constants';
@@ -20,7 +20,7 @@ function generate(rover: DStarRover, node: Coords, path: Array<string>, cmd: str
 
   let first = true;
   MOVES.forEach((dir, i) => {
-    const n = surrounding2(node, dir);
+    const n = surrounding(node, dir);
     const d = rover.getDStarData(n);
 
     if (out(n)) return;

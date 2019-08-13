@@ -1,5 +1,5 @@
+import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { connect } from "react-redux";
 
 import Coords from 'data/Coords';
 
@@ -20,12 +20,8 @@ function mapStateToProps(state: AppState) {
   }
 
   return {
-    level: state.zone.level,
-    map: state.zone.map,
-    target: state.zone.level ? state.zone.level.target : { x: 0, y: 0 },
-    center,
-    zoom: state.zone.zoom,
-    options: state.zone.options,
+    level: state.zone.level, map: state.zone.map,
+    center, zoom: state.zone.zoom, options: state.zone.options,
     debug: state.zone.debug,
     rovers: state.rovers
   };

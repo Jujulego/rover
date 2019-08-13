@@ -1,62 +1,42 @@
 @import "assets/theme";
 
-// Styles
+@import "./parameters";
+
+// Style
 .case {
-  position: relative;
+  position: absolute;
 
-  .target {
-    position: absolute;
-    top: 0; left: 0;
-
-    margin: 16px;
+  img {
+    transition: filter ease $transition-duration;
   }
 
-  .svg {
-    position: absolute;
-    top: -52px; left: -52px;
-    z-index: 1;
-
-    pointer-events: none;
-
-    .track {
-      stroke-width: 6px;
-    }
-
-    .dstar {
-      stroke: #FFEB3B;
-      stroke-width: 2px;
-    }
+  &.unknown img {
+    filter: grayscale(.75) brightness(.75);
   }
 
   .data {
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
+    top: 0; left: 0;
+    height: 100%;
+    width: 100%;
 
-    .coords, .cost, .height, .slope {
+    pointer-events: none;
+
+    > * {
       position: absolute;
-
-      color: #333333;
-      font-size: 1em;
     }
 
-    .coords {
-      top: spacing(1);
-      left: spacing(1);
-    }
+    .tl, .tr { top: 8px; }
+    .tl, .bl { left: 8px; }
+    .bl, .br { bottom: 8px; }
+    .tr, .br { right: 8px; }
+  }
 
-    .cost {
-      top: spacing(1);
-      right: spacing(1);
-    }
+  .target {
+    position: absolute;
+    top: ($case-size - 64px) / 2;
+    left: ($case-size - 64px) / 2;
 
-    .height {
-      left: spacing(1);
-      bottom: spacing(1);
-    }
-
-    .slope {
-      right: spacing(1);
-      bottom: spacing(1);
-    }
+    pointer-events: none;
   }
 }

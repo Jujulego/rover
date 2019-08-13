@@ -1,84 +1,87 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
-import clsx from 'clsx';
+import React, { FC, useEffect, useState } from 'react';
 
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress, Typography } from '@material-ui/core';
 
-import Coords, { distance, equal, generateZone } from 'data/Coords';
+import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
+
+import CachedRover from 'data/rovers/CachedRover';
+import DStarRover from 'data/rovers/DStarRover';
+import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
-import MapData from 'data/Map';
+import DataMap from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 
-import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
-
+import { CASE_SIZE } from './constants';
+import DStarTree from './svg/DStarTree';
+import Track from './svg/Track';
 import Case from './Case';
 import Rover from './Rover';
 
-import styles from 'components/map/Map.module.scss';
+import styles from './Map.module.scss';
 
 // Types
 export type MapOptions = 'coords' | 'height' | 'slope' | 'tracks';
 
 type Props = {
-  level?: Level, map?: MapData,
+  level?: Level, map?: DataMap,
   center: Coords, zoom: number,
-  rovers: RoversState, target: Coords,
-  track?: string, debug?: string,
   options: { [name in MapOptions]?: boolean },
-  onMove?: (_: Coords) => void
+  rovers: RoversState, debug?: string,
+  onMove: (p: Coords) => void
 }
 
-// Function
+// Utils
 function odd(x: number): number {
   return (x % 2) ? x : x + 1;
 }
 
-function min(rd1: number, d2: number): number {
-  return Math.sign(rd1) * Math.min(Math.abs(rd1), d2);
+function mapRovers<T>(rovers: RoversState, cb: (name: string, rover: RoverState) => T): Array<T> {
+  return Object.keys(rovers).map(name => cb(name, rovers[name]));
 }
 
 // Component
 const Map: FC<Props> = (props) => {
   const {
     level, map,
-    center, zoom,
-    rovers, target,
-    debug,
-    options,
+    center, zoom, options,
+    rovers, debug,
     onMove
   } = props;
 
   // State
+  const [delta, setDelta] = useState<Coords>({ x: 0, y: 0 });
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
-  const [from, setFrom] = useState<Coords | null>(null);
-  const [moving, setMoving] = useState(false);
 
-  // Ref
+  // Refs
   const prevCenter = usePrevious(center);
 
-  // Function
-  function handleCaseClick(c: Coords) {
-    if (onMove) onMove(c);
-  }
-
+  // Functions
   function computeSize(node: HTMLDivElement) {
     setSize({
-      x: odd(Math.ceil(node.clientWidth / (96 * zoom))),
-      y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
+      x: odd(Math.ceil(node.clientWidth / (96 * zoom))) + 2,
+      y: odd(Math.ceil(node.clientHeight / (96 * zoom))) + 2
     });
+
+    setDelta({
+      x: (node.clientWidth - CASE_SIZE * zoom) / 2,
+      y: (node.clientHeight - CASE_SIZE * zoom) / 2
+    })
   }
 
-  function mapRovers<T>(pos: Coords, cb: (name: string, rover: RoverState) => T): Array<T> {
-    const results: Array<T> = [];
+  function handleMoveTo(pos: Coords) {
+    return () => onMove(pos);
+  }
 
-    Object.keys(rovers).forEach((name) => {
-      const rover = rovers[name];
-      if (equal(rover.data.pos, pos)) {
-        results.push(cb(name, rover))
-      }
-    });
+  function isUnknown(pos: Coords): boolean {
+    if (!debug) return false;
 
-    return results;
+    const rover = rovers[debug];
+    if (rover.data instanceof CachedRover) {
+      return rover.data.getCachedCase(pos).floor === undefined;
+    }
+
+    return false;
   }
 
   // Callback
@@ -93,79 +96,61 @@ const Map: FC<Props> = (props) => {
     }
   });
 
-  useDebouncedEffect(() => {
+  useEffect(() => {
     if (containerRef.current != null) {
       computeSize(containerRef.current);
     }
   }, [zoom]);
 
-  useEffect(() => {
-    setMoving(true);
-    setFrom(prevCenter);
-  }, [center.x, center.y]);
-
-  useEffect(() => {
-    if (moving) {
-      setMoving(false);
-    }
-  }, [moving]);
-
   // Rendering
-  if (!map) {
+  if (!map || !level) {
     return (
       <div className={styles.container}>
         { level && (
-          <>
-            <CircularProgress classes={{ root: styles.loader }}/>
+          <div className={styles.loader}>
+            <CircularProgress />
             <Typography>Chargement du niveau "{level.name}" ...</Typography>
-          </>
+          </div>
         ) }
       </div>
     );
   }
 
-  const centers = [prevCenter || center];
-  const translate = { top: 0, left: 0, transform: `scale(${zoom})` };
-
-  if (prevCenter != null && from != null) {
-    centers.push(from);
-
-    translate.top = min(from.y - prevCenter.y, size.y) * 48 * zoom;
-    translate.left = min(from.x - prevCenter.x, size.x) * 48 * zoom;
-
-    if (moving) {
-      translate.top *= -1;
-      translate.left *= -1;
-    }
+  const centers = [center];
+  if (prevCenter && !equal(prevCenter, center)) {
+    centers.push(prevCenter);
   }
+
+  const style = {
+    width: map.size.x * CASE_SIZE,
+    height: map.size.y * CASE_SIZE,
+    top: delta.y - (center.y * CASE_SIZE * zoom),
+    left: delta.x - (center.x * CASE_SIZE * zoom),
+    transform: `scale(${zoom})`
+  };
 
   return (
     <div ref={containerCb} className={styles.container}>
-      <div className={clsx(styles.grid, { [styles.moved]: !moving })} style={translate}>
-        { generateZone(centers, size, (c, i, j) => (
-          <Fragment key={`(${c.x} ${c.y})`}>
-            { map.isOut(c) ? (
-              <div key={`(${c.x} ${c.y})`} style={{ gridColumn: i + 1, gridRow: j + 1 }} />
-            ) : (
-              <Case
-                style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                map={map} pos={c} showCoords={options.coords} showHeight={options.height}
-                tracks={options.tracks ? Object.values(rovers) : undefined} debug={debug !== undefined ? rovers[debug] : undefined}
-                isTarget={equal(c, target)}
-                slope={(options.slope && (distance(center, c) === 1)) ? map.slope(center, c) : undefined}
-                onClick={handleCaseClick}
-              />
-            ) }
-            { mapRovers(c, (name, rover) => (
-              <Rover
-                key={name}
-                style={{ gridColumn: i + 1, gridRow: j + 1 }}
-                data={rover.data} color={rover.color}
-                onClick={handleCaseClick}
-              />
-            )) }
-          </Fragment>
+      <div className={styles.map} style={style}>
+        { generateZone(centers, size, (pos) => (
+          <Case
+            key={hash(pos)}
+            pos={pos} map={map} target={equal(pos, level.target)}
+            coords={options.coords} height={options.height} unknown={isUnknown(pos)}
+            onClick={handleMoveTo(pos)}
+          />
         )) }
+        { options.tracks && (
+          <svg>
+            { mapRovers(rovers, (name, rover) => (
+              <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
+            )) }
+            { (debug && rovers[debug].data instanceof DStarRover) && (
+              <DStarTree rover={rovers[debug].data as DStarRover} map={map} zone={{ center, size }} />
+            ) }
+          </svg>
+        ) }
+        { mapRovers(rovers, (name, rover) => <Rover key={name} rover={rover} />) }
       </div>
     </div>
   );
