@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
-import { useDebouncedEffect, useNode, usePrevious, useWindowEvent } from 'utils/hooks';
+import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import Coords, { equal, generateZone, hash } from 'data/Coords';
 import DataMap  from 'data/Map';
@@ -31,6 +31,7 @@ const Map: FC<Props> = (props) => {
   } = props;
 
   // State
+  const [delta, setDelta] = useState<Coords>({ x: 0, y: 0 });
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
 
   // Refs
@@ -39,9 +40,14 @@ const Map: FC<Props> = (props) => {
   // Functions
   function computeSize(node: HTMLDivElement) {
     setSize({
-      x: odd(Math.ceil(node.clientWidth / (96 * zoom))),
-      y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
+      x: odd(Math.ceil(node.clientWidth / (96 * zoom))) + 4,
+      y: odd(Math.ceil(node.clientHeight / (96 * zoom))) + 4
     });
+
+    setDelta({
+      x: (node.clientWidth - CASE_SIZE * zoom) / 2,
+      y: (node.clientHeight - CASE_SIZE * zoom) / 2
+    })
   }
 
   // Callback
@@ -56,7 +62,7 @@ const Map: FC<Props> = (props) => {
     }
   });
 
-  useDebouncedEffect(() => {
+  useEffect(() => {
     if (containerRef.current != null) {
       computeSize(containerRef.current);
     }
@@ -75,8 +81,8 @@ const Map: FC<Props> = (props) => {
   const style = {
     width: map.size.x * CASE_SIZE,
     height: map.size.y * CASE_SIZE,
-    top: -(center.y - (size.y - 1) / 2) * CASE_SIZE,
-    left: -(center.x - (size.x - 1) / 2) * CASE_SIZE,
+    top: delta.y - (center.y * CASE_SIZE * zoom),
+    left: delta.x - (center.x * CASE_SIZE * zoom),
     transform: `scale(${zoom})`
   };
 

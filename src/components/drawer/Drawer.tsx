@@ -74,7 +74,7 @@ const Drawer: FC<Props> = (props) => {
           <AddRover />
         </List>
       </MaterialDrawer>
-      <main className={clsx(styles.content, { [styles.close]: !open })}>
+      <main className={styles.content}>
         { children }
       </main>
     </>

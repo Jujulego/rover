@@ -28,11 +28,5 @@ $drawer-reduced-width: spacing(7) + 1;
   overflow: auto;
 
   margin-top: #{spacing(8)};
-  margin-left: $drawer-width;
-
-  transition: margin-left ease $transition-duration;
-
-  &.close {
-    margin-left: $drawer-reduced-width;
-  }
+  margin-left: $drawer-reduced-width;
 }
