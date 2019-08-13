@@ -100,7 +100,7 @@ const Map: FC<Props> = (props) => {
     if (containerRef.current != null) {
       computeSize(containerRef.current);
     }
-  }, [zoom]);
+  }, [zoom]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Rendering
   if (!map || !level) {

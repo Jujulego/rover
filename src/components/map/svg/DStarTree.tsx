@@ -19,7 +19,7 @@ function generate(rover: DStarRover, node: Coords, path: Array<string>, cmd: str
   path.push(`${cmd} ${p2m(node.x)} ${p2m(node.y)}`);
 
   let first = true;
-  MOVES.forEach((dir, i) => {
+  MOVES.forEach(dir => {
     const n = surrounding(node, dir);
     const d = rover.getDStarData(n);
 
@@ -74,7 +74,8 @@ const DStarTree: FC<Props> = (props) => {
     }
 
     return path.join(' ');
-  }, [rover.treeVersion, zone.center, zone.size]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rover.treeVersion, zone.center, zone.size, map.size.x, map.size.y]);
 
   // Rendering
   return (

@@ -70,7 +70,7 @@ const MapPanel: FC<Props> = (props) => {
       >
         <FormControl component="fieldset">
           <InputLabel>Niveau</InputLabel>
-          <Select value={level && level.name} onChange={(e) => dispatch(loadLevel(levels[e.target.value as string]))}>
+          <Select value={level ? level.name : ''} onChange={(e) => dispatch(loadLevel(levels[e.target.value as string]))}>
             { Object.keys(levels).map(n => (
               <MenuItem key={n} value={n}>{ n }</MenuItem>
             )) }

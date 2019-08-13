@@ -39,7 +39,10 @@ const Drawer: FC<Props> = (props) => {
   // Functions
   const panelProps = (name: string) => ({
     open: panel === name,
-    onOpen: () => setPanel(name),
+    onOpen: () => {
+      setPanel(name);
+      if (!open) onOpen();
+    },
     onClose: () => setPanel(null)
   });
 
@@ -47,10 +50,6 @@ const Drawer: FC<Props> = (props) => {
   useEffect(() => {
     if (!open) setPanel(null);
   }, [open]);
-
-  useEffect(() => {
-    if (panel != null) onOpen();
-  }, [panel]);
 
   // Rendering
   return (

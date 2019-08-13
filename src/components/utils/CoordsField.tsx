@@ -39,6 +39,18 @@ const CoordsField: FC<Props> = (props) => {
 
       if (val != null) {
         setValues(old => ({...old, [name]: val}));
+
+        // Call onChange
+        if (onChange != null) {
+          values[name] = val;
+          const x = parseInt(values.x);
+          const y = parseInt(values.y);
+
+          if (isNaN(x) || isNaN(y)) return;
+          if (x === value.x && y === value.y) return;
+
+          onChange({x, y});
+        }
       }
     };
   }
@@ -50,18 +62,6 @@ const CoordsField: FC<Props> = (props) => {
       y: value.y.toString()
     });
   }, [value.x, value.y]);
-
-  useEffect(() => {
-    if (onChange == null) return;
-
-    const x = parseInt(values.x);
-    const y = parseInt(values.y);
-
-    if (isNaN(x) || isNaN(y)) return;
-    if (x === value.x && y === value.y) return;
-
-    onChange({ x, y });
-  }, [values.x, values.y]);
 
   // Rendering
   return (
