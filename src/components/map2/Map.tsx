@@ -92,8 +92,8 @@ const Map: FC<Props> = (props) => {
         { generateZone(centers, size, (pos) => (
           <Case
             key={hash(pos)}
-            pos={pos} map={map}
-            coords={options.coords} target={target && equal(pos, target)}
+            pos={pos} map={map} target={target && equal(pos, target)}
+            coords={options.coords} height={options.height}
           />
         )) }
       </div>

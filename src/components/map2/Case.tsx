@@ -13,15 +13,15 @@ import styles from './Case.module.scss';
 
 // Props
 type Props = {
-  pos: Coords, map: Map,
-  coords?: boolean, target?: boolean
+  pos: Coords, map: Map, target?: boolean,
+  coords?: boolean, height?: boolean
 }
 
 // Component
 const Case : FC<Props> = (props) => {
   const {
-    pos, map,
-    coords, target
+    pos, map, target,
+    coords, height
   } = props;
   const data = map.get(pos);
 
@@ -31,9 +31,10 @@ const Case : FC<Props> = (props) => {
   return (
     <div className={styles.case} style={{ top: pos.y * CASE_SIZE, left: pos.x * CASE_SIZE }}>
       <Floor type={data.floor} borders={map.borders2(pos)} cliffs={map.cliffs(pos)} />
-      { coords && (
+      { (coords || height) && (
         <div className={styles.data}>
-          <Typography classes={{ root: styles.tl }}>({pos.x},{pos.y})</Typography>
+          { coords && <Typography classes={{ root: styles.tl }}>({pos.x},{pos.y})</Typography> }
+          { height && <Typography classes={{ root: styles.br }}>{data.height}</Typography> }
         </div>
       ) }
       { target && (
