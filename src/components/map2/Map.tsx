@@ -5,6 +5,7 @@ import { CircularProgress, Typography } from '@material-ui/core';
 import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import CachedRover from 'data/rovers/CachedRover';
+import DStarRover from 'data/rovers/DStarRover';
 import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
 import DataMap  from 'data/Map';
@@ -14,6 +15,7 @@ import { RoversState, RoverState } from 'store/rovers/types';
 import { MapOptions } from 'components/map/Map';
 
 import { CASE_SIZE } from './constants';
+import DStarTree from './svg/DStarTree';
 import Track from './svg/Track';
 import Case from './Case';
 import Rover from './Rover';
@@ -143,6 +145,9 @@ const Map: FC<Props> = (props) => {
             { mapRovers(rovers, (name, rover) => (
               <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
             )) }
+            { (debug && rovers[debug].data instanceof DStarRover) && (
+              <DStarTree rover={rovers[debug].data as DStarRover} />
+            ) }
           </svg>
         ) }
         { mapRovers(rovers, (name, rover) => <Rover key={name} rover={rover} />) }

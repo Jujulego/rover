@@ -1,20 +1,16 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { RoverColor, roverColors } from 'assets/rovers';
 
 import Coords from 'data/Coords';
-import { CASE_SIZE } from '../constants';
+
+import { p2m } from '../constants';
 
 // Types
 type Props = {
   pos: Coords,
   track: Array<Coords>,
   color: RoverColor
-}
-
-// Utils
-function p2m(v: number): number {
-  return (v + .5) * CASE_SIZE;
 }
 
 // Component
