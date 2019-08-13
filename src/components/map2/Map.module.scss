@@ -12,5 +12,9 @@
 
   .map {
     position: relative;
+
+    transition: top ease $move-duration,
+        left ease $move-duration,
+        transform ease $move-duration;
   }
 }
