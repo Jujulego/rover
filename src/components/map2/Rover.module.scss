@@ -6,6 +6,9 @@
   height: $case-size;
   width: $case-size;
 
+  transition: top ease $move-duration,
+      left ease $move-duration;
+
   > img {
     position: absolute;
     top: ($case-size - 64px) / 2;
