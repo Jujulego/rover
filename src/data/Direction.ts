@@ -7,14 +7,14 @@ enum Direction {
   R = 17, // 10001
 
   TL = 7,  // 11100 = T | L
-  BL = 13, // 11001 = B | L
-  BR = 21, // 10110 = B | R
-  TR = 19, // 10101 = T | R
+  BL = 13, // 10110 = B | L
+  BR = 25, // 10011 = B | R
+  TR = 19, // 11001 = T | R
 
   TLA = 6,  // 01100 = T ^ L
-  BLA = 12, // 01001 = B ^ L
-  BRA = 20, // 00110 = B ^ R
-  TRA = 18, // 00101 = T ^ R
+  BLA = 12, // 00110 = B ^ L
+  BRA = 24, // 00011 = B ^ R
+  TRA = 18, // 01001 = T ^ R
 }
 
 // Special types
@@ -45,5 +45,8 @@ export function isMove(dir: Direction): dir is DMove {
 export function isBorder(dir: Direction): dir is DMove {
   return isStrait(dir) || isCombined(dir) || isAngle(dir);
 }
+
+// Constants
+export const MOVES: Array<DMove> = [Direction.T, Direction.TLA, Direction.L, Direction.BLA, Direction.B, Direction.BRA, Direction.R, Direction.TRA];
 
 export default Direction

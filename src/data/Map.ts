@@ -1,11 +1,15 @@
 import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
 import Coords, {
-  slope, surrounding
+  slope, surrounding, surrounding2
 } from './Coords';
+
+import { DAngle, DStrait, MOVES } from 'data/Direction';
 
 // Types
 export type FloorType = 'rock' | 'sand' | 'ice' | 'hole';
+export type BorderType = 'hole' | 'end'
 export type Borders = { [name in Direction]?: boolean };
+export type Borders2 = { [name in DStrait | DAngle]?: BorderType };
 
 export interface Case {
   height: number,
@@ -96,6 +100,23 @@ class Map {
     });
 
     return borders;
+  }
+
+  borders2(pos: Coords): Borders2 {
+    const data = this.get(pos);
+    if (!data) return {};
+
+    return MOVES.reduce((borders: Borders2, dir) => {
+      const c = this.get(surrounding2(pos, dir));
+
+      if (data.floor === 'hole' && !c) {
+        borders[dir] = 'end';
+      } else if (!c || c.floor === 'hole') {
+        borders[dir] = c ? 'hole' : 'end';
+      }
+
+      return borders;
+    }, {});
   }
 
   slope(c1: Coords, c2: Coords): number {

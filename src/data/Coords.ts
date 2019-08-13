@@ -1,4 +1,5 @@
 import { Direction } from "data/constants";
+import Direction2, { DMove } from 'data/Direction';
 
 // Types
 export default interface Coords {
@@ -70,6 +71,19 @@ export function surrounding(pos: Coords, direction: Direction): Coords {
     case 'bottomLeft':  return { x: pos.x - 1, y: pos.y + 1 };
     case 'left':        return { x: pos.x - 1, y: pos.y     };
     case 'topLeft':     return { x: pos.x - 1, y: pos.y - 1 };
+  }
+}
+
+export function surrounding2(pos: Coords, dir: DMove): Coords {
+  switch (dir) {
+    case Direction2.T:   return { x: pos.x    , y: pos.y - 1 };
+    case Direction2.TLA: return { x: pos.x - 1, y: pos.y - 1 };
+    case Direction2.L:   return { x: pos.x - 1, y: pos.y     };
+    case Direction2.BLA: return { x: pos.x - 1, y: pos.y + 1 };
+    case Direction2.B:   return { x: pos.x    , y: pos.y + 1 };
+    case Direction2.BRA: return { x: pos.x + 1, y: pos.y + 1 };
+    case Direction2.R:   return { x: pos.x + 1, y: pos.y     };
+    case Direction2.TRA: return { x: pos.x + 1, y: pos.y - 1 };
   }
 }
 
