@@ -15,7 +15,8 @@ import { MapOptions } from 'components/map/Map';
 type Props = {
   map?: DataMap, target?: Coords,
   center: Coords, zoom: number,
-  options: { [name in MapOptions]?: boolean }
+  options: { [name in MapOptions]?: boolean },
+  onMove: (p: Coords) => void
 }
 
 // Utils
@@ -27,7 +28,8 @@ function odd(x: number): number {
 const Map: FC<Props> = (props) => {
   const {
     map, target,
-    center, zoom, options
+    center, zoom, options,
+    onMove
   } = props;
 
   // State
@@ -48,6 +50,10 @@ const Map: FC<Props> = (props) => {
       x: (node.clientWidth - CASE_SIZE * zoom) / 2,
       y: (node.clientHeight - CASE_SIZE * zoom) / 2
     })
+  }
+
+  function handleMoveTo(pos: Coords) {
+    return () => onMove(pos);
   }
 
   // Callback
@@ -94,6 +100,7 @@ const Map: FC<Props> = (props) => {
             key={hash(pos)}
             pos={pos} map={map} target={target && equal(pos, target)}
             coords={options.coords} height={options.height}
+            onClick={handleMoveTo(pos)}
           />
         )) }
       </div>

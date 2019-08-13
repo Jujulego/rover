@@ -1,6 +1,10 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+import Coords from 'data/Coords';
 
 import { AppState } from 'store';
+import { moveZone } from 'store/zone/actions';
 
 import Map from 'components/map2/Map';
 
@@ -22,4 +26,8 @@ function mapStateToProps(state: AppState) {
   };
 }
 
-export default connect(mapStateToProps)(Map)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  onMove: (center: Coords) => dispatch(moveZone(center))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map)
