@@ -35,7 +35,7 @@ abstract class CachedRover extends RoverAI {
 
     // Ask and store
     const result = super.getFloor(c);
-    this.update(c, { floor: result });
+    this.updateCache(c, { floor: result });
 
     return result;
   }
@@ -64,7 +64,7 @@ abstract class CachedRover extends RoverAI {
     return this._mapCache[hash(c)] || {};
   }
 
-  private update(c: Coords, data: CachedCase) {
+  private updateCache(c: Coords, data: CachedCase) {
     const h = hash(c);
     this._mapCache[h] = { ...this._mapCache[h], ...data };
   }

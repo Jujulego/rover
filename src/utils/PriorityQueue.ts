@@ -35,9 +35,14 @@ class PriorityQueue<T> {
     }
   }
 
-  dequeue(): T | undefined {
+  dequeue(): [T | undefined, number] {
     const last = this._queue.pop();
-    return last && last.value;
+
+    if (last) {
+      return [last.value, last.priority];
+    }
+
+    return [undefined, Infinity];
   }
 }
 

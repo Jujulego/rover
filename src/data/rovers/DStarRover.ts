@@ -87,10 +87,6 @@ abstract class DStarRover extends CachedRover {
   }
 
   // - utils
-  private inMap(p: Coords): boolean {
-    return (p.x >= 0 && p.x < this._size.x) && (p.y >= 0 && p.y < this._size.y);
-  }
-
   private surroundings(p: Coords): Array<Coords> {
     return MOVES.reduce(
       (acc, dir) => {
@@ -118,7 +114,7 @@ abstract class DStarRover extends CachedRover {
 
   // - algorithm
   private expand(updates: UpdateList | Flagged[]) {
-    //const start = performance.now();
+    const start = performance.now();
 
     // Setup queue
     const queue = new Queue<Flagged>();
@@ -232,8 +228,10 @@ abstract class DStarRover extends CachedRover {
     }
 
     ++this._treeVersion;
-    //const end = performance.now();
-    //console.log(`expand took ${end-start}ms`);
+    const end = performance.now();
+    if (end-start >= 10) {
+      console.log(`expand took ${end - start}ms`);
+    }
   }
 
   // - callbacks

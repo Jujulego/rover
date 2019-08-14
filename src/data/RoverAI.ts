@@ -73,6 +73,10 @@ abstract class RoverAI {
     return c ? c.floor : 'hole';
   }
 
+  protected inMap(p: Coords): boolean {
+    return !this.map.isOut(p);
+  }
+
   // - rules
   private energyCost(p: Coords): number {
     // Distance
