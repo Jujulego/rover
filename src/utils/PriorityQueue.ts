@@ -11,6 +11,11 @@ class PriorityQueue<T> {
     return this._queue.length === 0;
   }
 
+  get next(): T | undefined {
+    const e = this._queue[this._queue.length-1];
+    return e && e.value;
+  }
+
   // Methods
   enqueue(value: T, priority: number) {
     this._queue.unshift({ value, priority });

@@ -38,7 +38,7 @@ const Case : FC<Props> = (props) => {
 
       onClick={onClick}
     >
-      <Floor type={data.floor} borders={map.borders2(pos)} cliffs={map.cliffs(pos)} />
+      <Floor type={data.floor} borders={map.borders(pos)} cliffs={map.cliffs(pos)} />
       { (coords || height) && (
         <div className={styles.data}>
           { coords && <Typography classes={{ root: styles.tl }}>({pos.x},{pos.y})</Typography> }

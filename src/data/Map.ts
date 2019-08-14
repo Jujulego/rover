@@ -90,7 +90,7 @@ class Map {
     return results;
   }
 
-  borders2(pos: Coords): Borders {
+  borders(pos: Coords): Borders {
     const data = this.get(pos);
     if (!data) return {};
 
