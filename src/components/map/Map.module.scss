@@ -1,5 +1,9 @@
+@import "assets/spacing";
 @import "assets/theme";
 
+@import "./parameters";
+
+// Styles
 .container {
   position: relative;
   height: 100%;
@@ -7,33 +11,37 @@
   max-width: 100%;
   overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: #333333;
 
   .loader {
-    margin-bottom: spacing(2);
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    @include column-spacing(spacing(2));
   }
 
-  .grid {
+  .map {
     position: relative;
-    height: max-content;
-    width: max-content;
 
-    display: grid;
+    transform-origin: top left;
+    transition: top ease $move-duration,
+        left ease $move-duration,
+        transform ease $move-duration;
 
-    transition: transform ease $transition-duration * 2;
+    > svg {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 100%;
 
-    &.moved {
-      transition: top ease $transition-duration * 2,
-        left ease $transition-duration * 2,
-        transform ease $transition-duration * 2;
-    }
-
-    > div {
-      height: 96px;
-      width: 96px;
+      pointer-events: none;
     }
   }
 }

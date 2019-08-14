@@ -10,7 +10,7 @@ import {
 
 import Drawer from './drawer/Drawer';
 
-import Map from 'containers/map2/Map';
+import Map from 'containers/map/Map';
 
 import styles from './App.module.scss';
 

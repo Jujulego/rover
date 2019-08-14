@@ -1,9 +1,10 @@
-import { Direction } from 'data/constants';
+import Direction from '../Direction';
 import Coords, { realDistance, direction, surrounding } from '../Coords';
 import RoverAI from '../RoverAI';
 
 import DStarRover, { UpdateList } from './DStarRover';
 import Map from 'data/Map';
+import { DMove } from 'data/Direction';
 
 // Class
 class ExplorerRover extends DStarRover {
@@ -23,17 +24,17 @@ class ExplorerRover extends DStarRover {
     return d;
   }
 
-  private getDirs(to: Coords): Array<Direction> {
-    const dir = direction(this.pos, to) as Direction;
+  private getDirs(to: Coords): Array<DMove> {
+    const dir = direction(this.pos, to) as DMove;
     switch (dir) {
-      case 'top':         return ['topLeft', dir, 'topRight'];
-      case 'topRight':    return ['top', dir, 'right'];
-      case 'right':       return ['topRight', dir, 'bottomRight'];
-      case 'bottomRight': return ['right', dir, 'bottom'];
-      case 'bottom':      return ['bottomRight', dir, 'bottomLeft'];
-      case 'bottomLeft':  return ['bottom', dir, 'left'];
-      case 'left':        return ['bottomLeft', dir, 'topLeft'];
-      case 'topLeft':     return ['left', dir, 'top'];
+      case Direction.T:   return [Direction.TRA, dir, Direction.TLA];
+      case Direction.TLA: return [Direction.T,   dir, Direction.L];
+      case Direction.L:   return [Direction.TLA, dir, Direction.BLA];
+      case Direction.BLA: return [Direction.L,   dir, Direction.B];
+      case Direction.B:   return [Direction.BLA, dir, Direction.BRA];
+      case Direction.BRA: return [Direction.B,   dir, Direction.R];
+      case Direction.R:   return [Direction.BRA, dir, Direction.TRA];
+      case Direction.TRA: return [Direction.R,   dir, Direction.T];
     }
   }
 

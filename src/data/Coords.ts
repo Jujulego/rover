@@ -1,5 +1,4 @@
-import { Direction } from "data/constants";
-import Direction2, { DMove } from 'data/Direction';
+import Direction, { DMove, isMove } from './Direction';
 
 // Types
 export default interface Coords {
@@ -43,47 +42,27 @@ export function slope(c1: Coords, z1: number, c2: Coords, z2: number) {
   return (d !== 0) ? (z2 - z1) / d : 0;
 }
 
-export function direction(from: Coords, to: Coords): Direction | undefined {
+export function direction(from: Coords, to: Coords): DMove | undefined {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
 
-  switch (`${dx},${dy}`) {
-    case '0,-1': return 'top';
-    case '1,-1': return 'topRight';
-    case '1,0': return 'right';
-    case '1,1': return 'bottomRight';
-    case '0,1': return 'bottom';
-    case '-1,1': return 'bottomLeft';
-    case '-1,0': return 'left';
-    case '-1,-1': return 'topLeft';
-  }
+  const dh = dy < 0 ? Direction.T : (dy > 0 ? Direction.B : Direction.N);
+  const dw = dx < 0 ? Direction.L : (dx > 0 ? Direction.R : Direction.N);
+  const d = dh ^ dw;
 
-  return;
+  return isMove(d) ? d : undefined;
 }
 
-export function surrounding(pos: Coords, direction: Direction): Coords {
-  switch (direction) {
-    case 'top':         return { x: pos.x    , y: pos.y - 1 };
-    case 'topRight':    return { x: pos.x + 1, y: pos.y - 1 };
-    case 'right':       return { x: pos.x + 1, y: pos.y     };
-    case 'bottomRight': return { x: pos.x + 1, y: pos.y + 1 };
-    case 'bottom':      return { x: pos.x    , y: pos.y + 1 };
-    case 'bottomLeft':  return { x: pos.x - 1, y: pos.y + 1 };
-    case 'left':        return { x: pos.x - 1, y: pos.y     };
-    case 'topLeft':     return { x: pos.x - 1, y: pos.y - 1 };
-  }
-}
-
-export function surrounding2(pos: Coords, dir: DMove): Coords {
+export function surrounding(pos: Coords, dir: DMove): Coords {
   switch (dir) {
-    case Direction2.T:   return { x: pos.x    , y: pos.y - 1 };
-    case Direction2.TLA: return { x: pos.x - 1, y: pos.y - 1 };
-    case Direction2.L:   return { x: pos.x - 1, y: pos.y     };
-    case Direction2.BLA: return { x: pos.x - 1, y: pos.y + 1 };
-    case Direction2.B:   return { x: pos.x    , y: pos.y + 1 };
-    case Direction2.BRA: return { x: pos.x + 1, y: pos.y + 1 };
-    case Direction2.R:   return { x: pos.x + 1, y: pos.y     };
-    case Direction2.TRA: return { x: pos.x + 1, y: pos.y - 1 };
+    case Direction.T:   return { x: pos.x    , y: pos.y - 1 };
+    case Direction.TLA: return { x: pos.x - 1, y: pos.y - 1 };
+    case Direction.L:   return { x: pos.x - 1, y: pos.y     };
+    case Direction.BLA: return { x: pos.x - 1, y: pos.y + 1 };
+    case Direction.B:   return { x: pos.x    , y: pos.y + 1 };
+    case Direction.BRA: return { x: pos.x + 1, y: pos.y + 1 };
+    case Direction.R:   return { x: pos.x + 1, y: pos.y     };
+    case Direction.TRA: return { x: pos.x + 1, y: pos.y - 1 };
   }
 }
 

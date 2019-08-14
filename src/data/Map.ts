@@ -1,16 +1,14 @@
-import { DEFAULT_FLOOR, DEFAULT_HEIGHT, Direction, DIRECTIONS } from './constants';
-import Coords, {
-  slope, surrounding, surrounding2
-} from './Coords';
+import { DEFAULT_FLOOR, DEFAULT_HEIGHT } from './constants';
+import Coords, { slope, surrounding } from './Coords';
 
 import { DAngle, DStrait, MOVES } from 'data/Direction';
 
 // Types
 export type FloorType = 'rock' | 'sand' | 'ice' | 'hole';
 export type BorderType = 'hole' | 'end';
-export type Borders = { [name in Direction]?: boolean };
+
+export type Borders = { [name in DStrait | DAngle]?: BorderType };
 export type Cliffs = { [name in DStrait | DAngle]?: boolean };
-export type Borders2 = { [name in DStrait | DAngle]?: BorderType };
 
 export interface Case {
   height: number,
@@ -92,23 +90,12 @@ class Map {
     return results;
   }
 
-  borders(pos: Coords): Borders {
-    const borders: Borders = {};
-
-    DIRECTIONS.forEach(dir => {
-      const p = this.get(surrounding(pos, dir));
-      borders[dir] = p ? p.floor === 'hole' : true;
-    });
-
-    return borders;
-  }
-
-  borders2(pos: Coords): Borders2 {
+  borders2(pos: Coords): Borders {
     const data = this.get(pos);
     if (!data) return {};
 
-    return MOVES.reduce((borders: Borders2, dir) => {
-      const c = this.get(surrounding2(pos, dir));
+    return MOVES.reduce((borders: Borders, dir) => {
+      const c = this.get(surrounding(pos, dir));
 
       if (!c || (data.floor === 'hole' && !c)) {
         borders[dir] = 'end';
@@ -125,7 +112,7 @@ class Map {
     if (!data || data.floor === 'hole') return {};
 
     return MOVES.reduce((cliffs: Cliffs, dir) => {
-      const c = this.get(surrounding2(pos, dir));
+      const c = this.get(surrounding(pos, dir));
 
       if (!c || c.floor === 'hole' || c.height < data.height) {
         cliffs[dir] = true;

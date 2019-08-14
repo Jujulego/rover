@@ -1,11 +1,20 @@
-@import "assets/theme";
+@import "./parameters";
 
+// Style
 .rover {
-  position: relative;
-  z-index: 10;
+  position: absolute;
+  height: $case-size;
+  width: $case-size;
 
-  img {
-    margin: 16px;
+  transition: top ease $move-duration,
+      left ease $move-duration;
+
+  > img {
+    position: absolute;
+    top: ($case-size - 64px) / 2;
+    left: ($case-size - 64px) / 2;
+
+    pointer-events: none;
   }
 
   .gauge {

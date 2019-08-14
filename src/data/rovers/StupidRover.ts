@@ -1,14 +1,14 @@
-import { Direction } from '../constants';
+import Direction, { DMove } from 'data/Direction';
 import Coords, { surrounding } from '../Coords';
 import Map from '../Map';
 import RoverAI from '../RoverAI';
 
 // Class
 class StupidRover extends RoverAI {
-  readonly direction: Direction;
+  readonly direction: DMove;
 
   // Constructor
-  constructor(map: Map, pos: Coords, target: Coords, direction: Direction = 'right') {
+  constructor(map: Map, pos: Coords, target: Coords, direction: DMove = Direction.R) {
     super(map, pos, target);
 
     this.direction = direction;

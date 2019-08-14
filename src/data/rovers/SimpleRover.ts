@@ -1,4 +1,4 @@
-import { DIRECTIONS } from '../constants';
+import { MOVES } from '../Direction';
 import Coords, { realDistance, surrounding } from '../Coords';
 
 import CachedRover from './CachedRover';
@@ -7,7 +7,7 @@ import CachedRover from './CachedRover';
 class SimpleRover extends CachedRover {
   // Methods
   protected compute(): Coords {
-    const cases = DIRECTIONS.map(dir => surrounding(this.pos, dir));
+    const cases = MOVES.map(dir => surrounding(this.pos, dir));
     cases.sort((c1, c2) => realDistance(c1, this.target) - realDistance(c2, this.target));
 
     for (let i = 0; i < cases.length; ++i) {

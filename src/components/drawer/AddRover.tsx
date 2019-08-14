@@ -38,6 +38,7 @@ type ErrorsState = { [name in keyof FormState]?: string }
 const AddRover: FC = () => {
   // State
   const [dialog, setDialog] = useState(false);
+  const [dirty, setDirty] = useState(false);
   const [form, setForm] = useState<FormState>({ name: '', color: 'blue', algo: '', start: { x: 0, y: 0 } });
   const [errors, setError] = useState<ErrorsState>({});
 
@@ -65,8 +66,13 @@ const AddRover: FC = () => {
       event.persist();
       setForm(old => ({ ...old, [field]: event.target.value }));
 
-      if (field === 'algo' && form.name === '') {
-        setForm(old => ({ ...old, name: event.target.value as string }))
+      if (field === 'algo' && (form.name === '' || !dirty)) {
+        setForm(old => ({ ...old, name: event.target.value as string }));
+        setDirty(false);
+      }
+
+      if (field === 'name') {
+        setDirty(true);
       }
     }
   };

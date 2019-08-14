@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 
 import DStarRover from 'data/rovers/DStarRover';
 import { MOVES } from 'data/Direction';
-import Coords, { equal, surrounding2 } from 'data/Coords';
+import Coords, { equal, surrounding } from 'data/Coords';
 import Map from 'data/Map';
 
 import { p2m } from '../constants';
@@ -19,8 +19,8 @@ function generate(rover: DStarRover, node: Coords, path: Array<string>, cmd: str
   path.push(`${cmd} ${p2m(node.x)} ${p2m(node.y)}`);
 
   let first = true;
-  MOVES.forEach((dir, i) => {
-    const n = surrounding2(node, dir);
+  MOVES.forEach(dir => {
+    const n = surrounding(node, dir);
     const d = rover.getDStarData(n);
 
     if (out(n)) return;
@@ -74,7 +74,8 @@ const DStarTree: FC<Props> = (props) => {
     }
 
     return path.join(' ');
-  }, [rover.treeVersion, zone.center, zone.size]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rover.treeVersion, zone.center, zone.size, map.size.x, map.size.y]);
 
   // Rendering
   return (
