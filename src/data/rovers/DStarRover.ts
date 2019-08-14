@@ -281,7 +281,11 @@ abstract class DStarRover extends CachedRover {
 
   restart(keep: boolean = false): RoverAI {
     super.restart(keep);
-    if (!keep) this.init();
+    if (!keep) {
+      this.init();
+    } else {
+      this.expand([{ pos: this.target, flag: 'RAISE' }])
+    }
 
     return this;
   }

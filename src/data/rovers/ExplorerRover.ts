@@ -57,10 +57,7 @@ class ExplorerRover extends DStarRover {
   }
 
   restart(): RoverAI {
-    super.restart(true);
-    this.raise(this.target);
-
-    return this;
+    return super.restart(true);
   }
 }
 
