@@ -72,10 +72,6 @@ const LayersPanel: FC<Props> = (props) => {
           label="Afficher les hauteurs"
         />
         <FormControlLabel
-          control={<Switch checked={options.slope} onChange={() => dispatch(toggleOption('slope'))} />}
-          label="Afficher les pentes"
-        />
-        <FormControlLabel
           control={<Switch checked={options.tracks} onChange={() => dispatch(toggleOption('tracks'))} />}
           label="Afficher les traces"
         />

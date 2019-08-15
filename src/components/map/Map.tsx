@@ -21,7 +21,7 @@ import Zone from './Zone';
 import styles from './Map.module.scss';
 
 // Types
-export type MapOptions = 'coords' | 'height' | 'slope' | 'tracks';
+export type MapOptions = 'coords' | 'height' | 'tracks';
 
 type Props = {
   level?: Level, map?: DataMap,
@@ -110,7 +110,7 @@ const Map: FC<Props> = (props) => {
         <Zone map={map} center={center} size={size} />
         { (options.tracks || debug) && (
           <svg>
-            { mapRovers(rovers, name => (
+            { options.tracks && mapRovers(rovers, name => (
               <Track key={name} name={name} />
             )) }
             { (() => {
