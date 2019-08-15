@@ -2,12 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { CircularProgress, Typography } from '@material-ui/core';
 
-import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
+import { useNode, useWindowEvent } from 'utils/hooks';
 
-import CachedRover from 'data/rovers/CachedRover';
 import DStarRover from 'data/rovers/DStarRover';
 import DStar2Rover from 'data/rovers/DStar2Rover';
-import Coords, { equal, generateZone, hash } from 'data/Coords';
+import Coords from 'data/Coords';
 import Level from 'data/Level';
 import DataMap from 'data/Map';
 
@@ -18,8 +17,8 @@ import Track from 'containers/map/svg/Track';
 import { CASE_SIZE } from './constants';
 import DStarTree from './svg/DStarTree';
 import DStar2Tree from './svg/DStar2Tree';
-import Case from './Case';
 import Rover from './Rover';
+import Zone from './Zone';
 
 import styles from './Map.module.scss';
 
@@ -30,8 +29,7 @@ type Props = {
   level?: Level, map?: DataMap,
   center: Coords, zoom: number,
   options: { [name in MapOptions]?: boolean },
-  rovers: RoversState, debug?: string,
-  onMove: (p: Coords) => void
+  rovers: RoversState, debug?: string
 }
 
 // Utils
@@ -48,16 +46,12 @@ const Map: FC<Props> = (props) => {
   const {
     level, map,
     center, zoom, options,
-    rovers, debug,
-    onMove
+    rovers, debug
   } = props;
 
   // State
   const [delta, setDelta] = useState<Coords>({ x: 0, y: 0 });
   const [size, setSize] = useState<Coords>({ x: 1, y: 1 });
-
-  // Refs
-  const prevCenter = usePrevious(center);
 
   // Functions
   function computeSize(node: HTMLDivElement) {
@@ -70,21 +64,6 @@ const Map: FC<Props> = (props) => {
       x: (node.clientWidth - CASE_SIZE * zoom) / 2,
       y: (node.clientHeight - CASE_SIZE * zoom) / 2
     })
-  }
-
-  function handleMoveTo(pos: Coords) {
-    return () => onMove(pos);
-  }
-
-  function isUnknown(pos: Coords): boolean {
-    if (!debug) return false;
-
-    const rover = rovers[debug];
-    if (rover.data instanceof CachedRover) {
-      return rover.data.getCachedCase(pos).floor === undefined;
-    }
-
-    return false;
   }
 
   // Callback
@@ -119,11 +98,6 @@ const Map: FC<Props> = (props) => {
     );
   }
 
-  const centers = [center];
-  if (prevCenter && !equal(prevCenter, center)) {
-    centers.push(prevCenter);
-  }
-
   const style = {
     width: map.size.x * CASE_SIZE,
     height: map.size.y * CASE_SIZE,
@@ -135,14 +109,7 @@ const Map: FC<Props> = (props) => {
   return (
     <div ref={containerCb} className={styles.container}>
       <div className={styles.map} style={style}>
-        { generateZone(centers, size, (pos) => (
-          <Case
-            key={hash(pos)}
-            pos={pos} map={map} target={equal(pos, level.target)}
-            coords={options.coords} height={options.height} unknown={isUnknown(pos)}
-            onClick={handleMoveTo(pos)}
-          />
-        )) }
+        <Zone map={map} center={center} size={size} />
         { (options.tracks || debug) && (
           <svg>
             { mapRovers(rovers, name => (
