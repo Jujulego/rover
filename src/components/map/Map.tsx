@@ -13,10 +13,11 @@ import DataMap from 'data/Map';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 
+import Track from 'containers/map/svg/Track';
+
 import { CASE_SIZE } from './constants';
 import DStarTree from './svg/DStarTree';
 import DStar2Tree from './svg/DStar2Tree';
-import Track from './svg/Track';
 import Case from './Case';
 import Rover from './Rover';
 
@@ -144,8 +145,8 @@ const Map: FC<Props> = (props) => {
         )) }
         { (options.tracks || debug) && (
           <svg>
-            { mapRovers(rovers, (name, rover) => (
-              <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
+            { mapRovers(rovers, name => (
+              <Track key={name} name={name} />
             )) }
             { (debug && rovers[debug].data instanceof DStarRover) && (
               <DStarTree rover={rovers[debug].data as DStarRover} map={map} zone={{ center, size }} />

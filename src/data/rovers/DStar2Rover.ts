@@ -84,7 +84,7 @@ abstract class DStar2Rover extends CachedRover {
   }
 
   // - algorithms
-  @measure()
+  @measure({ limit: 10 })
   private init() { // A*
     const queue = new PriorityQueue<Coords>();
 
@@ -216,7 +216,7 @@ abstract class DStar2Rover extends CachedRover {
       });
     }
   }
-  @measure()
+  @measure({ limit: 10 })
   private update(updates: UpdateList) { // D* (part 3)
     const open = new Queue<Node>();
 
@@ -263,7 +263,18 @@ abstract class DStar2Rover extends CachedRover {
     }
   }
 
+  protected preCompute(updates: UpdateList) {}
+
   protected compute(): Coords {
+    // Pre-compute updates
+    const updates = new UpdateList();
+    this.preCompute(updates);
+
+    if (updates.length > 0) {
+      this.update(updates);
+    }
+
+    // Compute !
     let i = 8;
     while (true) {
       const np = this.getNode(this.pos);

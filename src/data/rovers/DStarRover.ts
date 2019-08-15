@@ -114,7 +114,7 @@ abstract class DStarRover extends CachedRover {
   }
 
   // - algorithm
-  @measure()
+  @measure({ limit: 10 })
   private expand(updates: UpdateList | Flagged[]) {
     // Setup queue
     const queue = new Queue<Flagged>();

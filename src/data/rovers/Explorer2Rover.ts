@@ -39,9 +39,6 @@ class ExplorerRover extends DStar2Rover {
   }
 
   protected detect(updates: UpdateList, data: { from: Coords; cost: number }) {
-    this.getFloor(this.pos); // cost 0.1 energy (only on the 1st play)
-    updates.update(this.pos);
-
     // Look forward for obstacles
     const dirs = this.getDirs(data.from);
     dirs.forEach(dir => {
@@ -51,6 +48,11 @@ class ExplorerRover extends DStar2Rover {
         updates.obstacles(c);
       }
     });
+  }
+
+  protected preCompute(updates: UpdateList) {
+    this.getFloor(this.pos); // cost 0.1 energy (only on the 1st play)
+    updates.update(this.pos);
   }
 
   restart(): RoverAI {
