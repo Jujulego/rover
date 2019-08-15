@@ -5,12 +5,10 @@
 // Style
 .case {
   position: absolute;
+  
+  transition: filter ease $transition-duration;
 
-  img {
-    transition: filter ease $transition-duration;
-  }
-
-  &.unknown img {
+  &.unknown {
     filter: grayscale(.75) brightness(.75);
   }
 

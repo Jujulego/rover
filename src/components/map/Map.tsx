@@ -59,8 +59,8 @@ const Map: FC<Props> = (props) => {
   // Functions
   function computeSize(node: HTMLDivElement) {
     setSize({
-      x: odd(Math.ceil(node.clientWidth / (96 * zoom))) + 2,
-      y: odd(Math.ceil(node.clientHeight / (96 * zoom))) + 2
+      x: odd(Math.ceil(node.clientWidth / (96 * zoom))),
+      y: odd(Math.ceil(node.clientHeight / (96 * zoom)))
     });
 
     setDelta({

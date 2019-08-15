@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import clsx from 'clsx';
 
 import themes from 'assets/themes/themes';
@@ -114,4 +114,4 @@ const Floor: FC<Props> = (props) => {
   );
 };
 
-export default Floor;
+export default memo(Floor);

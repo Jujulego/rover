@@ -1,11 +1,11 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler, memo } from 'react';
 import clsx from 'clsx';
 
 import { Typography } from '@material-ui/core';
 
 import targetImg from 'assets/themes/target.png';
 
-import Coords from 'data/Coords';
+import Coords, { equal } from 'data/Coords';
 import Map from 'data/Map';
 
 import { CASE_SIZE } from './constants';
@@ -52,4 +52,14 @@ const Case : FC<Props> = (props) => {
   )
 };
 
-export default Case;
+function areEquals(pp: Props, np: Props): boolean {
+  return equal(pp.pos, np.pos)
+    && pp.map === np.map
+    && pp.target === np.target
+    && pp.coords === np.coords
+    && pp.height === np.height
+    && pp.unknown === np.unknown
+    && pp.onClick === np.onClick;
+}
+
+export default memo(Case, areEquals);
