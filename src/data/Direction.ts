@@ -47,6 +47,12 @@ export function isBorder(dir: Direction): dir is DMove {
 }
 
 // Constants
+export const BORDERS: Array<DBorder> = [
+  Direction.T, Direction.TL, Direction.TLA,
+  Direction.L, Direction.BL, Direction.BLA,
+  Direction.B, Direction.BR, Direction.BRA,
+  Direction.R, Direction.TR, Direction.TRA
+];
 export const MOVES: Array<DMove> = [Direction.T, Direction.TLA, Direction.L, Direction.BLA, Direction.B, Direction.BRA, Direction.R, Direction.TRA];
 
 export default Direction

@@ -11,6 +11,11 @@ class PriorityQueue<T> {
     return this._queue.length === 0;
   }
 
+  get next(): T | undefined {
+    const e = this._queue[this._queue.length-1];
+    return e && e.value;
+  }
+
   // Methods
   enqueue(value: T, priority: number) {
     this._queue.unshift({ value, priority });
@@ -30,9 +35,14 @@ class PriorityQueue<T> {
     }
   }
 
-  dequeue(): T | undefined {
+  dequeue(): [T | undefined, number] {
     const last = this._queue.pop();
-    return last && last.value;
+
+    if (last) {
+      return [last.value, last.priority];
+    }
+
+    return [undefined, Infinity];
   }
 }
 

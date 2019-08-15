@@ -1,4 +1,4 @@
-import Direction, { DMove, isMove } from './Direction';
+import Direction, { DMove, isMove, MOVES } from './Direction';
 
 // Types
 export default interface Coords {
@@ -64,6 +64,10 @@ export function surrounding(pos: Coords, dir: DMove): Coords {
     case Direction.R:   return { x: pos.x + 1, y: pos.y     };
     case Direction.TRA: return { x: pos.x + 1, y: pos.y - 1 };
   }
+}
+
+export function surroundings(pos: Coords): Array<Coords> {
+  return MOVES.map(dir => surrounding(pos, dir));
 }
 
 export function zoneTopLeft(center: Coords, size: Coords): Coords {

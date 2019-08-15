@@ -92,7 +92,7 @@ const RoverPanel: FC<Props> = (props) => {
     if (rover.active) {
       dispatch(stopRover(name));
     } else {
-      dispatch(launchRover(name, 750));
+      dispatch(launchRover(name));
     }
   }
 
