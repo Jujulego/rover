@@ -1,7 +1,7 @@
-import { MOVES } from '../Direction';
-import Coords, { realDistance, surrounding } from '../Coords';
+import Coords, { realDistance, surrounding } from 'data/Coords';
+import { MOVES } from 'data/Direction';
 
-import CachedRover from './CachedRover';
+import CachedRover from './bases/CachedRover';
 
 // Class
 class SimpleRover extends CachedRover {

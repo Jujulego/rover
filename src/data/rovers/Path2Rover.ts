@@ -1,6 +1,6 @@
-import Coords, { realDistance } from '../Coords';
+import Coords, { realDistance } from 'data/Coords';
 
-import DStar2Rover from './DStar2Rover';
+import DStar2Rover from './bases/DStar2Rover';
 
 // Class
 class Path2Rover extends DStar2Rover {

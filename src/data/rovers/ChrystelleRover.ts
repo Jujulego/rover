@@ -1,5 +1,6 @@
-import Coords from '../Coords';
-import RoverAI from '../RoverAI';
+import Coords from 'data/Coords';
+
+import RoverAI from './bases/RoverAI';
 
 // Class
 class ChrystelleRover extends RoverAI {

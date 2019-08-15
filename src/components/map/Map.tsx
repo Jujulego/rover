@@ -4,11 +4,10 @@ import { CircularProgress, Typography } from '@material-ui/core';
 
 import { useNode, useWindowEvent } from 'utils/hooks';
 
-import DStarRover from 'data/rovers/DStarRover';
-import DStar2Rover from 'data/rovers/DStar2Rover';
 import Coords from 'data/Coords';
 import Level from 'data/Level';
 import DataMap from 'data/Map';
+import { DStarRover, DStar2Rover } from 'data/rovers/bases';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 

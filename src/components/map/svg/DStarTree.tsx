@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 
-import DStarRover from 'data/rovers/DStarRover';
-import { MOVES } from 'data/Direction';
+import { DStarRover } from 'data/rovers/bases';
 import Coords, { equal, surrounding } from 'data/Coords';
+import { MOVES } from 'data/Direction';
 import Map from 'data/Map';
 
 import { p2m } from '../constants';

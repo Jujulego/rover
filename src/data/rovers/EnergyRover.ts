@@ -1,7 +1,7 @@
-import Direction, { DMove } from '../Direction';
-import Coords, { direction, surrounding } from '../Coords';
+import Coords, { direction, surrounding } from 'data/Coords';
+import Direction, { DMove } from 'data/Direction';
 
-import DStarRover, { UpdateList } from './DStarRover';
+import DStarRover, { UpdateList } from './bases/DStarRover';
 
 // Constants
 const TURN_COST = 100;

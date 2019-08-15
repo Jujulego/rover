@@ -1,7 +1,8 @@
+import Coords, { surrounding } from 'data/Coords';
 import Direction, { DMove } from 'data/Direction';
-import Coords, { surrounding } from '../Coords';
-import Map from '../Map';
-import RoverAI from '../RoverAI';
+import Map from 'data/Map';
+
+import RoverAI from './bases/RoverAI';
 
 // Class
 class StupidRover extends RoverAI {

@@ -1,12 +1,11 @@
-import Queue from 'utils/Queue';
+import { Queue, measure } from 'utils';
 
-import { MOVES } from '../Direction';
-import Coords, { equal, hash, surrounding } from '../Coords';
-import Map from '../Map';
-import RoverAI from '../RoverAI';
+import Coords, { equal, hash, surrounding } from 'data/Coords';
+import { MOVES } from 'data/Direction';
+import Map from 'data/Map';
 
 import CachedRover from './CachedRover';
-import measure from 'utils/measure';
+import RoverAI from './RoverAI';
 
 // Types
 type Flag = 'NEW' | 'RAISE' | 'LOWER';

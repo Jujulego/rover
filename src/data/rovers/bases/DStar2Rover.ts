@@ -1,13 +1,10 @@
-import PriorityQueue from 'utils/PriorityQueue';
-import Queue from 'utils/Queue';
-import measure from 'utils/measure';
+import { PriorityQueue, Queue, measure, round2 } from 'utils';
 
 import Coords, { equal, hash, surroundings } from 'data/Coords';
-import RoverAI from 'data/RoverAI';
+import Map from 'data/Map';
 
 import CachedRover from './CachedRover';
-import Map from 'data/Map';
-import round2 from 'utils/round2';
+import RoverAI from './RoverAI';
 
 // Types
 interface Node {

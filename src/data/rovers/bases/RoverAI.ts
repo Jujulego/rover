@@ -1,5 +1,5 @@
-import Coords, { distance, equal } from './Coords';
-import Map, { FloorType } from './Map';
+import Coords, { distance, equal } from 'data/Coords';
+import Map, { FloorType } from 'data/Map';
 
 // Class
 abstract class RoverAI {

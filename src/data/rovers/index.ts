@@ -1,6 +1,7 @@
-import Coords from '../Coords';
-import Map from '../Map';
-import RoverAI from '../RoverAI';
+import Coords from 'data/Coords';
+import Map from 'data/Map';
+
+import RoverAI from './bases/RoverAI';
 
 import ChrystelleRover from './ChrystelleRover';
 import EnergyRover from './EnergyRover';

@@ -1,10 +1,9 @@
-import Direction from '../Direction';
-import Coords, { realDistance, direction, surrounding } from '../Coords';
-import RoverAI from '../RoverAI';
-
-import DStarRover, { UpdateList } from './DStarRover';
+import Coords, { realDistance, direction, surrounding } from 'data/Coords';
+import Direction, { DMove } from 'data/Direction';
 import Map from 'data/Map';
-import { DMove } from 'data/Direction';
+
+import DStarRover, { UpdateList } from './bases/DStarRover';
+import RoverAI from './bases/RoverAI';
 
 // Class
 class ExplorerRover extends DStarRover {

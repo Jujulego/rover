@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Coords, { equal } from 'data/Coords';
-import CachedRover from 'data/rovers/CachedRover';
+import CachedRover from 'data/rovers/bases/CachedRover';
 
 import { AppState } from 'store';
 import { moveZone } from 'store/zone/actions';
