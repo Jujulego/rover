@@ -5,6 +5,7 @@ import RoverAI from './bases/RoverAI';
 
 import ChrystelleRover from './ChrystelleRover';
 import EnergyRover from './EnergyRover';
+import Energy2Rover from './Energy2Rover';
 import ExplorerRover from './ExplorerRover';
 import Explorer2Rover from './Explorer2Rover';
 import PathRover from './PathRover';
@@ -19,6 +20,7 @@ type AI = { new(map: Map, start: Coords, target: Coords): RoverAI };
 const creators: { [name: string]: AI } = {
   'chrystelle': ChrystelleRover,
   'energy': EnergyRover,
+  'energy2': Energy2Rover,
   'explorer': ExplorerRover,
   'explorer2': Explorer2Rover,
   'path': PathRover,
@@ -31,6 +33,7 @@ const creators: { [name: string]: AI } = {
 export {
   ChrystelleRover,
   EnergyRover,
+  Energy2Rover,
   ExplorerRover,
   Explorer2Rover,
   PathRover,
