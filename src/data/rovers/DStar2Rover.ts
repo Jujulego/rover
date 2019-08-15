@@ -1,11 +1,13 @@
 import PriorityQueue from 'utils/PriorityQueue';
 import Queue from 'utils/Queue';
+import measure from 'utils/measure';
 
 import Coords, { equal, hash, surroundings } from 'data/Coords';
 import RoverAI from 'data/RoverAI';
 
 import CachedRover from './CachedRover';
 import Map from 'data/Map';
+import round2 from 'utils/round2';
 
 // Types
 interface Node {
@@ -22,6 +24,11 @@ interface Update {
 }
 
 // Utils
+function pp(v: number): string {
+  if (!isFinite(v)) return 'infinite';
+  return round2(v).toString();
+}
+
 export class UpdateList {
   // Attributes
   private readonly _list = new Array<Update>();
@@ -49,11 +56,18 @@ export class UpdateList {
 abstract class DStar2Rover extends CachedRover {
   // Attributes
   private _dstar_nodes: { [name: string]: Node } = {};
+  private _tree_version: number = 0;
 
   // Constructor
   constructor(map: Map, pos: Coords, target: Coords, gaugeSize?: number) {
     super(map, pos, target, gaugeSize);
+
     this.init();
+  }
+
+  // Properties
+  get treeVersion(): number {
+    return this._tree_version;
   }
 
   // Abstract methods
@@ -70,6 +84,7 @@ abstract class DStar2Rover extends CachedRover {
   }
 
   // - algorithms
+  @measure()
   private init() { // A*
     const queue = new PriorityQueue<Coords>();
 
@@ -92,13 +107,13 @@ abstract class DStar2Rover extends CachedRover {
 
         const n = this.getNode(p);
         if (!n) { // new node
-          console.log(`new node ${p.x},${p.y} (${c})`);
+          ////console.log(`new node ${p.x},${p.y} (${c})`);
 
           this.initNode(p, c, pos);
           queue.enqueue(p, c);
 
         } else if (!n.obstacle && n.cost > c) { // better path
-          console.log(`lower ${p.x},${p.y} (${n.cost} => ${c} by ${pos.x},${pos.y})`);
+          //console.log(`lower ${p.x},${p.y} (${pp(n.cost)} => ${pp(c)} by ${pos.x},${pos.y})`);
 
           n.cost = c; n.min_cost = c;
           n.from = pos;
@@ -107,6 +122,8 @@ abstract class DStar2Rover extends CachedRover {
         }
       });
     }
+
+    ++this._tree_version;
   }
 
   private isRaised(node: Node): boolean { // D* (part 1)
@@ -124,7 +141,7 @@ abstract class DStar2Rover extends CachedRover {
         const c = this.heuristic(p, node.pos) + n.cost;
 
         if (!node.from || c < node.cost) {
-          console.log(`lower: ${node.pos.x},${node.pos.y} (${node.cost} => ${c} by ${p.x},${p.y})`);
+          //console.log(`lower: ${node.pos.x},${node.pos.y} (${pp(node.cost)} => ${pp(c)} by ${p.x},${p.y})`);
 
           node.cost = c;
           node.from = p;
@@ -138,12 +155,12 @@ abstract class DStar2Rover extends CachedRover {
     while (!open.isEmpty) {
       const node = open.dequeue() as Node;
 
-      console.log(`expand ${node.pos.x},${node.pos.y}`);
+      //console.log(`expand ${node.pos.x},${node.pos.y}`);
       const raised = this.isRaised(node);
 
       surroundings(node.pos).forEach(p => {
         if (!this.inMap(p)) return;
-        console.log(`treating ${p.x},${p.y}`);
+        ////console.log(`treating ${p.x},${p.y}`);
 
         const n = this.getNode(p) as Node;
 
@@ -155,7 +172,7 @@ abstract class DStar2Rover extends CachedRover {
 
           if (node.obstacle || !node.from) { // node became unreachable
             if (equal(n.from, node.pos)) { // path goes threw node
-              console.log(`raise: ${p.x},${p.y} (${n.cost} => Infinity)`);
+              //console.log(`raise: ${p.x},${p.y} (${pp(n.cost)} => infinite)`);
 
               // n must be unreachable too
               n.from = null;
@@ -163,7 +180,7 @@ abstract class DStar2Rover extends CachedRover {
 
               open.enqueue(n);
             } else if (!n.obstacle && !node.obstacle) { // will lower from here
-              console.log(`lower from: ${node.pos.x},${node.pos.y}`);
+              //console.log(`lower from: ${node.pos.x},${node.pos.y}`);
 
               // update min cost
               node.min_cost = node.cost;
@@ -172,14 +189,14 @@ abstract class DStar2Rover extends CachedRover {
             }
           } else {
             if (equal(n.from, node.pos)) { // path goes threw node
-              console.log(`raise: ${p.x},${p.y} (${n.cost} => ${c})`);
+              //console.log(`raise: ${p.x},${p.y} (${pp(n.cost)} => ${pp(c)})`);
 
               // n must raise too
               n.cost = c;
 
               open.enqueue(n);
             } else if (!n.obstacle && c < n.cost) { // will lower from here
-              console.log(`lower from: ${node.pos.x},${node.pos.y}`);
+              //console.log(`lower from: ${node.pos.x},${node.pos.y}`);
 
               // update min cost
               node.min_cost = node.cost;
@@ -187,8 +204,8 @@ abstract class DStar2Rover extends CachedRover {
               open.enqueue(node);
             }
           }
-        } else if (c < n.cost) { // can lower
-          console.log(`lower: ${p.x},${p.y} (${n.cost} => ${c} by ${node.pos.x},${node.pos.y})`);
+        } else if (!n.obstacle && c < n.cost) { // can lower
+          //console.log(`lower: ${p.x},${p.y} (${pp(n.cost)} => ${pp(c)} by ${node.pos.x},${node.pos.y})`);
 
           // lower p and set path by pos
           n.cost = c;
@@ -199,6 +216,7 @@ abstract class DStar2Rover extends CachedRover {
       });
     }
   }
+  @measure()
   private update(updates: UpdateList) { // D* (part 3)
     const open = new Queue<Node>();
 
@@ -232,6 +250,7 @@ abstract class DStar2Rover extends CachedRover {
 
     // Expand !
     this.expand(open);
+    ++this._tree_version;
   }
 
   // - rover

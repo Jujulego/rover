@@ -6,6 +6,7 @@ import { useNode, usePrevious, useWindowEvent } from 'utils/hooks';
 
 import CachedRover from 'data/rovers/CachedRover';
 import DStarRover from 'data/rovers/DStarRover';
+import DStar2Rover from 'data/rovers/DStar2Rover';
 import Coords, { equal, generateZone, hash } from 'data/Coords';
 import Level from 'data/Level';
 import DataMap from 'data/Map';
@@ -14,6 +15,7 @@ import { RoversState, RoverState } from 'store/rovers/types';
 
 import { CASE_SIZE } from './constants';
 import DStarTree from './svg/DStarTree';
+import DStar2Tree from './svg/DStar2Tree';
 import Track from './svg/Track';
 import Case from './Case';
 import Rover from './Rover';
@@ -140,13 +142,16 @@ const Map: FC<Props> = (props) => {
             onClick={handleMoveTo(pos)}
           />
         )) }
-        { options.tracks && (
+        { (options.tracks || debug) && (
           <svg>
             { mapRovers(rovers, (name, rover) => (
               <Track key={name} pos={rover.data.pos} track={rover.track} color={rover.color} />
             )) }
             { (debug && rovers[debug].data instanceof DStarRover) && (
               <DStarTree rover={rovers[debug].data as DStarRover} map={map} zone={{ center, size }} />
+            ) }
+            { (debug && rovers[debug].data instanceof DStar2Rover) && (
+              <DStar2Tree rover={rovers[debug].data as DStar2Rover} map={map} zone={{ center, size }} />
             ) }
           </svg>
         ) }

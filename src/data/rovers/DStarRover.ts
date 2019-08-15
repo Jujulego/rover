@@ -6,6 +6,7 @@ import Map from '../Map';
 import RoverAI from '../RoverAI';
 
 import CachedRover from './CachedRover';
+import measure from 'utils/measure';
 
 // Types
 type Flag = 'NEW' | 'RAISE' | 'LOWER';
@@ -113,9 +114,8 @@ abstract class DStarRover extends CachedRover {
   }
 
   // - algorithm
+  @measure()
   private expand(updates: UpdateList | Flagged[]) {
-    const start = performance.now();
-
     // Setup queue
     const queue = new Queue<Flagged>();
     updates.forEach(u => {
@@ -228,10 +228,6 @@ abstract class DStarRover extends CachedRover {
     }
 
     ++this._treeVersion;
-    const end = performance.now();
-    if (end-start >= 10) {
-      console.log(`expand took ${end - start}ms`);
-    }
   }
 
   // - callbacks
