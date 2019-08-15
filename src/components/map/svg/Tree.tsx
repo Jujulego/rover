@@ -1,8 +1,7 @@
 import React, { FC, useMemo } from 'react';
 
-import { DStar2Rover } from 'data/rovers/bases';
-import Coords, { equal, surrounding } from 'data/Coords';
-import { MOVES } from 'data/Direction';
+import TreeMixin, { TNode } from 'data/rovers/bases/TreeMixin';
+import Coords from 'data/Coords';
 import Map from 'data/Map';
 
 import { p2m } from '../constants';
@@ -10,35 +9,31 @@ import { p2m } from '../constants';
 // Types
 type Zone = { center: Coords, size: Coords }
 type Props = {
-  rover: DStar2Rover,
+  rover: TreeMixin,
   map: Map, zone: Zone
 }
 
 // Utils
-function generate(rover: DStar2Rover, pos: Coords, path: Array<string>, cmd: string, out: (p: Coords) => boolean): Array<string> {
+function generate(rover: TreeMixin, node: TNode, path: Array<string>, cmd: string, out: (p: Coords) => boolean): Array<string> {
+  const { pos } = node;
   path.push(`${cmd} ${p2m(pos.x)} ${p2m(pos.y)}`);
 
   let first = true;
-  MOVES.forEach(dir => {
-    const p = surrounding(pos, dir);
-    const n = rover.getNode(p);
-
-    if (out(p)) return;
-    if (n && n.from && !n.obstacle && equal(pos, n.from)) {
-      if (!first) {
-        path.push(`M ${p2m(pos.x)} ${p2m(pos.y)}`);
-      }
-
-      generate(rover, p, path, 'L', out);
-      first = false;
+  rover.getChildren(node).forEach(n => {
+    if (out(n.pos)) return;
+    if (!first) {
+      path.push(`M ${p2m(pos.x)} ${p2m(pos.y)}`);
     }
+
+    generate(rover, n, path, 'L', out);
+    first = false;
   });
 
   return path;
 }
 
 // Components
-const DStar2Tree: FC<Props> = (props) => {
+const Tree: FC<Props> = (props) => {
   const { rover, map, zone } = props;
 
   // Computing
@@ -64,18 +59,19 @@ const DStar2Tree: FC<Props> = (props) => {
           const p = { x, y };
           const n = rover.getNode(p);
 
-          if (n && n.from && !n.obstacle && out(n.from)) {
-            generate(rover, p, path, 'M', out);
+          if (n && !n.obstacle && n.from && out(n.from)) {
+            generate(rover, n, path, 'M', out);
           }
         }
       }
     } else {
-      generate(rover, rover.target, path, 'M', out);
+      const n = rover.getNode(rover.target) as TNode;
+      generate(rover, n, path, 'M', out);
     }
 
     return path.join(' ');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rover.treeVersion, zone.center, zone.size, map.size.x, map.size.y]);
+  }, [rover.treeVersion(), zone.center, zone.size, map.size.x, map.size.y]);
 
   // Rendering
   return (
@@ -83,4 +79,4 @@ const DStar2Tree: FC<Props> = (props) => {
   )
 };
 
-export default DStar2Tree;
+export default Tree;

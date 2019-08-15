@@ -1,17 +1,22 @@
 import { Queue, measure } from 'utils';
 
-import Coords, { equal, hash, surrounding } from 'data/Coords';
+import Coords, { equal, hash, surrounding, surroundings } from 'data/Coords';
 import { MOVES } from 'data/Direction';
 import Map from 'data/Map';
 
 import CachedRover from './CachedRover';
 import RoverAI from './RoverAI';
+import TreeMixin, { TNode } from './TreeMixin';
 
 // Types
 type Flag = 'NEW' | 'RAISE' | 'LOWER';
 type Flagged = { pos: Coords, flag: Flag };
 
-type Data = { from: Coords | null, cost: number, obstacle?: boolean };
+type Data = {
+  from: Coords | null,
+  obstacle?: boolean,
+  cost: number
+};
 
 // Utils
 export class UpdateList {
@@ -58,12 +63,12 @@ export class UpdateList {
 }
 
 // Class
-abstract class DStarRover extends CachedRover {
+abstract class DStarRover extends CachedRover implements TreeMixin {
   // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
   private readonly _size: Coords;
   private _data: { [name: string]: Data } = {};
-  private _treeVersion: number = 0;
+  private _tree_version: number = 0;
 
   // Constructor
   constructor(map: Map, pos: Coords, target: Coords, gaugeSize?: number) {
@@ -73,17 +78,33 @@ abstract class DStarRover extends CachedRover {
     this.init();
   }
 
-  // Properties
-  get treeVersion(): number {
-    return this._treeVersion;
-  }
-
   // Abstract methods
   protected abstract heuristic(from: Coords, to: Coords): number
 
   // Methods
   getDStarData(p: Coords): Data {
     return this._data[hash(p)]
+  }
+
+  // - tree
+  treeVersion(): number {
+    return this._tree_version;
+  }
+
+  getNode(pos: Coords): TNode | undefined {
+    const d = this.getDStarData(pos);
+    return { pos, ...d };
+  }
+
+  getChildren(node: TNode): Array<TNode> {
+    return surroundings(node.pos).reduce((acc, p) => {
+      const n = this.getNode(p);
+      if (n && !n.obstacle && n.from && equal(node.pos, n.from)) {
+        acc.push(n);
+      }
+
+      return acc;
+    }, new Array<TNode>());
   }
 
   // - utils
@@ -226,7 +247,7 @@ abstract class DStarRover extends CachedRover {
       });
     }
 
-    ++this._treeVersion;
+    ++this._tree_version;
   }
 
   // - callbacks

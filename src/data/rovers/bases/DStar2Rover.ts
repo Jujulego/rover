@@ -5,14 +5,14 @@ import Map from 'data/Map';
 
 import CachedRover from './CachedRover';
 import RoverAI from './RoverAI';
+import TreeMixin, { TNode } from './TreeMixin';
 
 // Types
-interface Node {
+interface Node extends TNode {
   pos: Coords,
-  cost: number,
-  min_cost: number,
   from: Coords | null,
-  obstacle: boolean
+  obstacle: boolean,
+  cost: number, min_cost: number
 }
 
 interface Update {
@@ -50,7 +50,8 @@ export class UpdateList {
 }
 
 // Class
-abstract class DStar2Rover extends CachedRover {
+abstract class DStar2Rover extends CachedRover implements TreeMixin {
+  // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
   private _dstar_nodes: { [name: string]: Node } = {};
   private _tree_version: number = 0;
@@ -62,11 +63,6 @@ abstract class DStar2Rover extends CachedRover {
     this.init();
   }
 
-  // Properties
-  get treeVersion(): number {
-    return this._tree_version;
-  }
-
   // Abstract methods
   protected abstract heuristic(from: Coords, to: Coords): number;
 
@@ -76,8 +72,24 @@ abstract class DStar2Rover extends CachedRover {
     this._dstar_nodes[hash(pos)] = { pos, cost, min_cost: cost, from, obstacle: false };
   }
 
-  public getNode(pos: Coords): Node | undefined {
+  // - tree access
+  getNode(pos: Coords): Node | undefined {
     return this._dstar_nodes[hash(pos)];
+  }
+
+  getChildren(node: Node): Array<Node> {
+    return surroundings(node.pos).reduce((acc, p) => {
+      const n = this.getNode(p);
+      if (n && !n.obstacle && n.from && equal(node.pos, n.from)) {
+        acc.push(n);
+      }
+
+      return acc;
+    }, new Array<Node>());
+  }
+
+  treeVersion(): number {
+    return this._tree_version
   }
 
   // - algorithms

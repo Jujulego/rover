@@ -7,15 +7,14 @@ import { useNode, useWindowEvent } from 'utils/hooks';
 import Coords from 'data/Coords';
 import Level from 'data/Level';
 import DataMap from 'data/Map';
-import { DStarRover, DStar2Rover } from 'data/rovers/bases';
+import { hasTree } from 'data/rovers/bases/TreeMixin';
 
 import { RoversState, RoverState } from 'store/rovers/types';
 
 import Track from 'containers/map/svg/Track';
 
 import { CASE_SIZE } from './constants';
-import DStarTree from './svg/DStarTree';
-import DStar2Tree from './svg/DStar2Tree';
+import Tree from './svg/Tree';
 import Rover from './Rover';
 import Zone from './Zone';
 
@@ -114,12 +113,16 @@ const Map: FC<Props> = (props) => {
             { mapRovers(rovers, name => (
               <Track key={name} name={name} />
             )) }
-            { (debug && rovers[debug].data instanceof DStarRover) && (
-              <DStarTree rover={rovers[debug].data as DStarRover} map={map} zone={{ center, size }} />
-            ) }
-            { (debug && rovers[debug].data instanceof DStar2Rover) && (
-              <DStar2Tree rover={rovers[debug].data as DStar2Rover} map={map} zone={{ center, size }} />
-            ) }
+            { (() => {
+              if (!debug) return null;
+              const rover = rovers[debug].data;
+
+              if (hasTree(rover)) {
+                return <Tree rover={rover} map={map} zone={{ center, size }} />
+              }
+
+              return null;
+            })() }
           </svg>
         ) }
         { mapRovers(rovers, (name, rover) => <Rover key={name} rover={rover} />) }
