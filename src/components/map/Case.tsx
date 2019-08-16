@@ -5,6 +5,8 @@ import { Typography } from '@material-ui/core';
 
 import targetImg from 'assets/themes/target.png';
 
+import { round2 } from 'utils';
+
 import Coords, { equal } from 'data/Coords';
 import Map from 'data/Map';
 
@@ -15,7 +17,7 @@ import styles from './Case.module.scss';
 // Props
 type Props = {
   pos: Coords, map: Map, target?: boolean,
-  coords?: boolean, height?: boolean, unknown?: boolean,
+  coords?: boolean, height?: boolean, unknown?: boolean, cost?: number,
   onClick?: MouseEventHandler<HTMLDivElement>
 }
 
@@ -23,7 +25,7 @@ type Props = {
 const Case : FC<Props> = (props) => {
   const {
     pos, map, target,
-    coords, height, unknown,
+    coords, height, unknown, cost,
     onClick
   } = props;
   const data = map.get(pos);
@@ -39,10 +41,11 @@ const Case : FC<Props> = (props) => {
       onClick={onClick}
     >
       <Floor type={data.floor} borders={map.borders(pos)} cliffs={map.cliffs(pos)} />
-      { (coords || height) && (
+      { (coords || height || (cost !== undefined)) && (
         <div className={styles.data}>
           { coords && <Typography classes={{ root: styles.tl }} variant="body2">({pos.x},{pos.y})</Typography> }
           { height && <Typography classes={{ root: styles.bl }} variant="body2">{data.height}</Typography> }
+          { (cost !== undefined) && <Typography classes={{ root: styles.tr }} variant="body2">{isFinite(cost) ? round2(cost) : '\u221E'}</Typography> }
         </div>
       ) }
       { target && (
@@ -59,6 +62,7 @@ function areEquals(pp: Props, np: Props): boolean {
     && pp.coords === np.coords
     && pp.height === np.height
     && pp.unknown === np.unknown
+    && pp.cost === np.cost
     && pp.onClick === np.onClick;
 }
 

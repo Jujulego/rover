@@ -8,6 +8,7 @@ import { AppState } from 'store';
 import { moveZone } from 'store/zone/actions';
 
 import Case from 'components/map/Case';
+import { hasCost } from 'data/rovers/bases/CostMixin';
 
 // Type
 interface Props {
@@ -18,18 +19,25 @@ interface Props {
 function mapStateToProps(state: AppState, own: Props) {
   const debug = state.zone.debug;
   let unknown = false;
+  let cost: number | undefined;
 
   if (debug) {
-    const rover = state.rovers[debug];
-    if (rover.data instanceof CachedRover) {
-      unknown = rover.data.getCachedCase(own.pos).floor === undefined;
+    const rover = state.rovers[debug].data;
+
+    if (rover instanceof CachedRover) {
+      unknown = rover.getCachedCase(own.pos).floor === undefined;
+    }
+
+    if (hasCost(rover)) {
+      cost = rover.getCost(own.pos);
     }
   }
 
   return {
     coords: state.zone.options.coords,
     height: state.zone.options.height,
-    unknown, target: state.zone.level && equal(own.pos, state.zone.level.target)
+    unknown, cost,
+    target: state.zone.level && equal(own.pos, state.zone.level.target)
   };
 }
 
