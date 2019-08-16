@@ -41,8 +41,8 @@ const Case : FC<Props> = (props) => {
       <Floor type={data.floor} borders={map.borders(pos)} cliffs={map.cliffs(pos)} />
       { (coords || height) && (
         <div className={styles.data}>
-          { coords && <Typography classes={{ root: styles.tl }}>({pos.x},{pos.y})</Typography> }
-          { height && <Typography classes={{ root: styles.bl }}>{data.height}</Typography> }
+          { coords && <Typography classes={{ root: styles.tl }} variant="body2">({pos.x},{pos.y})</Typography> }
+          { height && <Typography classes={{ root: styles.bl }} variant="body2">{data.height}</Typography> }
         </div>
       ) }
       { target && (
