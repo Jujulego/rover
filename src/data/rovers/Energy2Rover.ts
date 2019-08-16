@@ -4,8 +4,10 @@ import Direction, { DMove } from 'data/Direction';
 import DStar2Rover, { UpdateList } from './bases/DStar2Rover';
 
 // Constants
-const TURN_COST = 100;
+const TURN_COST = .6; // each turn uses .6 energy for detection
 const DEFAULT_SLOPE = 0; // 0%
+const ICE_BONUS = .5; // must be lower than TURN_COST
+const SLOPE_MALUS = 100;
 
 // Class
 class EnergyRover extends DStar2Rover {
@@ -19,7 +21,7 @@ class EnergyRover extends DStar2Rover {
     r *= 1 + slope;
 
     if (Math.abs(slope) > 1.5) {
-      r += 10 * TURN_COST;
+      r += SLOPE_MALUS;
     }
 
     // Sand
@@ -31,7 +33,7 @@ class EnergyRover extends DStar2Rover {
 
       case 'ice':
         if (Math.abs(slope) <= 1.5) {
-          r = -TURN_COST;
+          r = -ICE_BONUS;
         }
         break;
     }
@@ -62,15 +64,18 @@ class EnergyRover extends DStar2Rover {
       switch (this.getFloor(c)) {
         case 'hole':
           updates.obstacles(c);
-
           break;
 
         case 'ice':
-          updates.update(c);
+          updates.update(this.pos);
           break;
 
+        case 'rock':
         case 'sand':
-          //updates.raise(c);
+          if (this.getSlope(this.pos, c) !== 0) {
+            updates.update(this.pos);
+          }
+
           break;
       }
     });

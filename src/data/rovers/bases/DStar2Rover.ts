@@ -5,6 +5,7 @@ import Map from 'data/Map';
 
 import CachedRover from './CachedRover';
 import RoverAI from './RoverAI';
+import CostMixin from './CostMixin';
 import TreeMixin, { TNode } from './TreeMixin';
 
 // Types
@@ -50,7 +51,7 @@ export class UpdateList {
 }
 
 // Class
-abstract class DStar2Rover extends CachedRover implements TreeMixin {
+abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
   // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
   private _dstar_nodes: { [name: string]: Node } = {};
@@ -70,6 +71,11 @@ abstract class DStar2Rover extends CachedRover implements TreeMixin {
   // - manage data
   private initNode(pos: Coords, cost: number, from: Coords | null) {
     this._dstar_nodes[hash(pos)] = { pos, cost, min_cost: cost, from, obstacle: false };
+  }
+
+  getCost(pos: Coords): number {
+    const n = this.getNode(pos);
+    return n ? n.cost : Infinity;
   }
 
   // - tree access
@@ -112,7 +118,7 @@ abstract class DStar2Rover extends CachedRover implements TreeMixin {
         if (!this.inMap(p)) return;
 
         // compute cost
-        const c = this.heuristic(pos, p) + cost;
+        const c = this.heuristic(p, pos) + cost;
 
         const n = this.getNode(p);
         if (!n) { // new node
@@ -147,7 +153,7 @@ abstract class DStar2Rover extends CachedRover implements TreeMixin {
         if (n.obstacle || !n.from) return; // n has infinite cost
 
         // compute cost
-        const c = this.heuristic(p, node.pos) + n.cost;
+        const c = this.heuristic(node.pos, p) + n.cost;
 
         if (!node.from || c < node.cost) {
           //console.log(`lower: ${node.pos.x},${node.pos.y} (${pp(node.cost)} => ${pp(c)} by ${p.x},${p.y})`);
@@ -169,12 +175,12 @@ abstract class DStar2Rover extends CachedRover implements TreeMixin {
 
       surroundings(node.pos).forEach(p => {
         if (!this.inMap(p)) return;
-        ////console.log(`treating ${p.x},${p.y}`);
+        //console.log(`treating ${p.x},${p.y}`);
 
         const n = this.getNode(p) as Node;
 
         // compute cost
-        const c = this.heuristic(node.pos, p) + node.cost;
+        const c = this.heuristic(p, node.pos) + node.cost;
 
         if (raised) { // node raised
           if (!n.from) return;
@@ -248,11 +254,24 @@ abstract class DStar2Rover extends CachedRover implements TreeMixin {
         open.enqueue(node);
       } else {
         const n = this.getNode(node.from) as Node;
-        const c = this.heuristic(node.from, upd.pos) + n.cost;
+        const c = this.heuristic(upd.pos, node.from) + n.cost;
 
         if (c !== node.cost) { // new cost
           node.cost = c;
           open.enqueue(node);
+        } else { // check around
+          surroundings(upd.pos).forEach(p => {
+            if (!this.inMap(p)) return;
+
+            const n = this.getNode(p) as Node;
+            const c = this.heuristic(upd.pos, p) + n.cost;
+
+            if (c < node.cost) {
+              node.cost = c;
+              node.from = p;
+              open.enqueue(node);
+            }
+          });
         }
       }
     });
