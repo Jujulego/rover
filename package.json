@@ -1,6 +1,7 @@
 {
   "name": "rover",
-  "version": "0.1.0",
+  "homepage": "https://jujulego.github.io/rover/build",
+  "version": "1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.2.1",

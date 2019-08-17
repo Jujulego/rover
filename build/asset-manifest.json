@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/rover/build/static/css/main.71911d03.chunk.css",
+    "main.js": "/rover/build/static/js/main.7d244ffc.chunk.js",
+    "main.js.map": "/rover/build/static/js/main.7d244ffc.chunk.js.map",
+    "runtime~main.js": "/rover/build/static/js/runtime~main.be5166b3.js",
+    "runtime~main.js.map": "/rover/build/static/js/runtime~main.be5166b3.js.map",
+    "static/js/2.a74b0582.chunk.js": "/rover/build/static/js/2.a74b0582.chunk.js",
+    "static/js/2.a74b0582.chunk.js.map": "/rover/build/static/js/2.a74b0582.chunk.js.map",
+    "index.html": "/rover/build/index.html",
+    "precache-manifest.2e74a24b1c4e630681375a8f20692b68.js": "/rover/build/precache-manifest.2e74a24b1c4e630681375a8f20692b68.js",
+    "service-worker.js": "/rover/build/service-worker.js",
+    "static/css/main.71911d03.chunk.css.map": "/rover/build/static/css/main.71911d03.chunk.css.map"
+  }
+}
