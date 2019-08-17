@@ -1,17 +1,24 @@
-import Coords, { direction, surrounding } from 'data/Coords';
+import Coords, { direction, surrounding, realDistance } from 'data/Coords';
 import Direction, { DMove } from 'data/Direction';
 
-import DStar2Rover, { UpdateList } from './bases/DStar2Rover';
+import FocusedDStarRover, { Node, UpdateList } from 'data/rovers/bases/FocusedDStarRover';
 
 // Constants
 const TURN_COST = .6; // each turn uses .6 energy for detection
 const DEFAULT_SLOPE = 0; // 0%
 const ICE_BONUS = .5; // must be lower than TURN_COST
 const SLOPE_MALUS = 100;
+const COMPUTE_RANGE = 5 * Math.sqrt(50); // 5 cases (√50 is the length of a diagonal)
 
 // Class
-class EnergyRover extends DStar2Rover {
+class EnergyFRover extends FocusedDStarRover {
   // Methods
+  protected shouldExpand(node: Node): boolean {
+    const pt = realDistance(this.pos, this.target);
+    const pnt = realDistance(this.pos, node.pos) + realDistance(node.pos, this.target);
+    return Math.abs(pnt - pt) <= COMPUTE_RANGE;
+  }
+
   protected heuristic(from: Coords, to: Coords): number {
     // Distance
     let r = (from.x === to.x || from.y === to.y) ? 1 : 1.4;
@@ -82,4 +89,4 @@ class EnergyRover extends DStar2Rover {
   }
 }
 
-export default EnergyRover;
+export default EnergyFRover;

@@ -9,7 +9,7 @@ import CostMixin from './CostMixin';
 import TreeMixin, { TNode } from './TreeMixin';
 
 // Types
-interface Node extends TNode {
+export interface Node extends TNode {
   pos: Coords,
   from: Coords | null,
   obstacle: boolean,
@@ -51,7 +51,7 @@ export class UpdateList {
 }
 
 // Class
-abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
+abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeMixin {
   // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
   private _dstar_nodes: { [name: string]: Node } = {};
@@ -65,6 +65,7 @@ abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
   }
 
   // Abstract methods
+  protected abstract shouldExpand(node: Node): boolean
   protected abstract heuristic(from: Coords, to: Coords): number;
 
   // Methods
@@ -122,7 +123,7 @@ abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
 
         const n = this.getNode(p);
         if (!n) { // new node
-          ////console.log(`new node ${p.x},${p.y} (${c})`);
+          //console.log(`new node ${p.x},${p.y} (${c})`);
 
           this.initNode(p, c, pos);
           queue.enqueue(p, c);
@@ -169,6 +170,11 @@ abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
   private expand(open: Queue<Node>) { // D* (part 2)
     while (!open.isEmpty) {
       const node = open.dequeue() as Node;
+
+      if (!this.shouldExpand(node)) {
+        //console.log(`refused ${node.pos.x},${node.pos.y}`);
+        continue;
+      }
 
       //console.log(`expand ${node.pos.x},${node.pos.y}`);
       const raised = this.isRaised(node);
@@ -291,17 +297,7 @@ abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
     }
   }
 
-  protected preCompute(updates: UpdateList) {}
-
   protected compute(): Coords {
-    // Pre-compute updates
-    const updates = new UpdateList();
-    this.preCompute(updates);
-
-    if (updates.length > 0) {
-      this.update(updates);
-    }
-
     // Compute !
     let i = 8;
     while (true) {
@@ -329,10 +325,13 @@ abstract class DStar2Rover extends CachedRover implements CostMixin, TreeMixin {
 
   restart(keep: boolean = false): RoverAI {
     super.restart(keep);
+
+    this._dstar_nodes = {};
+    this._tree_version = 0;
     this.init();
 
     return this;
   }
 }
 
-export default DStar2Rover;
+export default FocusedDStarRover;
