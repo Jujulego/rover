@@ -7,6 +7,7 @@ import ChrystelleRover from './ChrystelleRover';
 import EnergyRover from './EnergyRover';
 import EnergyFRover from 'data/rovers/EnergyFRover';
 import ExplorerRover from './ExplorerRover';
+import ExplorerFRover from './ExplorerFRover';
 import PathRover from './PathRover';
 import SimpleRover from './SimpleRover';
 import StupidRover from './StupidRover';
@@ -20,6 +21,7 @@ const creators: { [name: string]: AI } = {
   'energy': EnergyRover,
   'energyf': EnergyFRover,
   'explorer': ExplorerRover,
+  'explorerf': ExplorerFRover,
   'path': PathRover,
   'simple': SimpleRover,
   'stupid': StupidRover
@@ -31,6 +33,7 @@ export {
   EnergyRover,
   EnergyFRover,
   ExplorerRover,
+  ExplorerFRover,
   PathRover,
   SimpleRover,
   StupidRover
