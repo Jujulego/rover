@@ -1,5 +1,5 @@
-import Coords, { realDistance, direction, surrounding } from 'data/Coords';
-import Direction, { DMove } from 'data/Direction';
+import Coords, { realDistance, direction, sight } from 'data/Coords';
+import { DMove } from 'data/Direction';
 import Map from 'data/Map';
 
 import DStarRover, { UpdateList } from './bases/DStarRover';
@@ -23,26 +23,9 @@ class ExplorerRover extends DStarRover {
     return d;
   }
 
-  private getDirs(to: Coords): Array<DMove> {
-    const dir = direction(this.pos, to) as DMove;
-    switch (dir) {
-      case Direction.T:   return [Direction.TRA, dir, Direction.TLA];
-      case Direction.TLA: return [Direction.T,   dir, Direction.L];
-      case Direction.L:   return [Direction.TLA, dir, Direction.BLA];
-      case Direction.BLA: return [Direction.L,   dir, Direction.B];
-      case Direction.B:   return [Direction.BLA, dir, Direction.BRA];
-      case Direction.BRA: return [Direction.B,   dir, Direction.R];
-      case Direction.R:   return [Direction.BRA, dir, Direction.TRA];
-      case Direction.TRA: return [Direction.R,   dir, Direction.T];
-    }
-  }
-
   protected detect(updates: UpdateList, data: { from: Coords; cost: number }) {
     // Look forward for obstacles
-    const dirs = this.getDirs(data.from);
-    dirs.forEach(dir => {
-      const c = surrounding(this.pos, dir);
-
+    sight(this.pos, direction(this.pos, data.from) as DMove, 3, 1).forEach(c => {
       if (this.getFloor(c) !== 'sand') {
         updates.obstacles(c);
       }

@@ -6,7 +6,7 @@ export type Hash<K> = (key: K) => string | number;
 class HMap<K,V> {
   // Attributes
   readonly hash: Hash<K>;
-  private _map = new Map<ReturnType<Hash<K>>,Element<K,V>>();
+  private readonly _map = new Map<ReturnType<Hash<K>>,Element<K,V>>();
 
   // Property
   get size(): number {
