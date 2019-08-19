@@ -17,7 +17,7 @@ import styles from './Case.module.scss';
 // Props
 type Props = {
   pos: Coords, map: Map, target?: boolean,
-  coords?: boolean, height?: boolean, unknown?: boolean, cost?: number,
+  coords?: boolean, height?: number, unknown?: boolean, cost?: number,
   onClick?: MouseEventHandler<HTMLDivElement>
 }
 
@@ -40,11 +40,11 @@ const Case : FC<Props> = (props) => {
 
       onClick={onClick}
     >
-      <Floor type={data.floor} borders={map.borders(pos)} cliffs={map.cliffs(pos)} />
-      { (coords || height || (cost !== undefined)) && (
+      <Floor pos={pos} map={map} />
+      { (coords || (height !== undefined) || (cost !== undefined)) && (
         <div className={styles.data}>
           { coords && <Typography classes={{ root: styles.tl }} variant="body2">({pos.x},{pos.y})</Typography> }
-          { height && <Typography classes={{ root: styles.bl }} variant="body2">{data.height}</Typography> }
+          { (height !== undefined) && <Typography classes={{ root: styles.bl }} variant="body2">{height}</Typography> }
           { (cost !== undefined) && <Typography classes={{ root: styles.tr }} variant="body2">{isFinite(cost) ? round2(cost) : '\u221E'}</Typography> }
         </div>
       ) }

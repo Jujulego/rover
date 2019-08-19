@@ -85,8 +85,6 @@ export function sight(from: Coords, dir: DMove, width: number, depth: number): A
     dirs.unshift(dr);
   }
 
-  console.log(dirs);
-
   // get cases
   const sight = new Array<Coords>();
   const marks = new HMap<Coords,number>(hash);
@@ -108,8 +106,6 @@ export function sight(from: Coords, dir: DMove, width: number, depth: number): A
       if (p && !marks.has(p)) {
         marks.set(p, dist + 1);
         sight.push(p);
-        console.log(p);
-
         stack.put(p);
       }
     });
