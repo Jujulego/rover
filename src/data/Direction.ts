@@ -35,7 +35,7 @@ export function isCombined(dir: Direction): dir is DCombined {
 }
 
 export function isAngle(dir: Direction): dir is DAngle {
-  return (dir === Direction.TLA) || (dir === Direction.BLA) || (dir === Direction.BRA) || (dir === Direction.TRA);
+  return ((dir & 1) === 0) && (dir !== Direction.N);
 }
 
 export function isMove(dir: Direction): dir is DMove {
@@ -54,5 +54,31 @@ export const BORDERS: Array<DBorder> = [
   Direction.R, Direction.TR, Direction.TRA
 ];
 export const MOVES: Array<DMove> = [Direction.T, Direction.TLA, Direction.L, Direction.BLA, Direction.B, Direction.BRA, Direction.R, Direction.TRA];
+
+// Utils
+export function rotateL(dir: DMove): DMove {
+  switch (dir) {
+    case Direction.T:   return Direction.TLA;
+    case Direction.TLA: return Direction.L;
+    case Direction.L:   return Direction.BLA;
+    case Direction.BLA: return Direction.B;
+    case Direction.B:   return Direction.BRA;
+    case Direction.BRA: return Direction.R;
+    case Direction.R:   return Direction.TRA;
+    case Direction.TRA: return Direction.T;
+  }
+}
+export function rotateR(dir: DMove): DMove {
+  switch (dir) {
+    case Direction.T:   return Direction.TRA;
+    case Direction.TRA: return Direction.R;
+    case Direction.R:   return Direction.BRA;
+    case Direction.BRA: return Direction.B;
+    case Direction.B:   return Direction.BLA;
+    case Direction.BLA: return Direction.L;
+    case Direction.L:   return Direction.TLA;
+    case Direction.TLA: return Direction.T;
+  }
+}
 
 export default Direction

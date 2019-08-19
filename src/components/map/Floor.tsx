@@ -1,117 +1,59 @@
 import React, { FC, memo } from 'react';
-import clsx from 'clsx';
 
 import themes from 'assets/themes/themes';
 
-import Direction, { DAngle, DBorder, DStrait, isBorder } from 'data/Direction';
-import { Borders, Cliffs, BorderType, FloorType } from 'data/Map';
+import Coords, { equal } from 'data/Coords';
+import Direction, { DMove } from 'data/Direction';
+import Map, { Case } from 'data/Map';
 
 import styles from './Floor.module.scss';
 
 // Types
 type Props = {
-  type: FloorType,
-  borders?: Borders,
-  cliffs?: Cliffs,
-
-  className?: string,
-  style?: { [name: string]: any }
+  pos: Coords,
+  map: Map
 }
 
 // Constants
-const BORDERS: Array<Array<DStrait>> = [
-  [Direction.T, Direction.L],
-  [Direction.T],
-  [Direction.T, Direction.R],
-  [Direction.L],
-  [],
-  [Direction.R],
-  [Direction.B, Direction.L],
-  [Direction.B],
-  [Direction.B, Direction.R]
+const BORDERS: Array<DMove | Direction.N> = [
+  Direction.TLA,
+  Direction.T,
+  Direction.TRA,
+  Direction.L,
+  Direction.N,
+  Direction.R,
+  Direction.BLA,
+  Direction.B,
+  Direction.BRA
 ];
-
-// Utils
-function getBorder(borders: Borders, [d1, d2]: Array<DStrait>): [DBorder | undefined, BorderType] {
-  let dir = Direction.N;
-  let type: BorderType = 'hole';
-
-  if (d1 && borders[d1]) {
-    dir = dir | d1;
-    type = borders[d1] as BorderType;
-  }
-
-  if (d2 && borders[d2]) {
-    dir = dir | d2;
-
-    if (type === 'hole') {
-      type = borders[d2] as BorderType;
-    }
-  }
-
-  const da: DAngle = d1 ^ d2;
-  if (d1 && d2 && !dir && borders[da]) {
-    dir = dir | da;
-
-    if (type === 'hole') {
-      type = borders[da] as BorderType;
-    }
-  }
-
-  return [isBorder(dir) ? dir : undefined, type];
-}
-
-function getCliff(cliffs: Cliffs, [d1, d2]: Array<DStrait>): DBorder | undefined {
-  let dir = Direction.N;
-
-  if (d1 && cliffs[d1]) {
-    dir = dir | d1;
-  }
-
-  if (d2 && cliffs[d2]) {
-    dir = dir | d2;
-  }
-
-  const da: DAngle = d1 ^ d2;
-  if (d1 && d2 && !dir && cliffs[da]) {
-    dir = dir | da;
-  }
-
-  return isBorder(dir) ? dir : undefined;
-}
-
-function mapBorders<T>(borders: Borders, cliffs: Cliffs, cb: (dir: DBorder | undefined, cliff: DBorder | undefined, type: BorderType, i: number) => T): Array<T> {
-  return BORDERS.map((dirs, index) => {
-    const [d, t] = getBorder(borders, dirs);
-    return cb(d, getCliff(cliffs, dirs), t, index);
-  });
-}
 
 // Component
 const Floor: FC<Props> = (props) => {
-  const {
-    type, borders = {}, cliffs = {},
-    className, style
-  } = props;
+  const { pos, map } = props;
+  const { floor } = map.get(pos) as Case;
 
   // Rendering
+  const borders = map.borders(pos);
+
   return (
-    <div className={clsx(styles.floor, className)} style={style}>
-      { mapBorders(borders, cliffs, (dir, cliff, t, i) =>
-        <div key={i}>
-          { (dir && t === 'hole') && (
-            <img src={themes.hole.getImage(dir)} alt="hole" />
-          ) }
-          { !(dir && type === 'hole') && (
-            <img src={themes[type].getImage(dir)} alt={type} />
-          ) }
-          { cliff && (
-            <img src={themes[type].getImage(cliff)} alt={type} />
-          ) }
+    <div className={styles.floor}>
+      { BORDERS.map(dir => (
+        <div key={dir}>
+          { (dir === Direction.N || borders[dir].length === 0) ? <img src={themes[floor].getImage()} alt={floor} /> : borders[dir].map(layer => {
+            if (layer.type === 'end' && layer.height === -1) return null;
+            if (layer.type === 'hole' && layer.height !== -1) return null;
+            if (layer.type === 'end' && floor === 'hole') return null;
+            if (layer.type === 'end') return <img key={layer.height} src={themes[floor].getImage(layer.dir)} alt={floor} />;
+            return <img key={layer.height} src={themes[layer.type].getImage(layer.dir)} alt={layer.type} />;
+          }) }
         </div>
-      ) }
+      )) }
     </div>
   );
 };
 
-export default memo(Floor);
+function areEquals(pp: Props, np: Props): boolean {
+  return equal(pp.pos, np.pos) && pp.map === np.map;
+}
+
+export default memo(Floor, areEquals);

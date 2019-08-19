@@ -1,11 +1,13 @@
-import Coords, { direction, surrounding } from 'data/Coords';
-import Direction, { DMove } from 'data/Direction';
+import Coords, { direction, sight } from 'data/Coords';
+import { DMove } from 'data/Direction';
 
 import DStarRover, { UpdateList } from './bases/DStarRover';
 
 // Constants
 const TURN_COST = 100;
 const DEFAULT_SLOPE = 0; // 0%
+const SIGHT_WIDTH = 3;
+const SIGHT_DEPTH = 1;
 
 // Class
 class EnergyRover extends DStarRover {
@@ -39,25 +41,9 @@ class EnergyRover extends DStarRover {
     return r + TURN_COST;
   }
 
-  private getDirs(to: Coords): Array<DMove> {
-    const dir = direction(this.pos, to) as DMove;
-    switch (dir) {
-      case Direction.T:   return [Direction.TRA, dir, Direction.TLA];
-      case Direction.TLA: return [Direction.T,   dir, Direction.L];
-      case Direction.L:   return [Direction.TLA, dir, Direction.BLA];
-      case Direction.BLA: return [Direction.L,   dir, Direction.B];
-      case Direction.B:   return [Direction.BLA, dir, Direction.BRA];
-      case Direction.BRA: return [Direction.B,   dir, Direction.R];
-      case Direction.R:   return [Direction.BRA, dir, Direction.TRA];
-      case Direction.TRA: return [Direction.R,   dir, Direction.T];
-    }
-  }
-
   protected detect(updates: UpdateList, data: { from: Coords; cost: number }) {
     // Look forward for obstacles
-    const dirs = this.getDirs(data.from);
-    dirs.forEach(dir => {
-      const c = surrounding(this.pos, dir);
+    sight(this.pos, direction(this.pos, data.from) as DMove, SIGHT_WIDTH, SIGHT_DEPTH).forEach(c => {
       const cached = this.getCachedCase(c);
       const data = this.getDStarData(c);
 

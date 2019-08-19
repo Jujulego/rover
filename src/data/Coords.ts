@@ -1,4 +1,5 @@
-import Direction, { DMove, isMove, MOVES } from './Direction';
+import Direction, { DMove, isMove, MOVES, rotateL, rotateR } from './Direction';
+import { HMap, Stack } from 'utils';
 
 // Types
 export default interface Coords {
@@ -68,6 +69,49 @@ export function surrounding(pos: Coords, dir: DMove): Coords {
 
 export function surroundings(pos: Coords): Array<Coords> {
   return MOVES.map(dir => surrounding(pos, dir));
+}
+
+export function sight(from: Coords, dir: DMove, width: number, depth: number): Array<Coords> {
+  // get directions according to the width
+  const dirs = [dir];
+  let dl = dir; let dr = dir;
+
+  while (dirs.length < width) {
+    dl = rotateL(dl);
+    dirs.push(dl);
+    if (dirs.length === width) break;
+
+    dr = rotateR(dr);
+    dirs.unshift(dr);
+  }
+
+  // get cases
+  const sight = new Array<Coords>();
+  const marks = new HMap<Coords,number>(hash);
+  const stack = new Stack<Coords>();
+
+  stack.put(from);
+  marks.set(from, 0);
+
+  while (!stack.isEmpty) {
+    const pos = stack.get() as Coords;
+    const dist = marks.get(pos) as number;
+
+    if (dist >= depth) continue;
+
+    // next !
+    dirs.forEach(d => {
+      const p = surrounding(pos, d);
+
+      if (p && !marks.has(p)) {
+        marks.set(p, dist + 1);
+        sight.push(p);
+        stack.put(p);
+      }
+    });
+  }
+
+  return sight;
 }
 
 export function zoneTopLeft(center: Coords, size: Coords): Coords {

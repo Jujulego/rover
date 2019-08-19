@@ -7,8 +7,6 @@ class ChrystelleRover extends RoverAI {
   // Methods
   protected compute(): Coords {
     const road = this.shortestRoad(this.pos, this.target);
-    console.log(road);
-
     return road[0];
   }
 

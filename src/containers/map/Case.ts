@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Coords, { equal } from 'data/Coords';
+import Map from 'data/Map';
 import CachedRover from 'data/rovers/bases/CachedRover';
 
 import { AppState } from 'store';
@@ -12,12 +13,17 @@ import { hasCost } from 'data/rovers/bases/CostMixin';
 
 // Type
 interface Props {
-  pos: Coords
+  pos: Coords,
+  map: Map
 }
 
 // Component
 function mapStateToProps(state: AppState, own: Props) {
-  const debug = state.zone.debug;
+  // map data
+  const data = own.map.get(own.pos);
+
+  // debug data
+  const { debug } = state.zone;
   let unknown = false;
   let cost: number | undefined;
 
@@ -35,7 +41,7 @@ function mapStateToProps(state: AppState, own: Props) {
 
   return {
     coords: state.zone.options.coords,
-    height: state.zone.options.height,
+    height: state.zone.options.height ? data && data.height : undefined,
     unknown, cost,
     target: state.zone.level && equal(own.pos, state.zone.level.target)
   };

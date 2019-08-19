@@ -1,18 +1,42 @@
 import { DEFAULT_FLOOR, DEFAULT_HEIGHT } from './constants';
 import Coords, { slope, surrounding } from './Coords';
 
-import { DAngle, DStrait, MOVES } from 'data/Direction';
+import Direction, { DBorder, DMove, isAngle, MOVES, rotateL, rotateR } from 'data/Direction';
 
 // Types
 export type FloorType = 'rock' | 'sand' | 'ice' | 'hole';
 export type BorderType = 'hole' | 'end';
 
-export type Borders = { [name in DStrait | DAngle]?: BorderType };
-export type Cliffs = { [name in DStrait | DAngle]?: boolean };
+type Layer = { dir?: DBorder, type: FloorType | 'end', height: number }
+export type Borders = { [name in DMove]: Layer[] };
 
 export interface Case {
   height: number,
   floor: FloorType
+}
+
+// Constants
+const DEFAULT_BORDERS: Borders = {
+  [Direction.T]:   [],
+  [Direction.TRA]: [],
+  [Direction.R]:   [],
+  [Direction.BRA]: [],
+  [Direction.B]:   [],
+  [Direction.BLA]: [],
+  [Direction.L]:   [],
+  [Direction.TLA]: []
+};
+
+// Utils
+function reduceLayers(ll: Layer | undefined, lr: Layer): Layer {
+  if (!ll) return lr;
+  if (ll.dir && lr.dir && isAngle(lr.dir)) return ll;
+
+  return {
+    dir: ll.dir ? lr.dir && (ll.dir | lr.dir) : lr.dir,
+    type: (ll.type === 'end' || lr.type === 'hole') ? lr.type : ll.type,
+    height: ll.height
+  }
 }
 
 // Class
@@ -90,36 +114,74 @@ class Map {
     return results;
   }
 
-  borders(pos: Coords): Borders {
+  private layers(pos: Coords, dir: DMove): Layer[] {
     const data = this.get(pos);
-    if (!data) return {};
 
-    return MOVES.reduce((borders: Borders, dir) => {
-      const c = this.get(surrounding(pos, dir));
+    // out of map
+    if (!data) return [];
 
-      if (!c || (data.floor === 'hole' && !c)) {
-        borders[dir] = 'end';
-      } else if (c.floor === 'hole') {
-        borders[dir] = 'hole';
-      }
+    // get dirs
+    const dirs = [dir];
+    if (isAngle(dir)) {
+      dirs.unshift(rotateR(dir));
+      dirs.unshift(rotateL(dir));
+    }
 
-      return borders;
-    }, {});
+    // get cases
+    const cases: ({ floor: FloorType | 'end', height: number, dir: DMove })[] = dirs.map(dir => {
+      const d = this.get(surrounding(pos, dir));
+
+      if (!d) return { floor: 'end', height: 0, dir };
+      return { ...d, dir };
+    });
+
+    // get heights
+    const heights = cases.map(c => c.height)
+      .sort((h1, h2) => h2 - h1)
+      .filter((h, i, hs) => i === 0 || h !== hs[i-1]); // remove copies
+
+    if (heights[0] < data.height) {
+      heights.unshift(data.height);
+    }
+
+    // compute layers
+    const layers = new Array<Layer>();
+    let bottom: FloorType | 'end' | undefined;
+
+    heights.forEach(h => {
+      // compute layer (level h)
+      let layer: Layer | undefined;
+
+      cases.forEach(c => {
+        if (c.floor === 'end') { // ends
+          layer = reduceLayers(layer, { dir: c.dir, type: 'end', height: h });
+          bottom = 'end';
+        } else if (c.floor === 'hole') { // holes
+          layer = reduceLayers(layer, { dir: c.dir, type: data.floor, height: h });
+          bottom = 'hole';
+        } else if (c.height < data.height) {
+          if (c.height < h) {
+            layer = reduceLayers(layer, { dir: c.dir, type: data.floor, height: h });
+          } else if (c.height === h) {
+            layer = reduceLayers(layer, { dir: layer && layer.dir, type: c.floor, height: h });
+          }
+
+          if ((!bottom || bottom === 'end') && data.floor !== 'hole') bottom = c.floor;
+        }
+      });
+
+      // add layer
+      if (layer) layers.unshift(layer);
+    });
+
+    return [{ type: bottom || data.floor, height: -1 }, ...layers];
   }
 
-  cliffs(pos: Coords): Cliffs {
-    const data = this.get(pos);
-    if (!data || data.floor === 'hole') return {};
-
-    return MOVES.reduce((cliffs: Cliffs, dir) => {
-      const c = this.get(surrounding(pos, dir));
-
-      if (!c || c.floor === 'hole' || c.height < data.height) {
-        cliffs[dir] = true;
-      }
-
-      return cliffs;
-    }, {});
+  borders(pos: Coords): Borders {
+    return MOVES.reduce((borders, dir) => {
+      borders[dir] = this.layers(pos, dir);
+      return borders;
+    }, DEFAULT_BORDERS);
   }
 
   slope(c1: Coords, c2: Coords): number {

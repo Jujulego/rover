@@ -1,4 +1,4 @@
-import { PriorityQueue, Queue, measure, round2 } from 'utils';
+import { HMap, PriorityQueue, Queue, measure/*, round2*/ } from 'utils';
 
 import Coords, { equal, hash, surroundings } from 'data/Coords';
 import Map from 'data/Map';
@@ -22,10 +22,10 @@ interface Update {
 }
 
 // Utils
-function pp(v: number): string {
+/*function pp(v: number): string {
   if (!isFinite(v)) return 'infinite';
   return round2(v).toString();
-}
+}*/
 
 export class UpdateList {
   // Attributes
@@ -54,7 +54,7 @@ export class UpdateList {
 abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeMixin {
   // Inspired by https://fr.wikipedia.org/wiki/Algorithme_D*
   // Attributes
-  private _dstar_nodes: { [name: string]: Node } = {};
+  private readonly _dstar_nodes = new HMap<Coords,Node>(hash);
   private _tree_version: number = 0;
 
   // Constructor
@@ -68,10 +68,20 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
   protected abstract shouldExpand(node: Node): boolean
   protected abstract heuristic(from: Coords, to: Coords): number;
 
+  protected isObstacle(p: Coords): boolean {
+    return false;
+  }
+
   // Methods
   // - manage data
   private initNode(pos: Coords, cost: number, from: Coords | null) {
-    this._dstar_nodes[hash(pos)] = { pos, cost, min_cost: cost, from, obstacle: false };
+    const obstacle = this.isObstacle(pos);
+
+    if (obstacle) {
+      this._dstar_nodes.set(pos, { pos, cost: Infinity, min_cost: Infinity, from: null, obstacle });
+    } else {
+      this._dstar_nodes.set(pos, {pos, cost, min_cost: cost, from, obstacle});
+    }
   }
 
   getCost(pos: Coords): number {
@@ -81,7 +91,7 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
 
   // - tree access
   getNode(pos: Coords): Node | undefined {
-    return this._dstar_nodes[hash(pos)];
+    return this._dstar_nodes.get(pos);
   }
 
   getChildren(node: Node): Array<Node> {
@@ -114,6 +124,8 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
       const [pos, cost] = queue.dequeue();
       if (!pos) break; // should not happen
 
+      if ((this.getNode(pos) as Node).obstacle) continue;
+
       // parse surroundings
       surroundings(pos).forEach(p => {
         if (!this.inMap(p)) return;
@@ -128,7 +140,7 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
           this.initNode(p, c, pos);
           queue.enqueue(p, c);
 
-        } else if (!n.obstacle && n.cost > c) { // better path
+        } else if (!n.obstacle && n.cost > c) { // better path ?
           //console.log(`lower ${p.x},${p.y} (${pp(n.cost)} => ${pp(c)} by ${pos.x},${pos.y})`);
 
           n.cost = c; n.min_cost = c;
@@ -326,7 +338,7 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
   restart(keep: boolean = false): RoverAI {
     super.restart(keep);
 
-    this._dstar_nodes = {};
+    this._dstar_nodes.clear();
     this._tree_version = 0;
     this.init();
 
