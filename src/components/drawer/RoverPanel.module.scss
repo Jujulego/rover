@@ -22,11 +22,15 @@
     @include row-spacing(spacing(2));
 
     .step {
-      flex: 1
+      flex: 1;
     }
 
-    .play {
-      flex: 2
+    .grp {
+      flex: 2;
+
+      .play {
+        width: 100%;
+      }
     }
   }
 
