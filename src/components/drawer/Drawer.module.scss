@@ -5,12 +5,14 @@ $drawer-width: 320px;
 $drawer-reduced-width: spacing(7) + 1;
 
 // Style
+.content, .drawer {
+  max-height: calc(100vh - #{spacing(8)});
+  margin-top: #{spacing(8)};
+}
+
 .drawer {
-  height: calc(100% - #{spacing(8)});
   width: $drawer-width;
   flex-shrink: 0;
-
-  margin-top: #{spacing(8)};
 
   white-space: nowrap;
 
@@ -24,9 +26,14 @@ $drawer-reduced-width: spacing(7) + 1;
 
 .content {
   flex: 1;
-  max-height: calc(100vh - #{spacing(8)});
   overflow: auto;
 
-  margin-top: #{spacing(8)};
   margin-left: $drawer-reduced-width;
+}
+
+@media (max-width: 600px) {
+  .content, .drawer {
+    max-height: calc(100vh - #{spacing(7)});
+    margin-top: #{spacing(7)};
+  }
 }
