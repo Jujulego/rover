@@ -1,10 +1,14 @@
-import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
+import {
+  DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER,
+  SET_EDITING
+} from './constants';
 import { ZoneActionTypes, ZoneState } from './types';
 
 // Initial state
 const initialState: ZoneState = {
   center: { x: 1, y: 1 },
   zoom: 1,
+  editing: false,
   options: {
     coords: true,
     height: false,
@@ -48,6 +52,9 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
 
     case TRACK_ROVER:
       return { ...state, track: action.name };
+
+    case SET_EDITING:
+      return { ...state, editing: action.value };
 
     default:
       return state;

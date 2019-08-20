@@ -59,6 +59,7 @@ const RoverPanel: FC<Props> = (props) => {
   const dispatch = useDispatch();
   const rover = useSelector<AppState,RoverState>(state => state.rovers[name]);
   const track = useSelector<AppState,string | undefined>(state => state.zone.track);
+  const editing = useSelector<AppState,boolean>(state => state.zone.editing);
 
   // Function
   function handleClick() {
@@ -154,14 +155,14 @@ const RoverPanel: FC<Props> = (props) => {
         <div className={styles.buttons}>
           <Button
             classes={{ root: styles.step }}
-            variant="outlined" fullWidth disabled={rover.active || rover.data.arrived}
+            variant="outlined" fullWidth disabled={rover.active || rover.data.arrived || editing}
             onClick={handleStep}
           >
             Step
           </Button>
           <ButtonGroup
             classes={{ root: styles.grp }}
-            variant="outlined" disabled={rover.data.arrived}
+            variant="outlined" disabled={rover.data.arrived || editing}
           >
             <Button
               classes={{ root: styles.play }}

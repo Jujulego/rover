@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import {
   ArrowBack as ArrowBackIcon,
+  Close as CloseIcon,
   Edit as EditIcon,
   Menu as MenuIcon
 } from '@material-ui/icons';
@@ -15,11 +16,13 @@ import { AppState } from 'store';
 import { toggleDrawer } from 'store/drawer/actions';
 
 import styles from 'components/AppBar.module.scss';
+import { setEditing } from 'store/zone/actions';
 
 // Component
 const AppBar : FC = () => {
   // Redux
   const drawer = useSelector<AppState,boolean>(state => state.drawer.open);
+  const editing = useSelector<AppState,boolean>(state => state.zone.editing);
   const hasMap = useSelector<AppState,boolean>(state => state.zone.map !== undefined);
   const dispatch = useDispatch();
 
@@ -38,8 +41,11 @@ const AppBar : FC = () => {
           </IconButton>
           <Typography variant="h6" noWrap>Rover</Typography>
           <div className={styles.actions}>
-            <IconButton color="inherit" disabled={!hasMap}>
-              <EditIcon />
+            <IconButton
+              color="inherit" disabled={!hasMap}
+              onClick={() => dispatch(setEditing(!editing))}
+            >
+              { editing ? <CloseIcon /> : <EditIcon /> }
             </IconButton>
           </div>
         </Toolbar>

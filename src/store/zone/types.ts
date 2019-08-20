@@ -4,7 +4,10 @@ import Map from 'data/Map';
 
 import { MapOptions } from 'components/map/Map';
 
-import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
+import {
+  DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER,
+  SET_EDITING
+} from './constants';
 
 // Actions types
 interface DebugRoverAction {
@@ -15,6 +18,11 @@ interface DebugRoverAction {
 interface MoveZoneAction {
   type: typeof MOVE_ZONE,
   center: Coords
+}
+
+interface SetEditingAction {
+  type: typeof SET_EDITING,
+  value: boolean
 }
 
 interface SetLevelAction {
@@ -46,7 +54,9 @@ interface TrackRoverAction {
   name: string,
 }
 
-export type ZoneActionTypes = DebugRoverAction | SetLevelAction | SetMapAction | SetZoomAction | StopTrackingAction | MoveZoneAction | ToggleOptionAction | TrackRoverAction
+export type ZoneActionTypes =
+  DebugRoverAction | SetLevelAction | SetMapAction | SetZoomAction | StopTrackingAction | MoveZoneAction | ToggleOptionAction | TrackRoverAction |
+  SetEditingAction
 
 // State type
 export interface ZoneState {
@@ -54,5 +64,6 @@ export interface ZoneState {
   center: Coords, zoom: number,
   track?: string,
   debug?: string,
+  editing: boolean,
   options: { [name in MapOptions]?: boolean }
 }
