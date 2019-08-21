@@ -4,6 +4,7 @@ import { CssBaseline } from '@material-ui/core';
 
 import AppBar from './AppBar';
 import Drawer from './drawer/Drawer';
+import EditDrawer from './edit/EditDrawer';
 
 import Map from 'containers/map/Map';
 
@@ -19,6 +20,7 @@ const App: FC = () => {
       <Drawer>
         <Map />
       </Drawer>
+      <EditDrawer />
     </div>
   );
 };

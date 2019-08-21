@@ -1,0 +1,45 @@
+@import "assets/theme";
+
+// Utils
+$drawer-width: 64px;
+$sample-spacing: 1.5;
+
+// Style
+.drawer {
+  max-height: calc(100vh - #{spacing(8)});
+  margin-top: #{spacing(8)};
+}
+
+.drawer {
+  width: $drawer-width;
+  flex-shrink: 0;
+
+  white-space: nowrap;
+
+  transition: width ease $transition-duration;
+
+  &.close {
+    width: 0;
+  }
+
+  .sample {
+    padding: spacing(.75) spacing(1.5);
+
+    img {
+      height: auto; width: 100%;
+      box-sizing: border-box;
+
+      border: solid 1px #9b9b9b;
+      border-radius: 50%;
+
+      padding: 2px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .drawer {
+    max-height: calc(100vh - #{spacing(7)});
+    margin-top: #{spacing(7)};
+  }
+}
