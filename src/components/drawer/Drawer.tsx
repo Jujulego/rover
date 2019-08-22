@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 import { AppState } from 'store';
-import { openDrawer } from 'store/drawer/actions';
+import { drawer } from 'store/drawer/actions';
 import { RoversState } from 'store/rovers/types';
 
 import AddRover from './AddRover';
@@ -36,7 +36,7 @@ const Drawer: FC = (props) => {
     open: panel === name,
     onOpen: () => {
       setPanel(name);
-      if (!open) dispatch(openDrawer());
+      if (!open) dispatch(drawer.open());
     },
     onClose: () => setPanel(null)
   });

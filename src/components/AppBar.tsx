@@ -12,14 +12,14 @@ import {
 } from '@material-ui/icons';
 
 import { AppState } from 'store';
-import { toggleDrawer } from 'store/drawer/actions';
+import { drawer } from 'store/drawer/actions';
 
 import styles from 'components/AppBar.module.scss';
 
 // Component
 const AppBar : FC = () => {
   // Redux
-  const drawer = useSelector<AppState,boolean>(state => state.drawer.open);
+  const drawerOpen = useSelector<AppState,boolean>(state => state.drawer.open);
   const hasMap = useSelector<AppState,boolean>(state => state.zone.map !== undefined);
   const dispatch = useDispatch();
 
@@ -32,9 +32,9 @@ const AppBar : FC = () => {
             className={styles.menuBtn}
             edge="start"
             color="inherit"
-            onClick={() => dispatch(toggleDrawer())}
+            onClick={() => dispatch(drawer.toggle())}
           >
-            { drawer ? <ArrowBackIcon /> : <MenuIcon /> }
+            { drawerOpen ? <ArrowBackIcon /> : <MenuIcon /> }
           </IconButton>
           <Typography variant="h6" noWrap>Rover</Typography>
           <div className={styles.actions}>
