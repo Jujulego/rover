@@ -1,20 +1,19 @@
-import React, { FC, DragEvent } from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 
 import {
-  Divider, Drawer,
+  Drawer,
   List, ListItem
 } from '@material-ui/core';
 
 import themes from 'assets/themes/themes';
 
 import { AppState } from 'store';
+import { handleDrag } from 'store/zone/DropData';
 
 import styles from './EditDrawer.module.scss';
-
-// Types
-type Sample = 'ice' | 'rock' | 'sand'
+import { FloorType } from 'data/Map';
 
 // Components
 const EditDrawer: FC = () => {
@@ -22,11 +21,8 @@ const EditDrawer: FC = () => {
   const open = useSelector<AppState,boolean>(state => state.zone.editing);
 
   // Functions
-  function handleDragSample(type: Sample) {
-    return (event: DragEvent<HTMLImageElement>) => {
-      console.log('drag', type);
-      event.dataTransfer.setData('text/plain', type);
-    };
+  function handleDragSample(type: FloorType) {
+    return handleDrag({ kind: 'type', type });
   }
 
   // Rendering
@@ -36,6 +32,9 @@ const EditDrawer: FC = () => {
       classes={{ paper: clsx(styles.drawer, { [styles.close]: !open }) }}
     >
       <List>
+        <ListItem classes={{ root: styles.sample }}>
+          <img src={themes.hole.getImage()} alt="hole" draggable onDragStart={handleDragSample('hole')} />
+        </ListItem>
         <ListItem classes={{ root: styles.sample }}>
           <img src={themes.ice.getImage()} alt="ice" draggable onDragStart={handleDragSample('ice')} />
         </ListItem>

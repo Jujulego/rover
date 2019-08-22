@@ -1,11 +1,14 @@
 import { setActionCreator as setAC } from 'utils/actions/SetAction';
 
+import Coords from 'data/Coords';
+import { FloorType } from 'data/Map';
+
 import { MapOptions } from 'components/map/Map';
 
 import {
   STOP_TRACKING, TOGGLE_OPTION,
   DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, TRACK_ROVER,
-  SET_EDITING
+  SET_EDITING, CHANGE_TYPE
 } from './constants';
 import { ZoneActionTypes } from './types';
 
@@ -21,3 +24,4 @@ export const setZoom = setAC<ZoneActionTypes,typeof SET_ZOOM>(SET_ZOOM);
 export const trackRover = setAC<ZoneActionTypes,typeof TRACK_ROVER>(TRACK_ROVER);
 
 export const setEditing = setAC<ZoneActionTypes,typeof SET_EDITING>(SET_EDITING);
+export const changeType = (pos: Coords, value: FloorType, was: FloorType): ZoneActionTypes => ({ type: CHANGE_TYPE, pos, value, was });
