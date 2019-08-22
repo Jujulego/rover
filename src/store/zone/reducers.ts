@@ -29,25 +29,25 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
       return { ...state, options: optionsReducer(state.options, action) };
 
     case DEBUG_ROVER:
-      return { ...state, debug: action.rover };
+      return { ...state, debug: action.value };
 
     case MOVE_ZONE:
-      return { ...state, center: action.center };
+      return { ...state, center: action.value };
 
     case SET_LEVEL:
-      return { ...state, level: action.level, map: undefined };
+      return { ...state, level: action.value, map: undefined };
 
     case SET_MAP:
-      return { ...state, map: action.map };
+      return { ...state, map: action.value };
 
     case STOP_TRACKING:
       return { ...state, track: undefined };
 
     case SET_ZOOM:
-      return { ...state, zoom: action.zoom };
+      return { ...state, zoom: action.value };
 
     case TRACK_ROVER:
-      return { ...state, track: action.name };
+      return { ...state, track: action.value };
 
     default:
       return state;

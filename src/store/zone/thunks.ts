@@ -12,7 +12,7 @@ export const loadLevel = (lvl: Level) => async (dispatch: Dispatch) => {
     dispatch(setLevel(lvl)),
     dispatch(clearRovers()),
     dispatch(stopTracking()),
-    dispatch(debugRover())
+    dispatch(debugRover(undefined))
   ]);
 
   // Load map
