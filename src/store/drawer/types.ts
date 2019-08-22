@@ -1,11 +1,9 @@
-import { OPEN, CLOSE, TOGGLE } from './constants';
+import { BoolAction } from 'utils/actions/BoolAction';
+
+import { DRAWER } from './constants';
 
 // Actions types
-interface SimpleAction<A> {
-  type: A,
-}
-
-export type DrawerActionTypes = SimpleAction<typeof OPEN> | SimpleAction<typeof CLOSE> | SimpleAction<typeof TOGGLE>;
+export type DrawerActionTypes = BoolAction<typeof DRAWER>;
 
 // State type
 export interface DrawerState {

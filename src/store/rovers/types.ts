@@ -1,3 +1,5 @@
+import { Action } from 'redux';
+
 import { RoverColor } from 'assets/rovers';
 
 import Coords from 'data/Coords';
@@ -16,10 +18,6 @@ type AddRoverAction = {
   color: RoverColor
 }
 
-type ClearRoversAction = {
-  type: typeof CLEAR_ROVERS
-}
-
 type SimpleRoverAction = {
   type: typeof PLAY_ROVER | typeof START_ROVER | typeof STOP_ROVER | typeof RESTART_ROVER,
   name: string
@@ -32,7 +30,7 @@ type SetRoverColorAction = {
 }
 
 export type RoverActionTypes = SimpleRoverAction | SetRoverColorAction;
-export type RoversActionTypes = AddRoverAction | ClearRoversAction | RoverActionTypes;
+export type RoversActionTypes = AddRoverAction | RoverActionTypes | Action<typeof CLEAR_ROVERS>;
 
 // State type
 export interface RoverState {

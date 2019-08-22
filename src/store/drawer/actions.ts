@@ -1,7 +1,6 @@
-import { OPEN, CLOSE, TOGGLE } from './constants';
-import { DrawerActionTypes } from './types';
+import { boolActionCreator } from 'utils/actions/BoolAction';
+
+import { DRAWER } from './constants';
 
 // Actions
-export const openDrawer = (): DrawerActionTypes => ({ type: OPEN });
-export const closeDrawer = (): DrawerActionTypes => ({ type: CLOSE });
-export const toggleDrawer = (): DrawerActionTypes => ({ type: TOGGLE });
+export const drawer = boolActionCreator(DRAWER, { true: 'open', false: 'close' });
