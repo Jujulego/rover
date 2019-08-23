@@ -22,6 +22,10 @@ $sample-spacing: 1.5;
     width: 0;
   }
 
+  .button {
+    padding: spacing(.75) spacing(1);
+  }
+
   .sample {
     padding: spacing(.75) spacing(1.5);
 

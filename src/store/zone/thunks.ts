@@ -28,11 +28,18 @@ export const loadLevel = (lvl: Level) => async (dispatch: Dispatch) => {
 };
 
 export const caseDrop = (pos: Coords, data: DropData) => async (dispatch: Dispatch, getState: () => AppState) => {
-  const map = getState().zone.map;
+  const { map } = getState().zone;
   if (!map) return;
 
   // Treating data
   switch (data.kind) {
     case 'type': dispatch(changeType(pos, data.type, map.getOrDefault(pos).floor))
   }
+};
+
+export const undo = () => async (dispatch: Dispatch, getState: () => AppState) => {
+  const { history } = getState().zone;
+  if (history.length === 0) return;
+
+  dispatch({ ...history[0], undo: true });
 };

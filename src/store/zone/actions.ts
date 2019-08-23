@@ -6,9 +6,16 @@ import { FloorType } from 'data/Map';
 import { MapOptions } from 'components/map/Map';
 
 import {
-  STOP_TRACKING, TOGGLE_OPTION,
-  DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, TRACK_ROVER,
-  SET_EDITING, CHANGE_TYPE
+  CHANGE_TYPE,
+  DEBUG_ROVER,
+  MOVE_ZONE,
+  SET_EDITING,
+  SET_LEVEL,
+  SET_MAP,
+  SET_ZOOM,
+  STOP_TRACKING,
+  TOGGLE_OPTION,
+  TRACK_ROVER
 } from './constants';
 import { ZoneActionTypes } from './types';
 

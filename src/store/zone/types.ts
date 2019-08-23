@@ -21,7 +21,8 @@ interface ToggleOptionAction {
 
 interface ChangeAction<A,T> extends Action<A> {
   pos: Coords,
-  value: T, was: T
+  value: T, was: T,
+  undo?: boolean
 }
 
 export type ChangeActionTypes = ChangeAction<typeof CHANGE_TYPE,FloorType>;

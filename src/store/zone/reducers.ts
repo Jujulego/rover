@@ -40,10 +40,10 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
       return { ...state, center: action.value };
 
     case SET_LEVEL:
-      return { ...state, level: action.value, map: undefined };
+      return { ...state, level: action.value, map: undefined, history: [] };
 
     case SET_MAP:
-      return { ...state, map: action.value };
+      return { ...state, map: action.value, history: [] };
 
     case STOP_TRACKING:
       return { ...state, track: undefined };
@@ -59,10 +59,14 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
 
     case CHANGE_TYPE:
       if (state.map && state.editing) {
-        state.map.update(action.pos, { floor: action.value });
+        state.map.update(action.pos, { floor: action.undo ? action.was : action.value });
       }
 
-      return { ...state, history: [...state.history, action] };
+      if (action.undo) {
+        return {...state, history: state.history.filter((_, i) => i !== 0)};
+      }
+
+      return { ...state, history: [action, ...state.history] };
 
     default:
       return state;
