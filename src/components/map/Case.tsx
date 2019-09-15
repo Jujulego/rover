@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, memo } from 'react';
+import React, { FC, DragEventHandler, MouseEventHandler, memo } from 'react';
 import clsx from 'clsx';
 
 import { Typography } from '@material-ui/core';
@@ -18,7 +18,10 @@ import styles from './Case.module.scss';
 type Props = {
   pos: Coords, map: Map, target?: boolean,
   coords?: boolean, height?: number, unknown?: boolean, cost?: number,
-  onClick?: MouseEventHandler<HTMLDivElement>
+  version: number,
+  onClick?: MouseEventHandler<HTMLDivElement>,
+  onAllowDrop?: DragEventHandler<HTMLDivElement>,
+  onDrop?: DragEventHandler<HTMLDivElement>
 }
 
 // Component
@@ -26,7 +29,7 @@ const Case : FC<Props> = (props) => {
   const {
     pos, map, target,
     coords, height, unknown, cost,
-    onClick
+    onClick, onAllowDrop, onDrop
   } = props;
   const data = map.get(pos);
 
@@ -39,8 +42,11 @@ const Case : FC<Props> = (props) => {
       style={{ top: pos.y * CASE_SIZE, left: pos.x * CASE_SIZE }}
 
       onClick={onClick}
+      onDragEnter={onAllowDrop}
+      onDragOver={onAllowDrop}
+      onDrop={onDrop}
     >
-      <Floor pos={pos} map={map} />
+      <Floor pos={pos} map={map} version={map.version} />
       { (coords || (height !== undefined) || (cost !== undefined)) && (
         <div className={styles.data}>
           { coords && <Typography classes={{ root: styles.tl }} variant="body2">({pos.x},{pos.y})</Typography> }
@@ -57,7 +63,7 @@ const Case : FC<Props> = (props) => {
 
 function areEquals(pp: Props, np: Props): boolean {
   return equal(pp.pos, np.pos)
-    && pp.map === np.map
+    && pp.map === np.map && pp.version === np.version
     && pp.target === np.target
     && pp.coords === np.coords
     && pp.height === np.height

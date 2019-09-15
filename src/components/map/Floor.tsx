@@ -11,7 +11,7 @@ import styles from './Floor.module.scss';
 // Types
 type Props = {
   pos: Coords,
-  map: Map
+  map: Map, version: number
 }
 
 // Constants
@@ -53,7 +53,7 @@ const Floor: FC<Props> = (props) => {
 };
 
 function areEquals(pp: Props, np: Props): boolean {
-  return equal(pp.pos, np.pos) && pp.map === np.map;
+  return equal(pp.pos, np.pos) && pp.map === np.map && pp.version === np.version;
 }
 
 export default memo(Floor, areEquals);

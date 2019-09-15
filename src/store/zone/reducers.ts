@@ -1,5 +1,8 @@
-import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
-import { ZoneActionTypes, ZoneState } from './types';
+import {
+  DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER,
+  SET_EDITING, CHANGE_TYPE
+} from './constants';
+import { ZoneActionTypes, ChangeActionTypes, ZoneState } from './types';
 
 // Initial state
 const initialState: ZoneState = {
@@ -9,7 +12,9 @@ const initialState: ZoneState = {
     coords: true,
     height: false,
     tracks: true
-  }
+  },
+  editing: false,
+  history: new Array<ChangeActionTypes>()
 };
 
 // Reducers
@@ -29,25 +34,39 @@ export function zoneReducer(state = initialState, action: ZoneActionTypes) {
       return { ...state, options: optionsReducer(state.options, action) };
 
     case DEBUG_ROVER:
-      return { ...state, debug: action.rover };
+      return { ...state, debug: action.value };
 
     case MOVE_ZONE:
-      return { ...state, center: action.center };
+      return { ...state, center: action.value };
 
     case SET_LEVEL:
-      return { ...state, level: action.level, map: undefined };
+      return { ...state, level: action.value, map: undefined, history: [] };
 
     case SET_MAP:
-      return { ...state, map: action.map };
+      return { ...state, map: action.value, history: [] };
 
     case STOP_TRACKING:
       return { ...state, track: undefined };
 
     case SET_ZOOM:
-      return { ...state, zoom: action.zoom };
+      return { ...state, zoom: action.value };
 
     case TRACK_ROVER:
-      return { ...state, track: action.name };
+      return { ...state, track: action.value };
+
+    case SET_EDITING:
+      return { ...state, editing: action.value };
+
+    case CHANGE_TYPE:
+      if (state.map && state.editing) {
+        state.map.update(action.pos, { floor: action.undo ? action.was : action.value });
+      }
+
+      if (action.undo) {
+        return {...state, history: state.history.filter((_, i) => i !== 0)};
+      }
+
+      return { ...state, history: [action, ...state.history] };
 
     default:
       return state;

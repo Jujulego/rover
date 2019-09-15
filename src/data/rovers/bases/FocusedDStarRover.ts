@@ -339,7 +339,6 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
     super.restart(keep);
 
     this._dstar_nodes.clear();
-    this._tree_version = 0;
     this.init();
 
     return this;

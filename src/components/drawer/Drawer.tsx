@@ -1,5 +1,5 @@
 import React, { FC, Fragment, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 
 import {
@@ -8,40 +8,35 @@ import {
 } from '@material-ui/core';
 
 import { AppState } from 'store';
+import { drawer } from 'store/drawer/actions';
 import { RoversState } from 'store/rovers/types';
 
 import AddRover from './AddRover';
-import MapPanel from './MapPanel';
+import DebugPanel from './DebugPanel';
 import LayersPanel from './LayersPanel';
+import MapPanel from './MapPanel';
 import RoverPanel from './RoverPanel';
 
 import styles from './Drawer.module.scss';
 
-// Types
-type Props = {
-  open: boolean,
-  onOpen: () => void
-}
-
 // Component
-const Drawer: FC<Props> = (props) => {
-  const {
-    children,
-    open, onOpen
-  } = props;
+const Drawer: FC = (props) => {
+  const { children } = props;
 
   // State
   const [panel, setPanel] = useState<string | null>(null);
 
   // Redux
   const rovers = useSelector<AppState,RoversState>(state => state.rovers);
+  const open = useSelector<AppState,boolean>(state => state.drawer.open);
+  const dispatch = useDispatch();
 
   // Functions
   const panelProps = (name: string) => ({
     open: panel === name,
     onOpen: () => {
       setPanel(name);
-      if (!open) onOpen();
+      if (!open) dispatch(drawer.open());
     },
     onClose: () => setPanel(null)
   });
@@ -62,7 +57,9 @@ const Drawer: FC<Props> = (props) => {
         <List component="nav">
           <MapPanel {...panelProps('map')} />
           <Divider component="hr" />
-          <LayersPanel {...panelProps('layers')} rovers={Object.keys(rovers)} />
+          <LayersPanel {...panelProps('layers')} />
+          <Divider component="hr" />
+          <DebugPanel {...panelProps('debug')} rovers={Object.keys(rovers)} />
           { Object.keys(rovers).map((rover) => (
             <Fragment key={rover}>
               <Divider component="hr" />

@@ -7,3 +7,6 @@ export const SET_ZOOM = 'zone/SET_ZOOM';
 export const STOP_TRACKING = 'zone/STOP_TRACKING';
 export const TOGGLE_OPTION = 'zone/TOGGLE_OPTION';
 export const TRACK_ROVER = 'zone/TRACK_ROVER';
+
+export const SET_EDITING = 'zone/SET_EDITING';
+export const CHANGE_TYPE = 'zone/CHANGE_TYPE';

@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Collapse,
-  FormControl,
-  FormControlLabel, InputLabel,
-  ListItem,
-  ListItemIcon,
-  ListItemText, MenuItem, Select,
+  FormControlLabel,
+  ListItem, ListItemIcon, ListItemText,
   Switch
 } from '@material-ui/core';
 import {
@@ -18,14 +15,13 @@ import {
 
 import { AppState } from 'store';
 import { ZoneState } from 'store/zone/types';
-import { debugRover, toggleOption } from 'store/zone/actions';
+import { toggleOption } from 'store/zone/actions';
 
 import styles from 'components/drawer/Panel.module.scss';
 
 // Types
 type Props = {
   open: boolean,
-  rovers: Array<string>,
   onOpen: () => void,
   onClose: () => void
 }
@@ -34,13 +30,12 @@ type Props = {
 const LayersPanel: FC<Props> = (props) => {
   const {
     open,
-    rovers,
     onOpen, onClose
   } = props;
 
   // Redux
   const dispatch = useDispatch();
-  const { debug = "", options } = useSelector<AppState,ZoneState>(state => state.zone);
+  const { options } = useSelector<AppState,ZoneState>(state => state.zone);
 
   // Function
   function handleClick() {
@@ -75,15 +70,6 @@ const LayersPanel: FC<Props> = (props) => {
           control={<Switch checked={options.tracks} onChange={() => dispatch(toggleOption('tracks'))} />}
           label="Afficher les traces"
         />
-        <FormControl component="fieldset">
-          <InputLabel>Debug rover</InputLabel>
-          <Select value={debug} onChange={(e) => dispatch(debugRover(e.target.value as string || undefined))}>
-            <MenuItem value=""><em>Aucun</em></MenuItem>
-            { rovers.map(r => (
-              <MenuItem key={r} value={r}>{ r }</MenuItem>
-            )) }
-          </Select>
-        </FormControl>
       </Collapse>
     </>
   );

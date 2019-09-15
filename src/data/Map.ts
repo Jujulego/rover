@@ -43,6 +43,7 @@ function reduceLayers(ll: Layer | undefined, lr: Layer): Layer {
 class Map {
   // Attributes
   private readonly data: Array<Array<Case>>;
+  private _version: number = 1;
 
   // Constructors
   constructor(map: Array<Array<Case>>) {
@@ -56,6 +57,8 @@ class Map {
       y: this.data.length > 0 ? this.data[0].length : 0
     };
   }
+
+  get version() { return this._version; }
 
   // Static methods
   static loadMap(map: Array<Array<number>>): Map {
@@ -96,7 +99,18 @@ class Map {
   get(pos: Coords): Case | undefined {
     if (this.isOut(pos)) return;
 
-    return this.data[pos.y][pos.x];
+    const data = this.data[pos.y][pos.x];
+    if (data.floor === 'hole') return { ...data, height: 0 };
+
+    return data;
+  }
+  update(pos: Coords, data: Partial<Case>) {
+    if (!this.isOut(pos)) {
+      const c = this.data[pos.y][pos.x];
+      this.data[pos.y][pos.x] = { ...c, ...data };
+
+      ++this._version;
+    }
   }
   getOrDefault(pos: Coords): Case {
     return this.isOut(pos) ? { height: DEFAULT_HEIGHT, floor: DEFAULT_FLOOR } : this.data[pos.y][pos.x];

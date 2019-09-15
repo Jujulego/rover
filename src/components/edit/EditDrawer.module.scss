@@ -1,11 +1,11 @@
 @import "assets/theme";
 
 // Utils
-$drawer-width: 320px;
-$drawer-reduced-width: spacing(7) + 1;
+$drawer-width: 64px;
+$sample-spacing: 1.5;
 
 // Style
-.content, .drawer {
+.drawer {
   max-height: calc(100vh - #{spacing(8)});
   margin-top: #{spacing(8)};
 }
@@ -19,20 +19,30 @@ $drawer-reduced-width: spacing(7) + 1;
   transition: width ease $transition-duration;
 
   &.close {
-    width: $drawer-reduced-width;
-    overflow-x: hidden;
+    width: 0;
+  }
+
+  .button {
+    padding: spacing(.75) spacing(1);
+  }
+
+  .sample {
+    padding: spacing(.75) spacing(1.5);
+
+    img {
+      height: auto; width: 100%;
+      box-sizing: border-box;
+
+      border: solid 1px #9b9b9b;
+      border-radius: 50%;
+
+      padding: 2px;
+    }
   }
 }
 
-.content {
-  flex: 1;
-  overflow: auto;
-
-  margin-left: $drawer-reduced-width;
-}
-
 @media (max-width: 600px) {
-  .content, .drawer {
+  .drawer {
     max-height: calc(100vh - #{spacing(7)});
     margin-top: #{spacing(7)};
   }

@@ -1,58 +1,42 @@
+import { Action } from 'redux';
+
+import SetAction from 'utils/actions/SetAction';
+
 import Coords from 'data/Coords';
 import Level from 'data/Level';
-import Map from 'data/Map';
+import Map, { FloorType } from 'data/Map';
 
 import { MapOptions } from 'components/map/Map';
 
-import { DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER } from './constants';
+import {
+  DEBUG_ROVER, MOVE_ZONE, SET_LEVEL, SET_MAP, SET_ZOOM, STOP_TRACKING, TOGGLE_OPTION, TRACK_ROVER,
+  SET_EDITING, CHANGE_TYPE
+} from './constants';
 
 // Actions types
-interface DebugRoverAction {
-  type: typeof DEBUG_ROVER,
-  rover: string | undefined
-}
-
-interface MoveZoneAction {
-  type: typeof MOVE_ZONE,
-  center: Coords
-}
-
-interface SetLevelAction {
-  type: typeof SET_LEVEL,
-  level: Level
-}
-
-interface SetMapAction {
-  type: typeof SET_MAP,
-  map: Map,
-}
-
-interface SetZoomAction {
-  type: typeof SET_ZOOM,
-  zoom: number
-}
-
-interface StopTrackingAction {
-  type: typeof STOP_TRACKING,
-}
-
 interface ToggleOptionAction {
   type: typeof TOGGLE_OPTION,
   name: MapOptions
 }
 
-interface TrackRoverAction {
-  type: typeof TRACK_ROVER,
-  name: string,
+interface ChangeAction<A,T> extends Action<A> {
+  pos: Coords,
+  value: T, was: T,
+  undo?: boolean
 }
 
-export type ZoneActionTypes = DebugRoverAction | SetLevelAction | SetMapAction | SetZoomAction | StopTrackingAction | MoveZoneAction | ToggleOptionAction | TrackRoverAction
+export type ChangeActionTypes = ChangeAction<typeof CHANGE_TYPE,FloorType>;
+
+export type ZoneActionTypes = Action<typeof STOP_TRACKING> | ToggleOptionAction | ChangeActionTypes |
+  SetAction<typeof DEBUG_ROVER,string | undefined> | SetAction<typeof MOVE_ZONE,Coords> | SetAction<typeof TRACK_ROVER,string> |
+  SetAction<typeof SET_LEVEL,Level> | SetAction<typeof SET_MAP,Map> | SetAction<typeof SET_ZOOM,number> |
+  SetAction<typeof SET_EDITING,boolean>
 
 // State type
 export interface ZoneState {
   level?: Level, map?: Map,
   center: Coords, zoom: number,
-  track?: string,
-  debug?: string,
-  options: { [name in MapOptions]?: boolean }
+  track?: string, debug?: string,
+  options: { [name in MapOptions]?: boolean },
+  editing: boolean, history: Array<ChangeActionTypes>
 }

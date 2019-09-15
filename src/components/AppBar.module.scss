@@ -1,0 +1,15 @@
+@import "assets/theme";
+
+// Style
+.appbar {
+  z-index: 1500;
+
+  .menuBtn {
+    margin-right: 12px;
+  }
+
+  .actions {
+    margin-left: auto;
+    margin-right: -12px;
+  }
+}

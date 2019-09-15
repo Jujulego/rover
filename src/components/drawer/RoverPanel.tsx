@@ -2,12 +2,13 @@ import React, { FC, ReactChild } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Collapse, Button, Grid,
+  Collapse, ButtonGroup, Button, Grid,
   ListItem, ListItemIcon, ListItemText,
   Select, MenuItem,
   Typography
 } from '@material-ui/core';
 import {
+  BugReport as BugReportIcon,
   ExpandLess as ExpandLessIcon,
   ExpandMore as ExpandMoreIcon,
   PlayArrow as PlayArrowIcon,
@@ -23,7 +24,7 @@ import { AppState } from 'store';
 import { RoverState } from 'store/rovers/types';
 import { playRover, setRoverColor, restartRover, stopRover } from 'store/rovers/actions';
 import { launchRover } from 'store/rovers/thunks';
-import { moveZone, trackRover, stopTracking } from 'store/zone/actions';
+import { moveZone, trackRover, stopTracking, debugRover } from 'store/zone/actions';
 
 import CoordsData from 'components/utils/CoordsData';
 
@@ -58,6 +59,7 @@ const RoverPanel: FC<Props> = (props) => {
   const dispatch = useDispatch();
   const rover = useSelector<AppState,RoverState>(state => state.rovers[name]);
   const track = useSelector<AppState,string | undefined>(state => state.zone.track);
+  const editing = useSelector<AppState,boolean>(state => state.zone.editing);
 
   // Function
   function handleClick() {
@@ -92,6 +94,14 @@ const RoverPanel: FC<Props> = (props) => {
     if (rover.active) {
       dispatch(stopRover(name));
     } else {
+      dispatch(launchRover(name));
+    }
+  }
+
+  async function handleDebug() {
+    await dispatch(debugRover(name));
+
+    if (!rover.active) {
       dispatch(launchRover(name));
     }
   }
@@ -145,24 +155,34 @@ const RoverPanel: FC<Props> = (props) => {
         <div className={styles.buttons}>
           <Button
             classes={{ root: styles.step }}
-            variant="outlined" fullWidth disabled={rover.active || rover.data.arrived}
+            variant="outlined" fullWidth disabled={rover.active || rover.data.arrived || editing}
             onClick={handleStep}
           >
             Step
           </Button>
-          <Button
-            classes={{ root: styles.play }}
-            color={ rover.active ? 'secondary' : 'primary' }
-            variant="outlined" fullWidth disabled={rover.data.arrived}
-            onClick={handlePlayStop}
+          <ButtonGroup
+            classes={{ root: styles.grp }}
+            variant="outlined" disabled={rover.data.arrived || editing}
           >
-            { rover.active ? (
-              <StopIcon className={styles.btnIcon} />
-            ) : (
-              <PlayArrowIcon className={styles.btnIcon} />
-            ) }
-            { rover.active ? 'Stop' : 'Play' }
-          </Button>
+            <Button
+              classes={{ root: styles.play }}
+              color={rover.active ? 'secondary' : 'primary'}
+              onClick={handlePlayStop}
+            >
+              { rover.active ? (
+                <StopIcon className={styles.btnIcon} />
+              ) : (
+                <PlayArrowIcon className={styles.btnIcon} />
+              ) }
+              { rover.active ? 'Stop' : 'Play' }
+            </Button>
+            <Button
+              color="primary" size="small"
+              onClick={handleDebug}
+            >
+              <BugReportIcon />
+            </Button>
+          </ButtonGroup>
         </div>
         <Button
           variant="outlined" color="secondary" fullWidth
