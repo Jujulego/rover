@@ -25,9 +25,10 @@ export type MapOptions = 'coords' | 'height' | 'tracks';
 
 type Props = {
   level?: Level, map?: DataMap,
-  center: Coords, zoom: number,
+  center: Coords, tracks?: Coords, zoom: number,
   options: { [name in MapOptions]?: boolean },
-  rovers: RoversState, debug?: string
+  rovers: RoversState, debug?: string,
+  setCenter: (v: Coords) => void
 }
 
 // Utils
@@ -43,8 +44,10 @@ function mapRovers<T>(rovers: RoversState, cb: (name: string, rover: RoverState)
 const Map: FC<Props> = (props) => {
   const {
     level, map,
-    center, zoom, options,
-    rovers, debug
+    center, tracks, zoom,
+    options,
+    rovers, debug,
+    setCenter
   } = props;
 
   // State
@@ -94,6 +97,15 @@ const Map: FC<Props> = (props) => {
         ) }
       </div>
     );
+  }
+
+  if (tracks) {
+    const dx = Math.abs(tracks.x - center.x);
+    const dy = Math.abs(tracks.y - center.y);
+
+    if (dx > (((size.x - 1) / 2) - 1) || dy > (((size.y - 1) / 2) - 1)) {
+      setCenter(tracks);
+    }
   }
 
   const style = {
