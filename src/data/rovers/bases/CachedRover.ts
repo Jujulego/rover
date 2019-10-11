@@ -31,10 +31,12 @@ abstract class CachedRover extends RoverAI {
     return this;
   }
 
-  protected getFloor(c: Coords): FloorType {
+  protected getFloor(c: Coords, refresh: boolean = false): FloorType {
     // Try cache
-    const cached = this.getCachedCase(c);
-    if (cached.floor) return cached.floor;
+    if (!refresh) {
+      const cached = this.getCachedCase(c);
+      if (cached.floor) return cached.floor;
+    }
 
     // Ask and store
     const result = super.getFloor(c);

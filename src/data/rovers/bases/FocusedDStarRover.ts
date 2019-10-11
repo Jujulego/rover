@@ -302,7 +302,7 @@ abstract class FocusedDStarRover extends CachedRover implements CostMixin, TreeM
   // - rover
   protected detect(updates: UpdateList, next: { from: Coords, cost: number }) {
     // Check if there is an obstacle
-    const floor = this.getFloor(next.from); // cost 0.2 energy
+    const floor = this.getFloor(next.from, true); // cost 0.2 energy
 
     if (floor === 'hole') {
       updates.obstacles(next.from);

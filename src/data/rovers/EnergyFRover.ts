@@ -51,6 +51,9 @@ class EnergyFRover extends FocusedDStarRover {
   }
 
   protected detect(updates: UpdateList, data: { from: Coords; cost: number }) {
+    // Force refresh on next case
+    this.getFloor(data.from, true);
+
     // Look forward for obstacles
     sight(this.pos, direction(this.pos, data.from) as DMove, SIGHT_WIDTH, SIGHT_DEPTH).forEach(c => {
       switch (this.getFloor(c)) {
